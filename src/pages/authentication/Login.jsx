@@ -22,20 +22,22 @@ const Login = () => {
   const handleGoogleLogin = () => {
     console.log("Login with Google clicked");
   };
-
+  const handleLogoClick = () => {
+    navigate("/");
+  }
   return (
     <motion.div
       className="login-container"
-      initial={{ opacity: 0, x: -100 }} // Start off-screen to the left, invisible
-      animate={{ opacity: 1, x: 0 }} // Slide in to center, fully visible
-      exit={{ opacity: 0, x: 100 }} // Slide out to the right, invisible
+      initial={{ opacity: 0, x: -100 }}
+      animate={{ opacity: 1, x: 0 }} 
+      exit={{ opacity: 0, x: 100 }}
       transition={{
-        duration: 0.5, // Maintain the original duration or adjust slightly for smoothness
-        ease: "easeInOut", // Smoother easing for a natural slide
+        duration: 0.5, 
+        ease: "easeInOut",
       }}
     >
       <div className="login-logo">
-        <div className="login-circle">
+        <div className="login-circle" onClick={handleLogoClick}>
           <img src={breadLogo} alt="Bread Logo" />
         </div>
       </div>

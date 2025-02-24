@@ -1,0 +1,77 @@
+/* Light Mode (Default) */
+.light-mode {
+    background-color: #ffffff;
+    color: #000000;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for mode changes */
+}
+
+/* Header in Light Mode */
+.light-mode header {
+    background-color: #f8f9fa; /* Slightly lighter gray for a cleaner look */
+    border-bottom: 1px solid #e5e5e5; /* Subtle border for separation */
+    transition: background-color 0.3s ease; /* Smooth transition for mode changes */
+}
+
+/* Dark Mode */
+.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for mode changes */
+}
+
+/* Header in Dark Mode */
+.dark-mode header {
+    background-color: #1f1f1f;
+    border-bottom: 1px solid #333; /* Darker border for consistency */
+    transition: background-color 0.3s ease; /* Smooth transition for mode changes */
+}
+
+/* Mode Toggle Button (Common Styles) */
+/* Mode Toggle Button (Common Styles) */
+.mode-toggle-btn {
+    padding: 12px; /* Adjusted padding for a circular shape, keeping it balanced */
+    width: 50px; /* Fixed width to ensure circular shape */
+    height: 50px; /* Fixed height to ensure circular shape */
+    border: none;
+    border-radius: 50%; /* Makes it fully circular */
+    cursor: pointer;
+    font-size: 1.5rem; /* Larger font size for emojis to fit nicely */
+    background-color: #d2a679; /* Matches your product card and scroll button color for consistency */
+    color: #ffffff; /* White for contrast with emojis */
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease; /* Enhanced transitions */
+    box-shadow: 0 2px 6px rgba(210, 166, 121, 0.3); /* Subtle shadow for depth */
+    display: flex; /* Centers the emoji vertically and horizontally */
+    align-items: center;
+    justify-content: center; /* Centers the emoji in the circular button */
+}
+
+/* Hover State for Mode Toggle Button */
+.mode-toggle-btn:hover {
+    background-color: #b88c5e; /* Darker shade on hover, matching your other buttons */
+    transform: translateY(-2px); /* Slight lift on hover for interactivity */
+    box-shadow: 0 4px 12px rgba(210, 166, 121, 0.4); /* Enhanced shadow on hover */
+    opacity: 1; /* Full opacity on hover */
+}
+
+/* Active State for Mode Toggle Button */
+.mode-toggle-btn:active {
+    transform: scale(0.98); /* Slight shrink on click */
+    box-shadow: 0 2px 4px rgba(210, 166, 121, 0.2); /* Reduced shadow on click */
+}
+
+/* Light Mode Specific Button Styles */
+.light-mode .mode-toggle-btn {
+    background-color: #d2a679; /* Keep the same color in light mode for consistency */
+    color: #ffffff;
+}
+
+/* Dark Mode Specific Button Styles */
+.dark-mode .mode-toggle-btn {
+    background-color: #4a4a4a; /* Darker background in dark mode for contrast */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); /* Adjusted shadow for dark mode */
+}
+
+.dark-mode .mode-toggle-btn:hover {
+    background-color: #6a6a6a; /* Slightly lighter shade for hover in dark mode */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); /* Enhanced shadow in dark mode */
+}

@@ -4,7 +4,7 @@ import Login from "../pages/authentication/Login";
 import Register from "../pages/authentication/Register";
 import ForgotPassword from "../pages/authentication/ForgotPassword";
 import ResetPassword from "../pages/authentication/ResetPassword";
-import HomePage from "../pages/HomePage";
+import HomePage from "../components/homepage/HomePage";
 
 const AppRouter = () => {
   return (
