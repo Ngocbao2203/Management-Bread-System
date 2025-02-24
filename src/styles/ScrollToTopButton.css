@@ -1,0 +1,42 @@
+.scroll-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background-color: #d2a679; /* Matches your product card button color for consistency */
+    border: none;
+    border-radius: 50%; /* Makes it circular */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0; /* Hidden by default */
+    visibility: hidden;
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s 0.3s; /* Delay visibility transition */
+    box-shadow: 0 2px 6px rgba(210, 166, 121, 0.3); /* Subtle shadow */
+    z-index: 1000; /* Ensures it stays on top of other elements */
+}
+
+.scroll-to-top.show {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease, transform 0.3s ease; /* No delay for visibility when showing */
+}
+
+.scroll-to-top:hover {
+    background-color: #b88c5e; /* Darker shade on hover, matching your product card button */
+    transform: translateY(-2px); /* Slight lift on hover */
+    box-shadow: 0 4px 12px rgba(210, 166, 121, 0.4); /* Enhanced shadow on hover */
+}
+
+.scroll-to-top:active {
+    transform: scale(0.95); /* Slight shrink on click */
+    box-shadow: 0 2px 4px rgba(210, 166, 121, 0.2); /* Reduced shadow on click */
+}
+
+/* Style for the Font Awesome icon inside the button */
+.scroll-to-top .svg-inline--fa {
+    color: #ffffff; /* White icon for contrast */
+    font-size: 1.5rem; /* Adjust size of the arrow icon */
+}

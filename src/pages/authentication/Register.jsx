@@ -29,20 +29,22 @@ const Register = () => {
         alert("Registered Successfully!");
         navigate("/login");
     };
-
+    const handleLogoClick = () => {
+        navigate("/");
+    }
     return (
         <motion.div
             className="register-container"
-            initial={{ opacity: 0, x: 100 }} // Start off-screen to the right, invisible
-            animate={{ opacity: 1, x: 0 }} // Slide in to center, fully visible
-            exit={{ opacity: 0, x: -100 }} // Slide out to the left, invisible
+            initial={{ opacity: 0, x: 100 }}
+            animate={{ opacity: 1, x: 0 }} 
+            exit={{ opacity: 0, x: -100 }}
             transition={{
-              duration: 0.5,
-              ease: "easeInOut",
+                duration: 0.5,
+                ease: "easeInOut",
             }}
         >
             <div className="register-logo">
-                <div className="register-circle">
+                <div className="register-circle" onClick={handleLogoClick}>
                     <img src={breadLogo} alt="Bread Logo" />
                 </div>
             </div>

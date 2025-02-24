@@ -1,0 +1,292 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 30px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: visible;
+    transition: box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.light-mode .header {
+    background-color: #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dark-mode .header {
+    background-color: #1f1f1f;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.header:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.light-mode .header:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.dark-mode .header:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    height: 80px;
+    width: auto;
+    transition: transform 0.3s ease;
+}
+
+.logo-img:hover {
+    transform: scale(1.05);
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+}
+
+.nav-menu {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-menu li {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    font-style: italic;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.nav-menu li a, .nav-menu li .nav-link {
+    text-decoration: none;
+    color: #101010;
+    transition: color 0.3s ease, transform 0.3s ease;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.light-mode .nav-menu li a, .light-mode .nav-menu li .nav-link {
+    color: #101010;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.dark-mode .nav-menu li a, .dark-mode .nav-menu li .nav-link {
+    color: #ffffff;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.nav-menu li a:hover, .nav-menu li .nav-link:hover {
+    color: #d2a679;
+    transform: translateY(-2px);
+}
+
+.shopping-cart-icon {
+    font-size: 1.5rem;
+    color: #d2a679;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 8px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(210, 166, 121, 0.2);
+}
+
+.light-mode .shopping-cart-icon {
+    color: #d2a679;
+    box-shadow: 0 2px 6px rgba(210, 166, 121, 0.2);
+}
+
+.dark-mode .shopping-cart-icon {
+    color: #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.shopping-cart-icon:hover {
+    color: #b88c5e;
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(210, 166, 121, 0.3);
+}
+
+.light-mode .shopping-cart-icon:hover {
+    color: #b88c5e;
+    box-shadow: 0 4px 12px rgba(210, 166, 121, 0.3);
+}
+
+.dark-mode .shopping-cart-icon:hover {
+    color: #d2a679;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.shopping-cart-icon:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 4px rgba(210, 166, 121, 0.2);
+}
+
+.light-mode .shopping-cart-icon:active {
+    box-shadow: 0 2px 4px rgba(210, 166, 121, 0.2);
+}
+
+.dark-mode .shopping-cart-icon:active {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.shopping-cart-icon:focus {
+    outline: none;
+    box-shadow: 0 0 8px rgba(210, 166, 121, 0.5);
+}
+
+.light-mode .shopping-cart-icon:focus {
+    box-shadow: 0 0 8px rgba(210, 166, 121, 0.5);
+}
+
+.dark-mode .shopping-cart-icon:focus {
+    box-shadow: 0 0 8px rgba(210, 166, 121, 0.5);
+}
+
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+}
+
+.sign-in-btn {
+    padding: 12px 24px;
+    background-color: #d2a679;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    display: inline-block;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 6px rgba(210, 166, 121, 0.3);
+}
+
+.light-mode .sign-in-btn {
+    background-color: #d2a679;
+    box-shadow: 0 2px 6px rgba(210, 166, 121, 0.3);
+}
+
+.dark-mode .sign-in-btn {
+    background-color: #4a4a4a;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.sign-in-btn:hover {
+    background-color: #b88c5e;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(210, 166, 121, 0.4);
+}
+
+.light-mode .sign-in-btn:hover {
+    background-color: #b88c5e;
+    box-shadow: 0 4px 12px rgba(210, 166, 121, 0.4);
+}
+
+.dark-mode .sign-in-btn:hover {
+    background-color: #6a6a6a;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+@media screen and (max-width: 600px) {
+    .header {
+        padding: 12px 16px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .light-mode .header {
+        padding: 12px 16px;
+    }
+
+    .dark-mode .header {
+        padding: 12px 16px;
+    }
+
+    .logo {
+        margin-bottom: 8px;
+    }
+
+    .logo-img {
+        height: 50px;
+    }
+
+    .nav {
+        width: 100%;
+        margin-bottom: 8px;
+    }
+
+    .nav-menu {
+        flex-direction: column;
+        gap: 12px;
+        align-items: center;
+        width: 100%;
+    }
+
+    .nav-menu li {
+        font-size: 0.9rem;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+    }
+
+    .nav-menu li a, .nav-menu li .nav-link {
+        padding: 8px 0;
+        text-shadow: none;
+    }
+
+    .light-mode .nav-menu li {
+        font-size: 0.9rem;
+    }
+
+    .dark-mode .nav-menu li {
+        font-size: 0.9rem;
+    }
+
+    .header .fa-shopping-cart {
+        font-size: 1.2rem;
+        margin-left: 10px;
+    }
+
+    .light-mode .header .fa-shopping-cart {
+        font-size: 1.2rem;
+    }
+
+    .dark-mode .header .fa-shopping-cart {
+        font-size: 1.2rem;
+    }
+
+    .theme-toggle {
+        margin-left: 10px;
+    }
+
+    .sign-in-btn {
+        padding: 10px 20px;
+        font-size: 1rem;
+        font-weight: 500;
+        letter-spacing: 0.3px;
+    }
+
+    .light-mode .sign-in-btn {
+        padding: 10px 20px;
+    }
+
+    .dark-mode .sign-in-btn {
+        padding: 10px 20px;
+    }
+}
