@@ -37,7 +37,6 @@ const Banner = () => {
       <div className="hero-content">
         <h1>Welcome To Baker's Kitchen</h1>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-        <Link to="/contact" className="contact-btn">Contact Us</Link>
       </div>
     </section>
   );

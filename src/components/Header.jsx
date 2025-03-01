@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 
 const Header = () => {
-    const navigate = useNavigate(); // Sử dụng hook navigate
+    const navigate = useNavigate();
     return (
         <header className="header">
             {/* Logo */}
@@ -16,15 +16,18 @@ const Header = () => {
                 <img src={breadLogo} alt="Bread Logo" className="logo-img" />
             </Link>
 
-            {/* Navigation Menu */}
+            {/* Navigation Menu (Centered) */}
             <nav className="nav">
                 <ul className="nav-menu">
+                    <li>
+                        <Link to="/">Trang Chủ</Link>
+                    </li>
                     <li>
                         <ScrollLink
                             to="about-section"
                             smooth={true}
                             duration={500}
-                            style={{ cursor: "pointer" }} // Thêm kiểu trực tiếp
+                            style={{ cursor: "pointer" }}
                         >
                             Giới thiệu
                         </ScrollLink>
@@ -34,7 +37,7 @@ const Header = () => {
                             to="product-section"
                             smooth={true}
                             duration={500}
-                            style={{ cursor: "pointer" }} // Thêm kiểu trực tiếp>
+                            style={{ cursor: "pointer" }}
                         >
                             Sản phẩm
                         </ScrollLink>
@@ -47,26 +50,30 @@ const Header = () => {
                             to="contact-section"
                             smooth={true}
                             duration={500}
-                            style={{ cursor: "pointer" }} // Thêm kiểu trực tiếp
-                        >Contact
+                            style={{ cursor: "pointer" }}
+                        >
+                            Contact
                         </ScrollLink>
                     </li>
                 </ul>
             </nav>
-            <nav className="theme-toggle">
-                <ThemeToggle />
-            </nav>
-            <FontAwesomeIcon
-                icon={faShoppingCart}
-                size="lg"
-                color="#646cff"
-                className="shopping-cart-icon" // Add a class for CSS styling
-                onClick={() => navigate("/cart")}
-            />
-            {/* Sign In Button */}
-            <Link to="/login" className="sign-in-btn">
-                Sign In
-            </Link>
+
+            {/* Right Section (Sign In, Shopping Cart, and Theme Toggle) */}
+            <div className="header-actions">
+                <FontAwesomeIcon
+                    icon={faShoppingCart}
+                    size="lg"
+                    color="#d2a679"
+                    className="shopping-cart-icon"
+                    onClick={() => navigate("/cart")}
+                />
+                <nav className="theme-toggle">
+                    <ThemeToggle />
+                </nav>
+                <Link to="/login" className="sign-in-btn">
+                    Sign In
+                </Link>
+            </div>
         </header>
     );
 };
