@@ -36,7 +36,7 @@
 .dark-mode .header-container h2 {
     color: #ff6b00;
 }
-
+/* Điều chỉnh container để chứa đúng 4 sản phẩm */
 .product-container {
     display: flex;
     align-items: center;
@@ -46,7 +46,8 @@
     position: relative; /* Để định vị các chấm */
     transition: width 0.3s ease;
     padding: 0 10px; /* Thêm padding nhẹ để tránh dính vào mép màn hình */
-}
+    max-width: 1150px; /* Giới hạn chiều rộng tối đa để không tràn */
+  }
 
 .product-list {
     display: flex;
@@ -62,6 +63,11 @@
     justify-content: flex-start; /* Đảm bảo các card bắt đầu từ trái */
     flex-wrap: nowrap; /* Ngăn wrap nếu chiều rộng giảm */
 }
+/* Đảm bảo ProductCard có chiều rộng cố định và không tràn */
+.ProductCard { /* Nếu ProductCard có class riêng, chỉnh sửa ở đây */
+    width: 280px; /* Đặt chiều rộng cố định cho mỗi card */
+    flex-shrink: 0; /* Ngăn card co lại khi không cần thiết */
+  }
 /* Style cho các chấm (dots) */
 .pagination-dots {
     display: flex;
