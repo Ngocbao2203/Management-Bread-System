@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"; // Thêm useEffect
+import { useEffect } from "react"; // Thêm useEffect
 import AppRouter from "./router/AppRouter";
 import { ThemeProvider } from "./context/ThemeContext"; // Import ThemeProvider
 import AOS from "aos"; // Import AOS

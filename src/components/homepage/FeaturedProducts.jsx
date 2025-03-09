@@ -47,54 +47,113 @@ const FeaturedProducts = () => {
   const scrollRef = useRef(null);
   const cardWidth = 280; // Chiều rộng của ProductCard (theo CSS)
   const gap = 20; // Khoảng cách giữa các ProductCard
-  const cardsPerPage = 4; // Số sản phẩm hiển thị trên mỗi trang
-  const totalPages = Math.ceil(products.length / cardsPerPage);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0); // Theo dõi index của sản phẩm hiện tại
 
-  // Cuộn đến trang tương ứng
-  const scrollToPage = (page) => {
-    if (scrollRef.current && page >= 0 && page < totalPages) {
-      setCurrentPage(page);
-      const scrollAmount = (cardWidth + gap) * (cardsPerPage * page);
-      scrollRef.current.scrollLeft = scrollAmount;
+  // Cuộn đến sản phẩm tương ứng với hiệu ứng mượt, hỗ trợ infinite scroll
+  const scrollToProduct = (index) => {
+    if (scrollRef.current) {
+      // Áp dụng infinite scroll: nếu index vượt quá giới hạn, quay lại đầu/cuối
+      const normalizedIndex = index % products.length;
+      if (normalizedIndex < 0) {
+        setCurrentIndex(products.length - 1); // Quay về sản phẩm cuối nếu index âm
+        const scrollAmount = (cardWidth + gap) * (products.length - 1);
+        scrollRef.current.scrollTo({
+          left: scrollAmount,
+          behavior: "smooth",
+        });
+      } else {
+        setCurrentIndex(normalizedIndex);
+        const scrollAmount = (cardWidth + gap) * normalizedIndex;
+        scrollRef.current.scrollTo({
+          left: scrollAmount,
+          behavior: "smooth", // Sử dụng hiệu ứng mượt
+        });
+      }
     }
   };
 
-  // Thêm chức năng kéo ngang nhưng không thay đổi con trỏ thành grab/grabbing
+  // Tính vị trí snap đến sản phẩm gần nhất với infinite scroll
+  const snapToNearestProduct = (scrollPosition) => {
+    const productStep = cardWidth + gap;
+    let nearestProduct = Math.round(scrollPosition / productStep);
+
+    // Áp dụng infinite scroll: chuẩn hóa index
+    nearestProduct = ((nearestProduct % products.length) + products.length) % products.length;
+    const snapPosition = nearestProduct * productStep;
+    return snapPosition;
+  };
+
+  // Xử lý nút prev/next với infinite scroll
+  const handlePrev = () => {
+    scrollToProduct(currentIndex - 1);
+  };
+
+  const handleNext = () => {
+    scrollToProduct(currentIndex + 1);
+  };
+
+  // Thêm chức năng kéo ngang với snap và infinite scroll
   useEffect(() => {
     const scrollContainer = scrollRef.current;
     let isDown = false;
     let startX;
     let scrollLeft;
+    let animationFrameId;
 
     const handleMouseDown = (e) => {
       isDown = true;
       startX = e.pageX - scrollContainer.offsetLeft;
       scrollLeft = scrollContainer.scrollLeft;
-      // Không thay đổi con trỏ thành "grabbing" để giữ con trỏ mặc định (default)
+      scrollContainer.style.scrollBehavior = "auto"; // Tắt scrollBehavior smooth khi kéo
     };
 
     const handleMouseLeave = () => {
       isDown = false;
-      // Không cần thay đổi con trỏ về "grab" vì chúng ta không sử dụng nó
+      cancelAnimationFrame(animationFrameId);
     };
 
     const handleMouseUp = () => {
       isDown = false;
-      // Không cần thay đổi con trỏ về "grab" vì chúng ta không sử dụng nó
+      scrollContainer.style.scrollBehavior = "smooth"; // Bật lại scrollBehavior smooth sau khi thả
+
+      // Tính vị trí snap gần nhất với infinite scroll
+      const scrollPosition = scrollContainer.scrollLeft;
+      const snapPosition = snapToNearestProduct(scrollPosition);
+
+      scrollContainer.scrollTo({
+        left: snapPosition,
+        behavior: "smooth", // Hiệu ứng mượt khi snap
+      });
+
+      // Cập nhật currentIndex dựa trên vị trí snap với infinite scroll
+      const newIndex = Math.round(snapPosition / (cardWidth + gap));
+      setCurrentIndex(((newIndex % products.length) + products.length) % products.length);
+
+      cancelAnimationFrame(animationFrameId);
     };
 
     const handleMouseMove = (e) => {
       if (!isDown) return;
+
       e.preventDefault();
       const x = e.pageX - scrollContainer.offsetLeft;
-      const walk = (x - startX) * 2; // Tốc độ kéo
-      scrollContainer.scrollLeft = scrollLeft - walk;
+      const walk = (x - startX) * 1.5; // Tăng tốc độ kéo nhẹ để mượt hơn
 
-      // Cập nhật currentPage dựa trên vị trí cuộn
-      const scrollPosition = scrollContainer.scrollLeft;
-      const page = Math.round(scrollPosition / ((cardWidth + gap) * cardsPerPage));
-      setCurrentPage(page);
+      // Sử dụng requestAnimationFrame để làm mượt chuyển động
+      cancelAnimationFrame(animationFrameId);
+      animationFrameId = requestAnimationFrame(() => {
+        // Kiểm tra nếu kéo qua cuối hoặc đầu danh sách để áp dụng infinite scroll
+        const maxScroll = (products.length - 1) * (cardWidth + gap);
+        let newScrollLeft = scrollLeft - walk;
+
+        if (newScrollLeft < 0) {
+          newScrollLeft = maxScroll; // Quay về cuối nếu kéo qua đầu
+        } else if (newScrollLeft > maxScroll) {
+          newScrollLeft = 0; // Quay về đầu nếu kéo qua cuối
+        }
+
+        scrollContainer.scrollLeft = newScrollLeft;
+      });
     };
 
     // Thêm event listeners
@@ -109,13 +168,14 @@ const FeaturedProducts = () => {
       scrollContainer.removeEventListener("mouseleave", handleMouseLeave);
       scrollContainer.removeEventListener("mouseup", handleMouseUp);
       scrollContainer.removeEventListener("mousemove", handleMouseMove);
+      cancelAnimationFrame(animationFrameId);
     };
-  }, []);
+  },);
 
   // Đảm bảo vị trí cuộn chính xác khi tải trang
   useEffect(() => {
-    scrollToPage(0);
-  }, []);
+    scrollToProduct(0);
+  },);
 
   return (
     <Element name="product-section">
@@ -124,17 +184,29 @@ const FeaturedProducts = () => {
           <h2>SẢN PHẨM NỔI BẬT</h2>
         </div>
         <div className="product-container">
+          <button
+            className="nav-btn prev-btn"
+            onClick={handlePrev}
+            disabled={false} // Vô hiệu hóa disabled vì infinite scroll
+          >
+          </button>
           <div className="product-list" ref={scrollRef}>
             {products.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
+          <button
+            className="nav-btn next-btn"
+            onClick={handleNext}
+            disabled={false} // Vô hiệu hóa disabled vì infinite scroll
+          >
+          </button>
           <div className="pagination-dots">
-            {Array.from({ length: totalPages }, (_, index) => (
+            {products.map((_, index) => (
               <button
                 key={index}
-                className={`dot ${currentPage === index ? "active" : ""}`}
-                onClick={() => scrollToPage(index)}
+                className={`dot ${currentIndex === index ? "active" : ""}`}
+                onClick={() => scrollToProduct(index)}
               ></button>
             ))}
           </div>

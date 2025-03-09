@@ -1,214 +1,241 @@
+/* Register Container */
 .register-container {
-    width: 380px;
-    padding: 30px 30px;
+    width: 500px; /* Giảm từ 600px về 500px để nhỏ hơn */
+    padding: 20px; /* Giảm padding từ 30px */
     background-color: #ffffff;
-    border-radius: 14px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    border-radius: 12px; /* Giảm radius */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Giảm box-shadow */
     text-align: center;
     transition: box-shadow 0.3s ease, transform 0.3s ease;
     margin: 40px auto 0;
     background: linear-gradient(135deg, #ffffff, #f9f9f9);
-    max-height: 90vh;
-    overflow: auto;
-}
-
-.register-container:hover {
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-}
-
-.register-logo {
+    max-height: 85vh; /* Giảm max-height */
+    overflow: hidden; /* Xóa overflow: auto để tránh thanh cuộn */
+  }
+  
+  .register-container:hover {
+    box-shadow: 0 10px 18px rgba(0, 0, 0, 0.15); /* Giảm box-shadow khi hover */
+  }
+  
+  /* Register Logo */
+  .register-logo {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 15px; /* Giảm margin-bottom */
     width: 100%;
     cursor: pointer;
-}
-
-.register-circle {
+  }
+  
+  .register-circle {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 130px;
-    height: 130px;
+    width: 100px; /* Giảm kích thước logo từ 130px */
+    height: 100px;
     border-radius: 50%;
     background-color: #f8e8a2;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-}
-
-.register-circle img {
-    width: 180px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Giảm box-shadow */
+  }
+  
+  .register-circle img {
+    width: 130px; /* Giảm kích thước hình ảnh từ 180px */
     height: auto;
     filter: brightness(1.1);
-}
-
-.register-circle .lottie {
+  }
+  
+  .register-circle .lottie {
     width: 100%;
     height: 100%;
-}
-
-.register-form-wrapper h2 {
-    font-size: 1.3rem;
+  }
+  
+  /* Register Form Wrapper */
+  .register-form-wrapper h2 {
+    font-size: 1.2rem; /* Giảm font-size từ 1.3rem */
     font-weight: 600;
     color: #333;
-    margin-bottom: 20px;
-}
-
-.register-form-wrapper p {
-    font-size: 0.9rem;
+    margin-bottom: 15px; /* Giảm margin-bottom */
+  }
+  
+  .register-form-wrapper p {
+    font-size: 0.85rem; /* Giảm font-size từ 0.9rem */
     color: #666;
     margin-top: 10px;
-}
-
-.input-wrapper {
+  }
+  
+  /* Chia form thành 2 cột */
+  .register-form-wrapper form {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Giữ 2 cột */
+    gap: 15px; /* Giảm gap từ 20px */
+  }
+  
+  /* Input Wrapper */
+  .input-wrapper {
     position: relative;
     display: flex;
     align-items: center;
-    margin-bottom: 15px;
-}
-
-.input-icon {
+    margin-bottom: 0; /* Xóa margin-bottom */
+  }
+  
+  .input-icon {
     position: absolute;
-    left: 15px;
+    left: 12px; /* Giảm left từ 15px */
     color: #777;
-    font-size: 1rem;
-}
-
-.register-form-wrapper form input {
+    font-size: 0.9rem; /* Giảm font-size từ 1rem */
+  }
+  
+  .register-form-wrapper form input {
     width: 100%;
-    padding: 12px 20px 12px 45px;
-    border: 2px solid #e0e0e0;
-    border-radius: 20px;
+    padding: 10px 15px 10px 40px; /* Giảm padding từ 12px 20px */
+    border: 1px solid #e0e0e0; /* Giảm border từ 2px */
+    border-radius: 16px; /* Giảm radius từ 20px */
     outline: none;
-    font-size: 0.95rem;
+    font-size: 0.9rem; /* Giữ nguyên */
     background-color: #fafafa;
     transition: all 0.3s ease, box-shadow 0.3s ease;
-}
-
-.register-form-wrapper form input:focus {
+  }
+  
+  .register-form-wrapper form input:focus {
     border-color: #d2a679;
-    box-shadow: 0 0 6px rgba(210, 166, 121, 0.3);
-}
-
-.register-form-wrapper button {
+    box-shadow: 0 0 4px rgba(210, 166, 121, 0.3); /* Giảm box-shadow */
+  }
+  
+  /* Button và Link chiếm cả 2 cột */
+  .register-form-wrapper button,
+  .register-form-wrapper p {
+    grid-column: span 2; /* Giữ chiếm cả 2 cột */
+  }
+  
+  /* Register Button */
+  .register-form-wrapper button {
     width: 100%;
-    padding: 12px;
-    margin-top: 15px;
+    padding: 10px; /* Giảm padding từ 12px */
+    margin-top: 10px; /* Giảm margin-top từ 15px */
     background-color: #d2a679;
     color: #fff;
     border: none;
-    border-radius: 20px;
-    font-size: 1.1rem;
+    border-radius: 16px; /* Giảm radius từ 20px */
+    font-size: 1rem; /* Giảm font-size từ 1.1rem */
     font-weight: 600;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 8px;
+    gap: 6px; /* Giảm gap từ 8px */
     cursor: pointer;
     transition: all 0.3s ease, transform 0.3s ease;
-    box-shadow: 0 3px 8px rgba(210, 166, 121, 0.3);
-}
-
-.register-form-wrapper button:hover {
+    box-shadow: 0 2px 6px rgba(210, 166, 121, 0.3); /* Giảm box-shadow */
+  }
+  
+  .register-form-wrapper button:hover {
     background-color: #c0935f;
     transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(192, 147, 95, 0.3);
-}
-
-span.link {
+    box-shadow: 0 3px 8px rgba(192, 147, 95, 0.3);
+  }
+  
+  /* Link */
+  span.link {
     color: #d2a679;
     font-weight: 500;
     cursor: pointer;
     text-decoration: none;
     transition: color 0.3s ease, text-decoration 0.3s ease;
-}
-
-span.link:hover {
+  }
+  
+  span.link:hover {
     color: #c0935f;
     text-decoration: underline;
-}
-
-.register-form-wrapper form input::placeholder {
+  }
+  
+  /* Placeholder */
+  .register-form-wrapper form input::placeholder {
     color: #aaa;
-    font-size: 0.9rem;
-}
-
-.register-form-wrapper form input:focus::placeholder {
+    font-size: 0.85rem; /* Giảm font-size từ 0.9rem */
+  }
+  
+  .register-form-wrapper form input:focus::placeholder {
     color: transparent;
-}
-
-/* Mobile Responsive Adjustments (max-width: 600px) */
-@media screen and (max-width: 600px) {
+  }
+  
+  /* Mobile Responsive Adjustments (max-width: 600px) */
+  @media screen and (max-width: 600px) {
     .register-container {
-        width: 90%;
-        padding: 25px 20px;
-        margin: 20px auto 0;
-        border-radius: 12px;
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      width: 85%; /* Giữ 85% */
+      padding: 15px; /* Giảm padding từ 25px 20px */
+      margin: 20px auto 0;
+      border-radius: 10px; /* Giảm radius */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Giảm box-shadow */
     }
-
+  
     .register-logo {
-        margin-bottom: 15px;
+      margin-bottom: 10px; /* Giảm margin-bottom */
     }
-
+  
     .register-circle {
-        width: 110px;
-        height: 110px;
+      width: 90px; /* Giảm từ 110px */
+      height: 90px;
     }
-
+  
     .register-circle img {
-        width: 160px;
+      width: 110px; /* Giảm từ 160px */
     }
-
+  
     .register-circle .lottie {
-        width: 100%;
-        height: 100%;
+      width: 100%;
+      height: 100%;
     }
-
+  
     .register-form-wrapper h2 {
-        font-size: 1.2rem;
-        margin-bottom: 15px;
+      font-size: 1.1rem; /* Giảm từ 1.2rem */
+      margin-bottom: 12px; /* Giảm margin-bottom */
     }
-
+  
     .register-form-wrapper p {
-        font-size: 0.85rem;
-        margin-top: 8px;
+      font-size: 0.8rem; /* Giảm từ 0.85rem */
+      margin-top: 8px;
     }
-
+  
+    /* Trở về 1 cột trên mobile */
+    .register-form-wrapper form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px; /* Giảm gap từ 12px */
+    }
+  
     .input-wrapper {
-        margin-bottom: 12px;
+      margin-bottom: 0;
     }
-
+  
     .input-icon {
-        left: 12px;
-        font-size: 0.9rem;
+      left: 10px; /* Giảm từ 12px */
+      font-size: 0.8rem; /* Giảm từ 0.9rem */
     }
-
+  
     .register-form-wrapper form input {
-        padding: 10px 18px 10px 40px;
-        font-size: 0.9rem;
-        border-radius: 16px;
-        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1);
+      padding: 8px 12px 8px 35px; /* Giảm padding */
+      font-size: 0.85rem; /* Giảm từ 0.9rem */
+      border-radius: 14px; /* Giảm radius */
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05); /* Giảm box-shadow */
     }
-
+  
     .register-form-wrapper form input:focus {
-        box-shadow: 0 0 4px rgba(210, 166, 121, 0.3);
+      box-shadow: 0 0 3px rgba(210, 166, 121, 0.3); /* Giảm box-shadow */
     }
-
+  
     .register-form-wrapper button {
-        padding: 10px;
-        margin-top: 12px;
-        font-size: 1rem;
-        border-radius: 16px;
-        box-shadow: 0 2px 6px rgba(210, 166, 121, 0.3);
+      padding: 8px; /* Giảm từ 10px */
+      margin-top: 8px; /* Giảm từ 12px */
+      font-size: 0.95rem; /* Giảm từ 1rem */
+      border-radius: 14px; /* Giảm radius */
+      box-shadow: 0 2px 4px rgba(210, 166, 121, 0.3); /* Giảm box-shadow */
     }
-
+  
     .register-form-wrapper button:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 3px 6px rgba(192, 147, 95, 0.3);
+      transform: translateY(-1px);
+      box-shadow: 0 2px 5px rgba(192, 147, 95, 0.3); /* Giảm box-shadow */
     }
-
+  
     span.link {
-        font-size: 0.9rem;
+      font-size: 0.85rem; /* Giảm từ 0.9rem */
     }
-}
+  }
