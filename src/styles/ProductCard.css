@@ -1,6 +1,6 @@
 .product-card {
     width: 100%; /* Thay đổi thành 100% để card mở rộng theo container, nhưng giữ tỷ lệ với flex */
-    max-width: 280px; /* Giới hạn tối đa để không quá rộng trên desktop */
+    max-width: 300px; /* Giới hạn tối đa để không quá rộng trên desktop */
     background-color: transparent; /* Loại bỏ nền trắng để không có khung */
     border: none; /* Loại bỏ border */
     box-shadow: none; /* Loại bỏ shadow để không có khung */
