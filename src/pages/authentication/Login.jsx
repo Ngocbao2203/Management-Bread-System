@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import googleLogo from "../../assets/images/g-logo.png";
 import breadLogo from "../../assets/images/bread-logo.png";
 import "../../styles/Login.css";
-import { login } from "../../services/authService"; // Import hàm login từ apiService
+import { login } from "../../services/authService"; // Import hàm login từ authService
 import { jwtDecode } from "jwt-decode";
 
 const Login = () => {
@@ -26,28 +26,37 @@ const Login = () => {
       const responseData = await login(data);
       console.log("Response data from API:", responseData); // Debug
 
-      // Sửa lại: Lấy token từ responseData.data.token
+      // Lấy token từ responseData.data.token
       const token = responseData.data.token;
       if (!token || typeof token !== "string") {
         throw new Error("Token không hợp lệ hoặc không tồn tại!");
       }
 
+      // Giải mã token
       const decodedToken = jwtDecode(token);
-      console.log("Decoded token:", decodedToken); // Debug
-      const role = decodedToken.role;
+      console.log("Decoded token:", decodedToken); // Debug để kiểm tra cấu trúc token
 
+      // Lấy role, userName, và email từ decodedToken với key thực tế
+      const role = decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] || "User"; // Lấy role
+      const emailFromToken = decodedToken.Email || "No Email"; // Lấy email từ trường Email
+      // Vì không có userName, dùng email làm userName tạm thời hoặc yêu cầu backend thêm
+      const fullName = decodedToken.FullName || "Unknown User";
+
+      // Lưu token, role, userName, và email vào localStorage
       localStorage.setItem("token", token);
       localStorage.setItem("role", role);
+      localStorage.setItem("userName", fullName);
+      localStorage.setItem("email", emailFromToken);
 
       toast.success("Đăng nhập thành công!");
-      if (role === "admin") {
-        navigate("/admin");
+      if (role === "Admin") {
+        navigate("/dashboard");
       } else {
         navigate("/");
       }
     } catch (error) {
       console.error("Login error:", error);
-      toast.error(error.message);
+      toast.error(error.message || "Đăng nhập thất bại. Vui lòng kiểm tra email và mật khẩu!");
     } finally {
       setLoading(false);
     }

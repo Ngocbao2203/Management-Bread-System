@@ -1,0 +1,95 @@
+.dashboard-layout {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  background-color: #f5f7fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.dashboard-content {
+  flex: 1;
+  padding: 25px;
+  overflow-y: auto;
+  background-color: #f5f7fa;
+  transition: margin-left 0.3s ease;
+  box-shadow: inset 5px 0 15px -5px rgba(0, 0, 0, 0.05);
+}
+
+.dashboard-content-header {
+  margin-bottom: 25px;
+}
+
+.dashboard-content-header h1 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.dashboard-content-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+/* Thêm hiệu ứng hover cho các card */
+.dashboard-content-card:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .dashboard-content {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-content {
+    margin-left: 200px;
+    padding: 15px;
+  }
+}
+
+@media (max-width: 576px) {
+  .dashboard-content {
+    margin-left: 0;
+    padding: 15px 10px;
+  }
+  
+  .sidebar {
+    width: 0;
+    overflow: hidden;
+  }
+  
+  .sidebar.active {
+    width: 250px;
+  }
+}
+
+/* Animation cho transitions */
+.dashboard-content, .sidebar {
+  transition: all 0.3s ease;
+}
+
+/* Scrollbar đẹp hơn */
+.dashboard-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.dashboard-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.dashboard-content::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 10px;
+}
+
+.dashboard-content::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
