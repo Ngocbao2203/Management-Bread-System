@@ -1,0 +1,113 @@
+.sidebar {
+  width: 250px;
+  background-color: #f8f9fa;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+}
+
+.sidebar-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-item {
+  margin-bottom: 10px;
+}
+
+/* Mục chính (Dashboard, Quản lý sản phẩm, Logout) */
+.sidebar-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  border-radius: 25px;
+  background-color: #e9ecef;
+  color: #333;
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Hiệu ứng hover cho mục chính */
+.sidebar-section:hover {
+  background: linear-gradient(90deg, #6b48ff 0%, #a155ff 100%);
+  color: white;
+}
+
+/* Khi mục chính được chọn (active) */
+.sidebar-item.active .sidebar-section {
+  background: linear-gradient(90deg, #6b48ff 0%, #a155ff 100%);
+  color: white;
+}
+
+/* Mục Logout có màu đỏ */
+.logout-item .sidebar-section {
+  background-color: #ff4444;
+  color: white;
+}
+
+.logout-item .sidebar-section:hover {
+  background-color: #ff6666;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.section-icon {
+  font-size: 1.2rem;
+  color: #555;
+}
+
+/* Đổi màu icon khi hover hoặc active */
+.sidebar-section:hover .section-icon,
+.sidebar-item.active .sidebar-section .section-icon,
+.logout-item .sidebar-section .section-icon {
+  color: white;
+}
+
+.arrow {
+  font-size: 0.8rem;
+  color: #777;
+}
+
+/* Submenu (Danh sách sản phẩm, Thêm sản phẩm) */
+.submenu {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0 30px;
+}
+
+.submenu-item {
+  padding: 10px 15px;
+  border-radius: 15px;
+  background-color: #f1f3f5;
+  color: #333;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 5px;
+}
+
+.submenu-item:hover {
+  background: linear-gradient(90deg, #6b48ff 0%, #a155ff 100%);
+  color: white;
+}
+
+.submenu-item.selected {
+  background: linear-gradient(90deg, #6b48ff 0%, #a155ff 100%);
+  color: white;
+}

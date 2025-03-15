@@ -5,15 +5,23 @@ import Register from "../pages/authentication/Register";
 import ForgotPassword from "../pages/authentication/ForgotPassword";
 import ResetPassword from "../pages/authentication/ResetPassword";
 import HomePage from "../components/homepage/HomePage";
+import DashboardLayout from "../layouts/DashboardLayout";
+import ProtectedRoute from "../components/ProtectedRoute";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+// Import các component liên quan đến sản phẩm
+import DashboardHome from "../pages/dashboard/DashboardHome";
+import ProductList from "../pages/dashboard/ProductList";
+import AddProduct from "../pages/dashboard/AddProduct";
+import EditProduct from "../pages/dashboard/EditProduct";
 
 const AppRouter = () => {
   return (
     <AnimatePresence mode="wait">
       <ToastContainer
         position="top-right"
-        autoClose={3000} // Tự động đóng sau 3 giây
+        autoClose={3000}
         hideProgressBar={false}
         newestOnTop={true}
         closeOnClick
@@ -28,6 +36,20 @@ const AppRouter = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+
+        <Route
+          path="/dashboard/*"
+          element={
+            <ProtectedRoute allowedRoles={["Admin"]}>
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<DashboardHome />} /> {/* /dashboard */}
+          <Route path="products" element={<ProductList />} /> {/* /dashboard/products */}
+          <Route path="add-product" element={<AddProduct />} /> {/* /dashboard/add-product */}
+          <Route path="edit-product/:id" element={<EditProduct />} /> {/* /dashboard/edit-product/:id */}
+        </Route>
       </Routes>
     </AnimatePresence>
   );

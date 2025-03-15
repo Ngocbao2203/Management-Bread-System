@@ -53,7 +53,7 @@ const Header = () => {
             </ScrollLink>
           </li>
           <li>
-            <Link to="/combo">Combo</Link>
+            <Link to="/dashboard">Combo</Link>
           </li>
           <li>
             <ScrollLink
