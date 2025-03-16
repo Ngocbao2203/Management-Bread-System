@@ -8,6 +8,8 @@ const pathToMenuMap = {
   "/dashboard/products": "Danh sách sản phẩm",
   "/dashboard/add-product": "Thêm sản phẩm",
   "/dashboard/edit-product/:id": "Chỉnh sửa sản phẩm",
+  "/dashboard/categories": "Categories",
+  "/dashboard/ingredients": "Ingredients",
 };
 
 const DashboardLayout = () => {
