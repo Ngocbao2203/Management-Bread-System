@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChartBar,
   faBox,
+  faList,
+  faUtensils,
   faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import "../styles/Sidebar.css";
@@ -12,6 +14,8 @@ import "../styles/Sidebar.css";
 const iconMap = {
   Dashboard: faChartBar,
   "Quản lý sản phẩm": faBox,
+  Categories: faList,
+  Ingredients: faUtensils,
 };
 
 // Ánh xạ menu với route
@@ -19,6 +23,8 @@ const routeMap = {
   Dashboard: "/dashboard",
   "Danh sách sản phẩm": "/dashboard/products",
   "Thêm sản phẩm": "/dashboard/add-product",
+  Categories: "/dashboard/categories",
+  Ingredients: "/dashboard/ingredients",
 };
 
 const Sidebar = ({ setSelectedMenu, selectedMenu }) => {
@@ -35,6 +41,8 @@ const Sidebar = ({ setSelectedMenu, selectedMenu }) => {
     setSidebarItems([
       { title: "Dashboard", items: [] },
       { title: "Quản lý sản phẩm", items: ["Danh sách sản phẩm", "Thêm sản phẩm"] },
+      { title: "Categories", items: [] },
+      { title: "Ingredients", items: [] },
     ]);
     // Mở mặc định section "Quản lý sản phẩm" (index 1)
     setOpenSections({ 1: true });
@@ -87,7 +95,7 @@ const Sidebar = ({ setSelectedMenu, selectedMenu }) => {
             <div
               className="sidebar-section"
               onClick={() => {
-                if (section.title === "Dashboard") {
+                if (section.title === "Dashboard" || section.title === "Categories" || section.title === "Ingredients") {
                   handleMenuClick(section.title);
                 } else {
                   toggleSection(index);

@@ -15,6 +15,8 @@ import DashboardHome from "../pages/dashboard/DashboardHome";
 import ProductList from "../pages/dashboard/ProductList";
 import AddProduct from "../pages/dashboard/AddProduct";
 import EditProduct from "../pages/dashboard/EditProduct";
+import Categories from "../pages/dashboard/Categories";
+import Ingredients from "../pages/dashboard/Ingredients";
 
 const AppRouter = () => {
   return (
@@ -49,6 +51,8 @@ const AppRouter = () => {
           <Route path="products" element={<ProductList />} /> {/* /dashboard/products */}
           <Route path="add-product" element={<AddProduct />} /> {/* /dashboard/add-product */}
           <Route path="edit-product/:id" element={<EditProduct />} /> {/* /dashboard/edit-product/:id */}
+          <Route path="categories" element={<Categories />} /> {/* /dashboard/categories */}
+          <Route path="ingredients" element={<Ingredients />} /> {/* /dashboard/ingredients */}
         </Route>
       </Routes>
     </AnimatePresence>
