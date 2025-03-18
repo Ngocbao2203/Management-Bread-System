@@ -5,11 +5,11 @@ import "../styles/DashboardLayout.css";
 
 const pathToMenuMap = {
   "/dashboard": "Dashboard",
-  "/dashboard/products": "Danh sách sản phẩm",
-  "/dashboard/add-product": "Thêm sản phẩm",
-  "/dashboard/edit-product/:id": "Chỉnh sửa sản phẩm",
+  "/dashboard/products": "Products",
   "/dashboard/categories": "Categories",
   "/dashboard/ingredients": "Ingredients",
+  "/dashboard/branchs": "Branchs",
+  "/dashboard/accounts": "Accounts",
 };
 
 const DashboardLayout = () => {
