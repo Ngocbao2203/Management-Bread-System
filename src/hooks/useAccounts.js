@@ -23,12 +23,14 @@ const useAccounts = () => {
   const fetchAccounts = async () => {
     try {
       const response = await getAccountList(role, page, size);
+      console.log('API response in useAccounts:', response.data); // Log toàn bộ response
+      console.log('Accounts items:', response.data.items); // Log danh sách tài khoản
       setAccounts(response.data.items || []);
       setTotalPages(response.data.totalPages || 0);
       setError(null);
     } catch (error) {
-      console.error('Error fetching accounts:', error.message);
-      setError(error.message);
+      console.error('Error fetching accounts:', error.message, error.response?.data);
+      setError(error.message || 'Failed to fetch accounts');
       toast.error(`Failed to load accounts: ${error.message}`);
     }
   };
@@ -65,28 +67,16 @@ const useAccounts = () => {
 
   const handleCreateAccount = async (accountData) => {
     try {
-        // Ensure role is sent as a number, not a string
-        if (accountData.role) {
-            accountData.role = Number(accountData.role);
-        }
-        
-        // Ensure branchId is sent as a number
-        if (accountData.branchId) {
-            accountData.branchId = Number(accountData.branchId);
-        }
-        
-        console.log('Sending account data to create:', accountData);
-        const response = await createAccount(accountData);
-        await fetchAccounts();
-        toast.success(response.message || 'Account created successfully');
-        return response;
+      console.log('Account data before sending:', accountData);
+      const response = await createAccount(accountData);
+      await fetchAccounts();
+      toast.success(response.message || 'Account created successfully');
+      return response;
     } catch (error) {
-        console.error('Error creating account - Details:', error.message);
-        
-        // Set the error message for the modal to display
-        setError(error.message);
-        toast.error(`Failed to create account: ${error.message}`);
-        throw error;
+      console.error('Error creating account - Details:', error.message);
+      setError(error.message);
+      toast.error(`Failed to create account: ${error.message}`);
+      throw error;
     }
   };
 
