@@ -12,12 +12,11 @@ import "react-toastify/dist/ReactToastify.css";
 
 // Import các component liên quan đến sản phẩm
 import DashboardHome from "../pages/dashboard/DashboardHome";
-import ProductList from "../pages/dashboard/ProductList";
-import AddProduct from "../pages/dashboard/AddProduct";
-import EditProduct from "../pages/dashboard/EditProduct";
+import Products from "../pages/dashboard/Products";
 import Categories from "../pages/dashboard/Categories";
 import Ingredients from "../pages/dashboard/Ingredients";
-
+import Accounts from "../pages/dashboard/Accounts";
+import Branchs from "../pages/dashboard/Branchs";
 const AppRouter = () => {
   return (
     <AnimatePresence mode="wait">
@@ -48,11 +47,11 @@ const AppRouter = () => {
           }
         >
           <Route index element={<DashboardHome />} /> {/* /dashboard */}
-          <Route path="products" element={<ProductList />} /> {/* /dashboard/products */}
-          <Route path="add-product" element={<AddProduct />} /> {/* /dashboard/add-product */}
-          <Route path="edit-product/:id" element={<EditProduct />} /> {/* /dashboard/edit-product/:id */}
+          <Route path="products" element={<Products />} />
           <Route path="categories" element={<Categories />} /> {/* /dashboard/categories */}
           <Route path="ingredients" element={<Ingredients />} /> {/* /dashboard/ingredients */}
+          <Route path="branchs" element={<Branchs />} /> 
+          <Route path="accounts" element={<Accounts />} />
         </Route>
       </Routes>
     </AnimatePresence>

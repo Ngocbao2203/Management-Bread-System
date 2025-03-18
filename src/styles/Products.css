@@ -1,0 +1,635 @@
+/* Container layout */
+.products-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 15px;
+  overflow-x: hidden;
+  background-color: #f9fafb;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* Table responsive wrapper */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Header and title */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #e0e7ff;
+  background: linear-gradient(90deg, #f3f4f6, #ffffff);
+}
+
+.page-title {
+  font-size: 24px;
+  color: #1e293b;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* Add button */
+.add-btn {
+  padding: 12px 24px;
+  background: linear-gradient(90deg, #4caf50, #45a049);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+
+.add-btn:hover {
+  background: linear-gradient(90deg, #45a049, #388e3c);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(76, 175, 80, 0.4);
+}
+
+.add-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.2);
+}
+
+/* Product Table */
+.product-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.product-table th,
+.product-table td {
+  padding: 16px 20px;
+  text-align: left;
+  font-size: 14px;
+}
+
+.product-table th {
+  background: linear-gradient(90deg, #e0e7ff, #f3f4f6);
+  font-weight: 700;
+  color: #1e40af;
+  border-bottom: 3px solid #dbeafe;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.product-table td {
+  border-bottom: 1px solid #e0e0e0;
+  vertical-align: middle;
+  color: #374151;
+  transition: background-color 0.3s ease;
+}
+
+/* Column specific styles */
+.product-table .id-column {
+  width: 5%;
+  text-align: center;
+}
+
+.product-table .name-column {
+  width: 25%;
+}
+
+.product-table .description-column {
+  width: 35%;
+}
+
+.product-table .price-column {
+  width: 10%;
+  text-align: right;
+}
+
+.product-table .category-column {
+  width: 15%;
+}
+
+.product-table .actions-column {
+  width: 15%;
+  text-align: center;
+}
+
+/* Table rows */
+.product-table tbody tr:hover {
+  background-color: #f1f5f9;
+}
+
+.product-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Action buttons */
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.edit-btn,
+.status-btn {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.edit-btn {
+  background: linear-gradient(90deg, #0288d1, #0277bd);
+  color: white;
+}
+
+.edit-btn:hover {
+  background: linear-gradient(90deg, #0277bd, #0267a9);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(2, 136, 209, 0.3);
+}
+
+.status-btn.activate {
+  background: linear-gradient(90deg, #4caf50, #388e3c);
+  color: white;
+}
+
+.status-btn.deactivate {
+  background: linear-gradient(90deg, #f44336, #d32f2f);
+  color: white;
+}
+
+.status-btn:hover {
+  opacity: 0.95;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* General modal content */
+.modal-content {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  transform: scale(0.95);
+  animation: slideUp 0.3s ease forwards;
+}
+
+@keyframes slideUp {
+  from {
+    transform: scale(0.95) translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Add Product modal content - special styling */
+.modal-content-product {
+  background-color: #ffffff;
+  padding: 25px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  transform: scale(0.95);
+  animation: slideUp 0.3s ease forwards;
+}
+
+.modal-content-product h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 22px;
+  color: #1e293b;
+  font-weight: 600;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #e0e7ff;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #e0e7ff;
+}
+
+.modal-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #64748b;
+  transition: color 0.2s ease;
+}
+
+.close-btn:hover {
+  color: #ef4444;
+}
+
+/* Form styles */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 15px;
+  background-color: #f9fafb;
+  transition: all 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: #3b82f6;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  background-color: #ffffff;
+}
+
+.form-group textarea {
+  height: 120px;
+  resize: vertical;
+}
+
+.form-group input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.form-group input[type="number"]::-webkit-outer-spin-button,
+.form-group input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Image preview styles */
+.image-preview {
+  display: block;
+  margin-top: 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  max-width: 100%;
+  height: auto;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Ingredient list styles */
+.ingredients-container {
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 20px;
+  background-color: #f9fafb;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.ingredient-item {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+  align-items: center;
+}
+
+.ingredient-select {
+  flex: 2;
+}
+
+.ingredient-quantity {
+  flex: 1;
+}
+
+.remove-ingredient {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.remove-ingredient:hover {
+  background-color: #d32f2f;
+  box-shadow: 0 2px 6px rgba(244, 67, 54, 0.3);
+}
+
+.add-ingredient {
+  background: linear-gradient(90deg, #4caf50, #388e3c);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 16px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(76, 175, 80, 0.3);
+}
+
+.add-ingredient:hover {
+  background: linear-gradient(90deg, #45a049, #2f7d32);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(76, 175, 80, 0.4);
+}
+
+/* Form actions */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+/* Modal actions - for product form */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.submit-btn,
+.cancel-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.submit-btn {
+  background: linear-gradient(90deg, #4caf50, #388e3c);
+  color: white;
+}
+
+.submit-btn:hover {
+  background: linear-gradient(90deg, #45a049, #2f7d32);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(76, 175, 80, 0.4);
+}
+
+.cancel-btn {
+  background-color: #f5f5f5;
+  color: #374151;
+  border: 1px solid #e5e7eb;
+}
+
+.cancel-btn:hover {
+  background-color: #e5e7eb;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 40px;
+  color: #64748b;
+  background-color: #f9fafb;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .products-container {
+    padding: 15px;
+    margin: 5px;
+  }
+
+  .product-table {
+    overflow-x: auto;
+    display: block;
+    min-width: 600px;
+  }
+
+  .product-table th,
+  .product-table td {
+    padding: 12px;
+    font-size: 13px;
+  }
+
+  .modal-content,
+  .modal-content-product {
+    padding: 20px;
+    max-width: 95%;
+    max-height: 85vh;
+  }
+
+  .form-actions,
+  .modal-actions {
+    flex-direction: column;
+  }
+
+  .submit-btn,
+  .cancel-btn {
+    width: 100%;
+    padding: 12px;
+  }
+
+  .ingredient-item {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .add-btn {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+  .modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6); /* Tăng độ mờ của nền */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 12px;
+  width: 500px; /* Tăng chiều rộng modal */
+  max-width: 95%; /* Giới hạn tối đa để phù hợp với màn hình nhỏ */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  position: relative;
+  animation: fadeIn 0.3s ease-in-out; /* Thêm hiệu ứng fade-in */
+}
+
+.modal-content h2 {
+  margin: 0 0 20px;
+  font-size: 24px;
+  font-weight: 600;
+  color: #1e40af; /* Màu xanh đậm cho tiêu đề */
+  border-bottom: 2px solid #dbeafe; /* Đường viền dưới tiêu đề */
+  padding-bottom: 8px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #374151; /* Màu xám đậm cho nhãn */
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #d1d5db; /* Viền xám nhạt */
+  border-radius: 6px;
+  font-size: 14px;
+  background: #f9fafb; /* Nền nhạt */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: #3b82f6; /* Viền xanh khi focus */
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); /* Hiệu ứng bóng khi focus */
+  outline: none;
+}
+
+.form-group textarea {
+  min-height: 80px; /* Đảm bảo textarea đủ cao */
+  resize: vertical; /* Chỉ cho phép thay đổi chiều cao */
+}
+
+.form-group input[type="checkbox"] {
+  width: auto; /* Checkbox không cần full width */
+  margin-right: 8px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.save-btn,
+.cancel-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.save-btn {
+  background: #4caf50;
+  color: #ffffff;
+}
+
+.save-btn:hover {
+  background: #45a049; /* Tối hơn khi hover */
+  transform: translateY(-1px);
+}
+
+.cancel-btn {
+  background: #f44336;
+  color: #ffffff;
+}
+
+.cancel-btn:hover {
+  background: #e53935; /* Tối hơn khi hover */
+  transform: translateY(-1px);
+}
+
+.error {
+  color: #dc2626; /* Màu đỏ cho thông báo lỗi */
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+/* Hiệu ứng fade-in cho modal */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+}

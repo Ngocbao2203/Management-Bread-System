@@ -1,0 +1,139 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal-content {
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 12px;
+    width: 600px; /* Tăng chiều rộng modal */
+    max-width: 95%;
+    max-height: 80vh; /* Giới hạn chiều cao tối đa */
+    overflow-y: auto; /* Thêm thanh cuộn nếu nội dung dài */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    position: relative;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  .modal-content h2 {
+    margin: 0 0 20px;
+    font-size: 24px;
+    font-weight: 600;
+    color: #1e40af;
+    border-bottom: 2px solid #dbeafe;
+    padding-bottom: 8px;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #374151;
+  }
+  
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+    background: #f9fafb;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box; /* Đảm bảo padding không làm tràn */
+  }
+  
+  /* Xử lý tràn nội dung cho input */
+  .form-group input {
+    overflow-wrap: break-word; /* Tự động xuống dòng nội dung dài */
+    word-break: break-all; /* Đảm bảo xuống dòng nếu cần */
+  }
+  
+  /* Xử lý textarea */
+  .form-group textarea {
+    min-height: 100px; /* Tăng chiều cao textarea */
+    resize: vertical; /* Chỉ cho phép thay đổi chiều cao */
+    overflow-wrap: break-word; /* Tự động xuống dòng */
+  }
+  
+  /* Focus style */
+  .form-group input:focus,
+  .form-group textarea:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    outline: none;
+  }
+  
+  .form-group input[type="checkbox"] {
+    width: auto;
+    margin-right: 8px;
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 20px;
+  }
+  
+  .save-btn,
+  .cancel-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+  }
+  
+  .save-btn {
+    background: #4caf50;
+    color: #ffffff;
+  }
+  
+  .save-btn:hover {
+    background: #45a049;
+    transform: translateY(-1px);
+  }
+  
+  .cancel-btn {
+    background: #f44336;
+    color: #ffffff;
+  }
+  
+  .cancel-btn:hover {
+    background: #e53935;
+    transform: translateY(-1px);
+  }
+  
+  .error {
+    color: #dc2626;
+    font-size: 14px;
+    margin-bottom: 15px;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }

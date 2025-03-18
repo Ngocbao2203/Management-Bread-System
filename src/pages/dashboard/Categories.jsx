@@ -3,7 +3,7 @@ import { getCategories } from "../../services/categoryService";
 import CategoryForm from "../../components/category/CategoryForm";
 import CategoryList from "../../components/category/CategoryList";
 import EditCategoryModal from "../../components/category/EditCategoryModal";
-import Pagination from "../../components/category/Pagination";
+import Pagination from "../../components/Pagination";
 import "../../styles/Categories.css";
 
 const Categories = () => {

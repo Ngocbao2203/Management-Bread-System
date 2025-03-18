@@ -6,6 +6,8 @@ import {
   faBox,
   faList,
   faUtensils,
+  faUser,
+  faProjectDiagram,
   faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import "../styles/Sidebar.css";
@@ -13,18 +15,21 @@ import "../styles/Sidebar.css";
 // Ánh xạ các icon với section title
 const iconMap = {
   Dashboard: faChartBar,
-  "Quản lý sản phẩm": faBox,
+  Products: faBox,
   Categories: faList,
   Ingredients: faUtensils,
+  Branchs: faProjectDiagram,
+  Accounts: faUser,
 };
 
 // Ánh xạ menu với route
 const routeMap = {
   Dashboard: "/dashboard",
-  "Danh sách sản phẩm": "/dashboard/products",
-  "Thêm sản phẩm": "/dashboard/add-product",
+  Products: "/dashboard/products",
   Categories: "/dashboard/categories",
   Ingredients: "/dashboard/ingredients",
+  Branchs: "/dashboard/branchs",
+  Accounts : "/dashboard/accounts",
 };
 
 const Sidebar = ({ setSelectedMenu, selectedMenu }) => {
@@ -40,9 +45,11 @@ const Sidebar = ({ setSelectedMenu, selectedMenu }) => {
   useEffect(() => {
     setSidebarItems([
       { title: "Dashboard", items: [] },
-      { title: "Quản lý sản phẩm", items: ["Danh sách sản phẩm", "Thêm sản phẩm"] },
       { title: "Categories", items: [] },
       { title: "Ingredients", items: [] },
+      { title: "Products", items: [] },
+      { title: "Branchs", items: [] },
+      { title: "Accounts", items: []},
     ]);
     // Mở mặc định section "Quản lý sản phẩm" (index 1)
     setOpenSections({ 1: true });
@@ -95,7 +102,7 @@ const Sidebar = ({ setSelectedMenu, selectedMenu }) => {
             <div
               className="sidebar-section"
               onClick={() => {
-                if (section.title === "Dashboard" || section.title === "Categories" || section.title === "Ingredients") {
+                if (section.title === "Dashboard" || section.title === "Products" || section.title === "Categories" || section.title === "Ingredients" || section.title === "Branchs" || section.title === "Accounts") {
                   handleMenuClick(section.title);
                 } else {
                   toggleSection(index);
