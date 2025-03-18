@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Typography, Select, Button, Form, message } from 'antd';
+import { Typography, Select, Button, Form } from 'antd';
 import useAccounts from '../../hooks/useAccounts';
 import AccountTable from '../../components/accounts/AccountTable';
 import EditAccountModal from '../../components/accounts/EditAccountModal';
@@ -138,8 +138,6 @@ const Accounts = () => {
           <Option value="">All</Option>
           <Option value="Staff">Staff</Option>
           <Option value="Owner">Owner</Option>
-          <Option value="Admin">Admin</Option>
-          <Option value="Customer">Customer</Option>
         </Select>
       </div>
 
@@ -182,6 +180,7 @@ const Accounts = () => {
         onCancel={handleCloseCreateModal}
         form={createForm}
         branches={branches}
+        error={error} // Truyền error vào CreateAccountModal để hiển thị thông báo lỗi
       />
 
       {error && <div style={{ color: 'red', marginTop: '10px' }}>{error}</div>} {/* Hiển thị lỗi nếu có */}

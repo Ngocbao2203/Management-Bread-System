@@ -2,7 +2,7 @@ import apiClient from "./apiClient";
 
 export const createAccount = async (accountData) => {
     try {
-        console.log('Sending account data to create:', accountData);
+        console.log('Sending account data to create:', JSON.stringify(accountData, null, 2)); // Log định dạng đẹp
         const response = await apiClient.post("/api/account/create", accountData);
         return {
             success: true,
@@ -12,28 +12,8 @@ export const createAccount = async (accountData) => {
         };
     } catch (error) {
         console.error('Error creating account - Response:', error.response?.data);
-        
-        // Handle validation errors more specifically
-        if (error.response?.data?.errors) {
-            const errors = error.response.data.errors;
-            let errorMessage = "";
-            
-            // Process Role error specifically
-            if (errors.Role) {
-                errorMessage = `Role error: ${errors.Role.join(', ')}`;
-            } 
-            // Process other validation errors
-            else {
-                // Create a string of all validation errors
-                errorMessage = Object.entries(errors)
-                    .map(([key, messages]) => `${key}: ${messages.join(', ')}`)
-                    .join('; ');
-            }
-            
-            throw new Error(errorMessage || "Validation failed");
-        }
-        
-        throw new Error(error.response?.data?.title || error.response?.data?.message || "Failed to create account");
+        console.error('Validation errors:', error.response?.data?.errors);
+        throw new Error(error.response?.data?.message || "Failed to create account");
     }
 };
 
@@ -52,7 +32,7 @@ export const updateAccount = async (id, accountData) => {
 
 export const updateAccountPassword = async (id, passwordData) => {
     try {
-        const response = await apiClient.put(`/api/account/update-password/${id}`, passwordData);
+        const response = await apiClient.patch(`/api/account/update-password/${id}`, passwordData);
         return {
             success: true,
             data: response.data,
@@ -65,13 +45,12 @@ export const updateAccountPassword = async (id, passwordData) => {
 
 export const getAccountList = async (role = '', page = 1, size = 10) => {
     try {
-        const response = await apiClient.get('/api/account/get-list', {
-            params: {
-                role: role || undefined,
-                page,
-                size,
-            },
-        });
+        const params = { page: Math.max(1, page), size: Math.max(1, size) };
+        if (role) {
+            params.role = role;
+        }
+        const response = await apiClient.get('/api/account/get-list', { params });
+        console.log('API response for getAccountList:', response.data);
         return {
             success: true,
             data: response.data.data,
@@ -79,6 +58,8 @@ export const getAccountList = async (role = '', page = 1, size = 10) => {
             statusCode: response.data.statusCode,
         };
     } catch (error) {
+        console.error('Error in getAccountList:', error.response?.data);
+        console.error('Validation errors:', error.response?.data?.errors);
         throw new Error(error.response?.data?.message || 'Failed to retrieve account list');
     }
 };

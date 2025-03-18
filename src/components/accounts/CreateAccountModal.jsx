@@ -66,10 +66,8 @@ const CreateAccountModal = ({ visible, onOk, onCancel, form, branches, error }) 
           rules={[{ required: true, message: 'Please select a role' }]}
         >
           <Select placeholder="Select a role">
-            <Option value={1}>Staff</Option>
-            <Option value={2}>Owner</Option>
-            <Option value={3}>Admin</Option>
-            <Option value={4}>Customer</Option>
+            <Option value="Staff">Staff</Option>
+            <Option value="Owner">Owner</Option>
           </Select>
         </Form.Item>
         <Form.Item
