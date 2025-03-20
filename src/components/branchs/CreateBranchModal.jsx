@@ -1,23 +1,20 @@
+// src/components/CreateBranchModal.jsx
 import React, { useEffect } from 'react';
-import { Modal, Form, Input, Select } from 'antd';
+import { Modal, Form, Input } from 'antd';
 import { toast } from 'react-toastify';
 
-const { Option } = Select;
-
-const CreateAccountModal = ({ visible, onOk, onCancel, form, branches, error }) => {
-  console.log('Branches received in CreateAccountModal:', branches);
-
+const CreateBranchModal = ({ visible, onOk, onCancel, form, error }) => {
   // Display detailed error message when modal is open
   useEffect(() => {
     if (visible && error) {
-      // Avoid duplicate toast messages by only showing on initial render
       console.log('Modal error details:', error);
+      toast.error(error); // Hiển thị thông báo lỗi nếu có
     }
   }, [visible, error]);
 
   return (
     <Modal
-      title="Create New Account"
+      title="Create New Branch"
       open={visible}
       onOk={onOk}
       onCancel={onCancel}
@@ -26,28 +23,32 @@ const CreateAccountModal = ({ visible, onOk, onCancel, form, branches, error }) 
     >
       <Form form={form} layout="vertical">
         <Form.Item
-          label="Full Name"
-          name="fullName"
-          rules={[{ required: true, message: 'Please enter full name' }]}
+          label="Branch Name"
+          name="branchName"
+          rules={[{ required: true, message: 'Please enter branch name' }]}
         >
-          <Input placeholder="Enter full name" />
+          <Input placeholder="Enter branch name" />
         </Form.Item>
         <Form.Item
-          label="Username"
-          name="username"
-          rules={[{ required: true, message: 'Please enter username' }]}
+          label="Address"
+          name="address"
+          rules={[{ required: true, message: 'Please enter address' }]}
         >
-          <Input placeholder="Enter username" />
+          <Input placeholder="Enter branch address" />
         </Form.Item>
         <Form.Item
-          label="Email"
-          name="email"
-          rules={[
-            { required: true, message: 'Please enter email' },
-            { type: 'email', message: 'Please enter a valid email' },
-          ]}
+          label="City"
+          name="city"
+          rules={[{ required: true, message: 'Please enter city' }]}
         >
-          <Input placeholder="Enter email (e.g., user@example.com)" />
+          <Input placeholder="Enter city (e.g., Ho Chi Minh City)" />
+        </Form.Item>
+        <Form.Item
+          label="District"
+          name="district"
+          rules={[{ required: true, message: 'Please enter district' }]}
+        >
+          <Input placeholder="Enter district (e.g., District 1)" />
         </Form.Item>
         <Form.Item
           label="Phone Number"
@@ -59,37 +60,6 @@ const CreateAccountModal = ({ visible, onOk, onCancel, form, branches, error }) 
         >
           <Input placeholder="Enter phone number (e.g., 1234567890)" />
         </Form.Item>
-        <Form.Item
-          label="Role"
-          name="role"
-          rules={[{ required: true, message: 'Please select a role' }]}
-        >
-          <Select placeholder="Select a role">
-            <Option value={1}>Staff</Option>
-            <Option value={2}>Owner</Option>
-            <Option value={3}>Admin</Option>
-            <Option value={4}>Customer</Option>
-          </Select>
-        </Form.Item>
-        <Form.Item
-          label="Branch ID"
-          name="branchId"
-          rules={[{ required: true, message: 'Please select a branch' }]}
-        >
-          <Select placeholder="Select a branch">
-            {branches && branches.length > 0 ? (
-              branches.map((branch) => (
-                <Option key={branch.id} value={branch.id}>
-                  {branch.branchName || `Branch ${branch.id}`}
-                </Option>
-              ))
-            ) : (
-              <Option disabled value={null}>
-                No branches available
-              </Option>
-            )}
-          </Select>
-        </Form.Item>
         {error && (
           <div style={{ color: 'red', marginBottom: '10px' }}>
             {error}
@@ -100,4 +70,4 @@ const CreateAccountModal = ({ visible, onOk, onCancel, form, branches, error }) 
   );
 };
 
-export default CreateAccountModal;
+export default CreateBranchModal;
