@@ -1,10 +1,10 @@
-import { Link } from "react-router-dom";
-import "../../styles/ProductCard.css";
+import { Link } from 'react-router-dom'
+import '../../styles/ProductCard.css'
 
 const ProductCard = ({ product }) => {
   const handleDragStart = (e) => {
-    e.preventDefault(); // Ngăn chặn hành vi kéo mặc định của trình duyệt
-  };
+    e.preventDefault() // Ngăn chặn hành vi kéo mặc định của trình duyệt
+  }
 
   return (
     <div className="product-card">
@@ -25,7 +25,7 @@ const ProductCard = ({ product }) => {
         </Link>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProductCard;
+export default ProductCard
