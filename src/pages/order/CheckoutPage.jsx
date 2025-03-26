@@ -1,166 +1,185 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useCart } from '../../context/CartContext';
 import { useNavigate } from 'react-router-dom';
-import { getProductById } from '../../services/productService';
+import { createOrder } from '../../services/orderService';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const CartPage = () => {
+const CheckoutPage = () => {
   const {
-    cartItems,
-    selectedItems,
-    removeFromCart,
-    updateQuantity,
-    toggleSelectItem,
-    selectAllItems,
-    removeSelectedItems,
-    getTotalPrice
+    prepareCheckoutItems,
+    getTotalPrice,
+    paymentMethod,
+    setPaymentMethod,
+    clearSelectedItems
   } = useCart();
-
-  const [products, setProducts] = useState([]);
+  
+  const [checkoutItems, setCheckoutItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const loadProducts = async () => {
-      try {
-        const productsData = await Promise.all(
-          cartItems.map(async (item) => {
-            const productDetails = await getProductById(item.id);
-            return {
-              ...item,
-              ...productDetails
-            };
-          })
-        );
-        setProducts(productsData);
-      } catch (error) {
-        console.error('Error loading products:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  // Lấy thông tin user từ localStorage
+  const customerName = localStorage.getItem('userName') || 'Khách hàng';
 
-    if (cartItems.length > 0) {
-      loadProducts();
-    } else {
+  useEffect(() => {
+    const items = prepareCheckoutItems();
+    if (items.length === 0) {
+      toast.warning('Vui lòng chọn sản phẩm trước khi thanh toán', {
+        autoClose: 2000
+      });
+      navigate('/cart');
+    }
+    setCheckoutItems(items);
+  }, []);
+
+  const handlePlaceOrder = async () => {
+    try {
+      setLoading(true);
+      
+      const orderData = {
+        customerName,
+        paymentMethod,
+        orderType: 'online', // Có thể điều chỉnh theo nhu cầu
+        orderDetails: checkoutItems.map(item => ({
+          productId: item.id,
+          quantity: item.quantity,
+          unitPrice: item.price,
+          comboId: 0, // Mặc định là 0 nếu không có combo
+          orderToppings: [] // Mảng rỗng nếu không có topping
+        }))
+      };
+
+      const response = await createOrder(orderData);
+      
+      if (response.id) {
+        toast.success('🎉 Đặt hàng thành công! Cảm ơn bạn đã mua sắm', {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+        
+        clearSelectedItems();
+        setTimeout(() => {
+          navigate('/');
+        }, 3000);
+      }
+    } catch (error) {
+      console.error('Order error:', error);
+      toast.error(`😢 Đặt hàng thất bại: ${error.message}`, {
+        position: "top-center",
+        autoClose: 5000,
+      });
+    } finally {
       setLoading(false);
     }
-  }, [cartItems]);
-
-  const handleCheckout = () => {
-    if (selectedItems.length === 0) {
-      alert('Vui lòng chọn ít nhất 1 sản phẩm');
-      return;
-    }
-    navigate('/checkout');
   };
 
-  if (loading) {
-    return <div className="text-center py-10">Loading...</div>;
-  }
-
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-6">Giỏ hàng của bạn</h1>
+    <div className="container mx-auto p-4 max-w-3xl">
+      <ToastContainer />
       
-      {products.length === 0 ? (
-        <div className="text-center py-10">
-          <p>Giỏ hàng của bạn đang trống</p>
+      <h1 className="text-2xl font-bold mb-6 text-center">THANH TOÁN</h1>
+      
+      <div className="bg-white rounded-lg shadow-md p-4 mb-6">
+        <h2 className="text-lg font-semibold mb-3">Thông tin khách hàng</h2>
+        <div className="p-3 bg-gray-50 rounded">
+          <p className="font-medium">Tên: {customerName}</p>
         </div>
-      ) : (
-        <>
-          <div className="bg-white rounded-lg shadow-md p-4 mb-4">
-            <div className="flex items-center mb-4">
-              <input
-                type="checkbox"
-                checked={selectedItems.length === cartItems.length && cartItems.length > 0}
-                onChange={selectAllItems}
-                className="mr-2 h-5 w-5"
+      </div>
+
+      <div className="bg-white rounded-lg shadow-md p-4 mb-6">
+        <h2 className="text-lg font-semibold mb-3">Sản phẩm đặt mua</h2>
+        <div className="divide-y divide-gray-200">
+          {checkoutItems.map(item => (
+            <div key={item.id} className="flex py-4">
+              <img 
+                src={item.imageUrl || '/placeholder-product.jpg'} 
+                alt={item.name} 
+                className="w-16 h-16 object-cover rounded mr-4"
               />
-              <span className="font-medium">Chọn tất cả ({cartItems.length})</span>
-              <button 
-                onClick={removeSelectedItems}
-                className="ml-4 text-red-500 hover:text-red-700"
-              >
-                Xóa
-              </button>
-            </div>
-
-            <div className="divide-y divide-gray-200">
-              {products.map((product) => (
-                <div key={product.id} className="py-4 flex items-start">
-                  <div className="flex items-center mr-4">
-                    <input
-                      type="checkbox"
-                      checked={selectedItems.includes(product.id)}
-                      onChange={() => toggleSelectItem(product.id)}
-                      className="mr-2 h-5 w-5"
-                    />
-                    <img
-                      src={product.imageUrl || '/placeholder-product.jpg'}
-                      alt={product.name}
-                      className="w-20 h-20 object-cover rounded"
-                    />
-                  </div>
-
-                  <div className="flex-1">
-                    <h3 className="font-medium">{product.name}</h3>
-                    <p className="text-gray-500 text-sm">{product.description?.substring(0, 50)}...</p>
-                    <div className="mt-2">
-                      <span className="text-orange-500 font-bold">{product.price.toLocaleString()}đ</span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center">
-                    <div className="flex items-center border rounded">
-                      <button
-                        onClick={() => updateQuantity(product.id, product.quantity - 1)}
-                        className="px-2 py-1 hover:bg-gray-100"
-                      >
-                        -
-                      </button>
-                      <span className="px-2 w-8 text-center">{product.quantity}</span>
-                      <button
-                        onClick={() => updateQuantity(product.id, product.quantity + 1)}
-                        className="px-2 py-1 hover:bg-gray-100"
-                      >
-                        +
-                      </button>
-                    </div>
-                    <button
-                      onClick={() => removeFromCart(product.id)}
-                      className="ml-4 text-red-500 hover:text-red-700"
-                    >
-                      Xóa
-                    </button>
-                  </div>
+              <div className="flex-1">
+                <h3 className="font-medium">{item.name}</h3>
+                <div className="flex justify-between mt-2">
+                  <span className="text-gray-600">
+                    {item.price.toLocaleString()}đ × {item.quantity}
+                  </span>
+                  <span className="font-semibold">
+                    {(item.price * item.quantity).toLocaleString()}đ
+                  </span>
                 </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="bg-white rounded-lg shadow-md p-4 sticky bottom-0">
-            <div className="flex justify-between items-center">
-              <div>
-                <span className="font-medium">
-                  Tổng cộng ({selectedItems.length} sản phẩm): 
-                </span>
-                <span className="text-orange-500 font-bold ml-2">
-                  {getTotalPrice().toLocaleString()}đ
-                </span>
               </div>
-              <button 
-                onClick={handleCheckout}
-                className="bg-orange-500 text-white px-6 py-2 rounded hover:bg-orange-600 transition"
-                disabled={selectedItems.length === 0}
-              >
-                Mua hàng
-              </button>
             </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="bg-white rounded-lg shadow-md p-4 mb-6">
+        <h2 className="text-lg font-semibold mb-3">Phương thức thanh toán</h2>
+        <div className="space-y-3">
+          <div className="flex items-center p-3 border rounded hover:bg-gray-50">
+            <input
+              type="radio"
+              id="cod"
+              name="payment"
+              checked={paymentMethod === 'COD'}
+              onChange={() => setPaymentMethod('COD')}
+              className="h-4 w-4 text-orange-600 focus:ring-orange-500"
+            />
+            <label htmlFor="cod" className="ml-3 block">
+              <span className="font-medium">Thanh toán khi nhận hàng (COD)</span>
+            </label>
           </div>
-        </>
-      )}
+          
+          <div className="flex items-center p-3 border rounded hover:bg-gray-50">
+            <input
+              type="radio"
+              id="bank"
+              name="payment"
+              checked={paymentMethod === 'BANK_TRANSFER'}
+              onChange={() => setPaymentMethod('BANK_TRANSFER')}
+              className="h-4 w-4 text-orange-600 focus:ring-orange-500"
+            />
+            <label htmlFor="bank" className="ml-3 block">
+              <span className="font-medium">Chuyển khoản ngân hàng</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-white rounded-lg shadow-md p-4 mb-6">
+        <h2 className="text-lg font-semibold mb-3">Tổng thanh toán</h2>
+        <div className="flex justify-between font-bold text-lg">
+          <span>Tổng cộng:</span>
+          <span className="text-orange-600">{getTotalPrice().toLocaleString()}đ</span>
+        </div>
+      </div>
+
+      <div className="sticky bottom-0 bg-white shadow-lg p-4 rounded-t-lg">
+        <button
+          onClick={handlePlaceOrder}
+          disabled={loading}
+          className={`w-full py-3 rounded-lg font-bold text-white ${
+            loading ? 'bg-gray-400' : 'bg-orange-500 hover:bg-orange-600'
+          } transition-colors`}
+        >
+          {loading ? (
+            <span className="flex items-center justify-center">
+              <svg className="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Đang xử lý...
+            </span>
+          ) : (
+            'XÁC NHẬN ĐẶT HÀNG'
+          )}
+        </button>
+      </div>
     </div>
   );
 };
 
-export default CartPage;
+export default CheckoutPage;
