@@ -1,23 +1,23 @@
-import { Link } from "react-router-dom";
-import "../styles/Header.css";
-import { useNavigate } from "react-router-dom"; // Chỉ import useNavigate từ react-router-dom
-import { useEffect, useState } from "react"; // Import useEffect và useState từ react
-import breadLogo from "../assets/images/bread-logo.png";
-import { Link as ScrollLink } from "react-scroll";
-import ThemeToggle from "../components/common/ThemeToggle";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
-import UserAvatar from "../components/UserAvatar"; 
+import { Link } from 'react-router-dom'
+import '../styles/Header.css'
+import { useNavigate } from 'react-router-dom' // Chỉ import useNavigate từ react-router-dom
+import { useEffect, useState } from 'react' // Import useEffect và useState từ react
+import breadLogo from '../assets/images/bread-logo.png'
+import { Link as ScrollLink } from 'react-scroll'
+import ThemeToggle from '../components/common/ThemeToggle'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons'
+import UserAvatar from '../components/UserAvatar'
 
 const Header = () => {
-  const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Trạng thái đăng nhập
+  const navigate = useNavigate()
+  const [isLoggedIn, setIsLoggedIn] = useState(false) // Trạng thái đăng nhập
 
   // Kiểm tra trạng thái đăng nhập khi component mount
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    setIsLoggedIn(!!token); // Nếu có token, isLoggedIn = true
-  }, []);
+    const token = localStorage.getItem('token')
+    setIsLoggedIn(!!token) // Nếu có token, isLoggedIn = true
+  }, [])
 
   return (
     <header className="header">
@@ -37,7 +37,7 @@ const Header = () => {
               to="about-section"
               smooth={true}
               duration={500}
-              style={{ cursor: "pointer" }}
+              style={{ cursor: 'pointer' }}
             >
               Giới thiệu
             </ScrollLink>
@@ -47,20 +47,20 @@ const Header = () => {
               to="product-section"
               smooth={true}
               duration={500}
-              style={{ cursor: "pointer" }}
+              style={{ cursor: 'pointer' }}
             >
               Sản phẩm
             </ScrollLink>
           </li>
           <li>
-            <Link to="/dashboard">Combo</Link>
+            <Link to="/combo">Combo</Link>
           </li>
           <li>
             <ScrollLink
               to="contact-section"
               smooth={true}
               duration={500}
-              style={{ cursor: "pointer" }}
+              style={{ cursor: 'pointer' }}
             >
               Liên hệ
             </ScrollLink>
@@ -75,7 +75,7 @@ const Header = () => {
           size="lg"
           color="#d2a679"
           className="shopping-cart-icon"
-          onClick={() => navigate("/cart")}
+          onClick={() => navigate('/cart')}
         />
         <nav className="theme-toggle">
           <ThemeToggle />
@@ -89,7 +89,7 @@ const Header = () => {
         )}
       </div>
     </header>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header
