@@ -17,6 +17,10 @@ import Categories from "../pages/dashboard/Categories";
 import Ingredients from "../pages/dashboard/Ingredients";
 import Accounts from "../pages/dashboard/Accounts";
 import Branchs from "../pages/dashboard/Branchs";
+import ProductListCustomer from "../pages/products/ProductListCustomer";
+import ProductDetail from "../pages/products/ProductDetail";
+import ComboListCustomer from "../pages/combo/ComboListCustomer";
+import ComboDetail from "../pages/combo/ComboDetail";
 const AppRouter = () => {
   return (
     <AnimatePresence mode="wait">
@@ -38,6 +42,12 @@ const AppRouter = () => {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
 
+        <Route path="/products_list" element={<ProductListCustomer />} />
+        <Route path="/products/:id" element={<ProductDetail />} />
+        <Route>
+          <Route path="/combo" element={<ComboListCustomer />} />
+          <Route path="/combo/:id" element={<ComboDetail />} />
+        </Route>
         <Route
           path="/dashboard/*"
           element={
