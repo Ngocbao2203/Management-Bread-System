@@ -34,16 +34,6 @@ const Header = () => {
           </li>
           <li>
             <ScrollLink
-              to="about-section"
-              smooth={true}
-              duration={500}
-              style={{ cursor: "pointer" }}
-            >
-              Giới thiệu
-            </ScrollLink>
-          </li>
-          <li>
-            <ScrollLink
               to="product-section"
               smooth={true}
               duration={500}
