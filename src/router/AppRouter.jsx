@@ -17,6 +17,9 @@ import Categories from "../pages/dashboard/Categories";
 import Ingredients from "../pages/dashboard/Ingredients";
 import Accounts from "../pages/dashboard/Accounts";
 import Branchs from "../pages/dashboard/Branchs";
+import CartPage from "../pages/order/CartPage";
+import CheckoutPage from "../pages/order/CheckoutPage";
+
 const AppRouter = () => {
   return (
     <AnimatePresence mode="wait">
@@ -37,6 +40,8 @@ const AppRouter = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/cart" element={<CartPage/>} />
+        <Route path="/checkout" element={<CheckoutPage/>} />
 
         <Route
           path="/dashboard/*"
