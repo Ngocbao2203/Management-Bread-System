@@ -17,6 +17,7 @@ import Categories from "../pages/dashboard/Categories";
 import Ingredients from "../pages/dashboard/Ingredients";
 import Accounts from "../pages/dashboard/Accounts";
 import Branchs from "../pages/dashboard/Branchs";
+import Order from "../pages/dashboard/Order";
 import CartPage from "../pages/order/CartPage";
 import CheckoutPage from "../pages/order/CheckoutPage";
 
@@ -57,6 +58,7 @@ const AppRouter = () => {
           <Route path="ingredients" element={<Ingredients />} /> {/* /dashboard/ingredients */}
           <Route path="branchs" element={<Branchs />} /> 
           <Route path="accounts" element={<Accounts />} />
+          <Route path="orders" element={<Order />} />
         </Route>
       </Routes>
     </AnimatePresence>

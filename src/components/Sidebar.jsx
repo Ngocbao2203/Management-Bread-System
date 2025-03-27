@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,6 +10,7 @@ import {
   faUser,
   faProjectDiagram,
   faSignOutAlt,
+  faClipboardList,
 } from "@fortawesome/free-solid-svg-icons";
 import "../styles/Sidebar.css";
 
@@ -20,6 +22,7 @@ const iconMap = {
   Ingredients: faUtensils,
   Branchs: faProjectDiagram,
   Accounts: faUser,
+  Orders: faClipboardList,
 };
 
 // Ánh xạ menu với route
@@ -30,6 +33,7 @@ const routeMap = {
   Ingredients: "/dashboard/ingredients",
   Branchs: "/dashboard/branchs",
   Accounts : "/dashboard/accounts",
+  Orders: "/dashboard/orders",
 };
 
 const Sidebar = ({ setSelectedMenu, selectedMenu }) => {
@@ -50,6 +54,7 @@ const Sidebar = ({ setSelectedMenu, selectedMenu }) => {
       { title: "Products", items: [] },
       { title: "Branchs", items: [] },
       { title: "Accounts", items: []},
+      { title: "Orders", items: [] },
     ]);
     // Mở mặc định section "Quản lý sản phẩm" (index 1)
     setOpenSections({ 1: true });
