@@ -1,5 +1,5 @@
-// src/components/CreateBranchModal.jsx
-import React, { useEffect } from 'react';
+/* eslint-disable react/prop-types */
+import { useEffect } from 'react';
 import { Modal, Form, Input } from 'antd';
 import { toast } from 'react-toastify';
 
