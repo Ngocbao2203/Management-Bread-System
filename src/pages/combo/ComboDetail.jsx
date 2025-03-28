@@ -18,13 +18,10 @@ import {
   Tooltip,
   Alert,
   Result,
+  Checkbox,
 } from 'antd'
 import {
   ShoppingCartOutlined,
-  FacebookOutlined,
-  TwitterOutlined,
-  MailOutlined,
-  ShareAltOutlined,
   DownOutlined,
   TagsOutlined,
   ShoppingOutlined,
@@ -32,6 +29,7 @@ import {
   HeartOutlined,
   HeartFilled,
   ArrowLeftOutlined,
+  PlusOutlined,
 } from '@ant-design/icons'
 import Header from '../../components/Header'
 import '../../styles/ComboDetail.css'
@@ -49,10 +47,70 @@ const ComboDetail = () => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [favorite, setFavorite] = useState(false)
+  const [selectedToppings, setSelectedToppings] = useState([])
+  const [availableIngredients, setAvailableIngredients] = useState([])
+
+  // Extract unique ingredients from combo products
+  const extractIngredients = (comboData) => {
+    if (!comboData || !comboData.comboProducts) return []
+
+    const ingredients = []
+    const ingredientIds = new Set()
+
+    comboData.comboProducts.forEach((comboProduct) => {
+      if (comboProduct.product && comboProduct.product.productIngredients) {
+        comboProduct.product.productIngredients.forEach((productIngredient) => {
+          if (
+            productIngredient.ingredient &&
+            !ingredientIds.has(productIngredient.ingredient.id)
+          ) {
+            ingredientIds.add(productIngredient.ingredient.id)
+            ingredients.push({
+              id: productIngredient.ingredient.id,
+              name: productIngredient.ingredient.ingredientName,
+              price: productIngredient.ingredient.price,
+              unit: productIngredient.ingredient.unit,
+              quantity: productIngredient.quantity,
+            })
+          }
+        })
+      }
+    })
+
+    return ingredients
+  }
+
+  // Handle topping selection
+  const handleToppingChange = (toppingId) => {
+    setSelectedToppings((prev) => {
+      if (prev.includes(toppingId)) {
+        return prev.filter((id) => id !== toppingId)
+      } else {
+        return [...prev, toppingId]
+      }
+    })
+  }
+
+  // Calculate total price including toppings
+  const calculateTotalPrice = () => {
+    if (!combo) return 0
+
+    let total = combo.price * quantity
+
+    // Add topping prices
+    selectedToppings.forEach((toppingId) => {
+      const topping = availableIngredients.find((t) => t.id === toppingId)
+      if (topping) {
+        total += topping.price
+      }
+    })
+
+    return total
+  }
 
   // Add formatted price calculation
   const formattedPrice = combo
-    ? (combo.price * quantity).toLocaleString('vi-VN') + 'đ'
+    ? calculateTotalPrice().toLocaleString('vi-VN') + 'đ'
     : ''
 
   // Calculate total products in combo
@@ -69,14 +127,25 @@ const ComboDetail = () => {
   const handleAddToCart = () => {
     if (!combo) return
 
-    toast.success(`Đã thêm ${quantity} ${combo.name} vào giỏ hàng`, {
-      position: 'top-right',
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-    })
+    const selectedToppingNames = selectedToppings
+      .map((id) => availableIngredients.find((t) => t.id === id)?.name)
+      .filter(Boolean)
+
+    toast.success(
+      `Đã thêm ${quantity} ${combo.name} vào giỏ hàng${
+        selectedToppingNames.length > 0
+          ? ` với topping: ${selectedToppingNames.join(', ')}`
+          : ''
+      }`,
+      {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      }
+    )
   }
 
   const toggleFavorite = () => {
@@ -94,6 +163,11 @@ const ComboDetail = () => {
       try {
         const response = await getComboById(id)
         setCombo(response)
+
+        // Extract ingredients from the combo data
+        const ingredients = extractIngredients(response)
+        setAvailableIngredients(ingredients)
+
         console.log(response)
         setError(null)
       } catch (err) {
@@ -284,45 +358,54 @@ const ComboDetail = () => {
                                     className="quantity-badge"
                                   />
                                 </div>
-
-                                {item.product.productIngredients &&
-                                  item.product.productIngredients.length >
-                                    0 && (
-                                    <div className="ingredients-section">
-                                      <Text
-                                        type="secondary"
-                                        className="ingredients-title"
-                                      >
-                                        <InfoCircleOutlined /> Thành phần:
-                                      </Text>
-                                      <div className="ingredients-tags">
-                                        {item.product.productIngredients.map(
-                                          (ingredient, idx) => (
-                                            <Tooltip
-                                              title={`${ingredient.quantity} ${ingredient.ingredient.unit}`}
-                                              key={idx}
-                                            >
-                                              <Tag
-                                                color="blue"
-                                                className="ingredient-tag"
-                                              >
-                                                {
-                                                  ingredient.ingredient
-                                                    .ingredientName
-                                                }
-                                              </Tag>
-                                            </Tooltip>
-                                          )
-                                        )}
-                                      </div>
-                                    </div>
-                                  )}
                               </div>
                             </List.Item>
                           )}
                         />
                       </Panel>
                     </Collapse>
+
+                    {/* Add Topping Section */}
+                    {availableIngredients.length > 0 && (
+                      <>
+                        <Divider className="section-divider">
+                          <PlusOutlined /> Topping
+                        </Divider>
+
+                        <div className="topping-section">
+                          <div className="topping-options">
+                            {availableIngredients.map((ingredient) => (
+                              <div
+                                key={ingredient.id}
+                                className="topping-option"
+                              >
+                                <Checkbox
+                                  checked={selectedToppings.includes(
+                                    ingredient.id
+                                  )}
+                                  onChange={() =>
+                                    handleToppingChange(ingredient.id)
+                                  }
+                                >
+                                  <span className="topping-name">
+                                    {ingredient.name}
+                                  </span>
+                                  <span className="topping-price">
+                                    (+{ingredient.price.toLocaleString('vi-VN')}
+                                    đ)
+                                  </span>
+                                  <Tooltip
+                                    title={`${ingredient.quantity} ${ingredient.unit}`}
+                                  >
+                                    <InfoCircleOutlined className="topping-info-icon" />
+                                  </Tooltip>
+                                </Checkbox>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </>
+                    )}
 
                     <Divider className="section-divider" />
 
