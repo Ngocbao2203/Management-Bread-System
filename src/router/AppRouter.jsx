@@ -18,28 +18,16 @@ import Categories from "../pages/dashboard/Categories";
 import Ingredients from "../pages/dashboard/Ingredients";
 import Accounts from "../pages/dashboard/Accounts";
 import Branchs from "../pages/dashboard/Branchs";
-<<<<<<< HEAD
-<<<<<<< HEAD
-import Order from "../pages/dashboard/Order";
-import CartPage from "../pages/order/CartPage";
-import CheckoutPage from "../pages/order/CheckoutPage";
-
-=======
-=======
-import Order from "../pages/dashboard/Order";
-import CartPage from "../pages/order/CartPage";
-import CheckoutPage from "../pages/order/CheckoutPage";
->>>>>>> e017edb3cb5584c3679dc6170d3c67d43efc6972
 import ProductListCustomer from "../pages/products/ProductListCustomer";
 import ProductDetail from "../pages/products/ProductDetail";
 import ComboListCustomer from "../pages/combo/ComboListCustomer";
 import ComboDetail from "../pages/combo/ComboDetail";
-import ComboPage from '../pages/dashboard/Combos/ComboPage'
-<<<<<<< HEAD
->>>>>>> main
-=======
+import ComboPage from '../pages/dashboard/Combos/ComboPage';
+import Order from "../pages/dashboard/Order";
+import CartPage from "../pages/order/CartPage";
+import CheckoutPage from "../pages/order/CheckoutPage";
+import CreateOrderCounter from '../components/order/CreateOrderCounter';
 
->>>>>>> e017edb3cb5584c3679dc6170d3c67d43efc6972
 const AppRouter = () => {
   return (
     <AnimatePresence mode="wait">
@@ -83,21 +71,13 @@ const AppRouter = () => {
           <Route path="ingredients" element={<Ingredients />} />
           <Route path="branchs" element={<Branchs />} />
           <Route path="accounts" element={<Accounts />} />
-<<<<<<< HEAD
-<<<<<<< HEAD
-          <Route path="orders" element={<Order />} />
-=======
           <Route path="combos" element={<ComboPage />} />
->>>>>>> main
-=======
           <Route path="orders" element={<Order />} />
-          <Route path="combos" element={<ComboPage />} />
-
->>>>>>> e017edb3cb5584c3679dc6170d3c67d43efc6972
+          <Route path='order-counter' element={<CreateOrderCounter/>} />
         </Route>
       </Routes>
     </AnimatePresence>
   )
 }
 
-export default AppRouter
+export default AppRouter;

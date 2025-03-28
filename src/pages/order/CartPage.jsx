@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { CartContext } from "../contexts/CartContext";
+import { CartContext } from "../../context/CartContext";
 import { useNavigate } from "react-router-dom";
 import { Button, Card, CardContent, Typography, IconButton, Checkbox, Box } from "@mui/material";
 import { Add, Remove, Delete } from "@mui/icons-material";

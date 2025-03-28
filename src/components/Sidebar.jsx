@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -123,7 +124,8 @@ const Sidebar = ({ setSelectedMenu, selectedMenu }) => {
                   section.title === 'Ingredients' ||
                   section.title === 'Combos' ||
                   section.title === 'Branchs' ||
-                  section.title === 'Accounts'
+                  section.title === 'Accounts' ||
+                  section.title === ' Orders'
                 ) {
                   handleMenuClick(section.title)
                 } else {

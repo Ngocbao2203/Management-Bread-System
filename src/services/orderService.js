@@ -63,11 +63,12 @@ export const createOrder = async (orderData) => {
             customerName: orderData.customerName.trim(),
             paymentMethod: orderData.paymentMethod,
             orderType: orderData.orderType,
+            branchId: orderData.branchId || 1, // Đảm bảo branchId luôn có giá trị
             orderDetails: orderData.orderDetails.map(detail => ({
-                productId: detail.productId || 0,
+                productId: detail.productId ? parseInt(detail.productId) : null,  // Đảm bảo `null` nếu không có
+                comboId: detail.comboId ? parseInt(detail.comboId) : null,       // Đảm bảo `null` nếu không có
                 quantity: detail.quantity || 0,
                 unitPrice: detail.unitPrice || 0,
-                comboId: detail.comboId || 0,
                 orderToppings: (detail.orderToppings || []).map(topping => ({
                     ingredientId: topping.ingredientId || 0,
                     quantity: topping.quantity || 0
@@ -107,6 +108,7 @@ export const createOrder = async (orderData) => {
         throw new Error(errorMessage);
     }
 };
+
 
 export const updateOrderStatus = async (id, statusData) => {
     try {
