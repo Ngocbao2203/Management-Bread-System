@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { Row, Col, Card, Button, InputNumber, Typography, Carousel, Skeleton, Alert, Badge, Image, Divider, Tag, Rate } from 'antd'
+import { Row, Col, Card, Button, InputNumber, Typography, Skeleton, Alert, Badge, Image, Divider, Tag } from 'antd'
 import {
   ShoppingCartOutlined,
   FacebookOutlined,
@@ -18,37 +18,6 @@ import { toast } from 'react-toastify'
 
 const { Title, Text, Paragraph } = Typography
 
-// Mock danh sách sản phẩm liên quan
-const relatedProducts = [
-  {
-    id: 2,
-    name: 'Tropicoco',
-    price: '470.000đ',
-    image:
-      'https://breadtalkvietnam.com/wp-content/uploads/2024/11/Banh-kem-update_tropicoco-1024x1024.png',
-  },
-  {
-    id: 3,
-    name: 'Cream Chez Garlic Bread',
-    price: '390.000đ',
-    image:
-      'https://breadtalkvietnam.com/wp-content/uploads/2024/11/Banh-kem-update_blueberry-1024x1024.png',
-  },
-  {
-    id: 4,
-    name: 'Berry Rhapsody R',
-    price: '420.000đ',
-    image:
-      'https://breadtalkvietnam.com/wp-content/uploads/2024/11/Banh-kem-update_BERRY-RHAPSODY-1024x1024.png',
-  },
-  {
-    id: 5,
-    name: 'Les Opera R',
-    price: '690.000đ',
-    image:
-      'https://breadtalkvietnam.com/wp-content/uploads/2024/11/Banh-kem-update_Mocha-Choco-C.png',
-  },
-]
 
 const ProductDetail = () => {
   const { id } = useParams()
@@ -269,40 +238,6 @@ const ProductDetail = () => {
           </Card>
         ) : null}
 
-        {/* Sản phẩm liên quan */}
-        <div className="related-products">
-          <Title level={3} className="related-title">
-            CÁC SẢN PHẨM KHÁC
-          </Title>
-          <Row gutter={[16, 16]} justify="center">
-            {relatedProducts.map((product) => (
-              <Col key={product.id} xs={12} sm={8} md={6} lg={5}>
-                <Card
-                  hoverable
-                  cover={<img alt={product.name} src={product.image} />}
-                  actions={[
-                    <Button
-                      style={{
-                        backgroundColor: '#ff9800',
-                        color: '#fff',
-                        borderColor: '#ff9800',
-                      }}
-                    >
-                      Thêm vào giỏ hàng
-                    </Button>,
-                  ]}
-                >
-                  <Card.Meta
-                    title={product.name}
-                    description={
-                      <span className="product-price">{product.price}</span>
-                    }
-                  />
-                </Card>
-              </Col>
-            ))}
-          </Row>
-        </div>
       </div>
     </div>
   )
