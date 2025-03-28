@@ -1,116 +1,326 @@
+/* Main container styles */
+.page-container {
+  background-color: #f8f9fa;
+  min-height: 100vh;
+}
+
 .combo-container {
-  width: 80%;
+  padding: 30px 20px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 30px 0;
+}
+
+.combo-header {
   text-align: center;
+  margin-bottom: 40px;
 }
 
 .combo-title {
-  font-size: 26px;
-  margin-bottom: 25px;
+  color: #d4380d;
+  margin-bottom: 10px !important;
+  position: relative;
+  display: inline-block;
+}
+
+.combo-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background-color: #d4380d;
+  border-radius: 3px;
+}
+
+.combo-subtitle {
+  color: #666;
+  max-width: 600px;
+  margin: 20px auto 0 !important;
+}
+
+/* Card styles */
+.combo-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.combo-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* Image container styles */
+.combo-image-container {
+  position: relative;
+  overflow: hidden;
+  height: 200px;
+}
+
+.combo-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.combo-card:hover .combo-image {
+  transform: scale(1.05);
+}
+
+.combo-badges {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.product-count-badge {
+  background-color: #52c41a !important;
+}
+
+.product-count-badge .ant-badge-count {
+  box-shadow: 0 0 0 2px #ffffff;
   font-weight: bold;
 }
 
-.combo-card {
+.premium-badge {
+  background-color: #faad14;
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Content styles */
+.combo-content {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-  text-align: center;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  padding: 12px;
-  transition: transform 0.3s ease-in-out;
+  flex-grow: 1;
+  padding: 16px;
 }
 
-.combo-card:hover {
-  transform: scale(1.03);
-}
-
-/* Ảnh combo */
-.combo-image {
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
-  border-radius: 10px;
-  margin-bottom: 10px;
-}
-
-
-.combo-card {
+.combo-header-content {
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
-  height: 100%;
-  text-align: center;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  padding: 12px;
-  transition: transform 0.3s ease-in-out;
+  align-items: flex-start;
+  margin-bottom: 8px;
 }
 
-
-.combo-card:hover {
-  transform: scale(1.03);
-}
-
-/* Ảnh combo */
-.combo-image {
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
-  border-radius: 10px;
-  margin-bottom: 10px;
-}
 .combo-name {
-  font-size: 16px; /* ✅ Giảm nhẹ để đỡ xuống dòng */
-  font-weight: 600;
-  white-space: nowrap; /* ✅ Không xuống dòng */
+  margin: 0 !important;
+  color: #262626;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 70%;
+}
+
+.combo-price {
+  font-weight: bold;
+  font-size: 18px;
+  color: #f5222d;
+  background-color: #fff1f0;
+  padding: 2px 8px;
+  border-radius: 12px;
+  border: 1px solid #ffccc7;
 }
 
 .combo-description {
-  font-size: 12px;
-  color: #555;
-  height: 40px; /* ✅ Giữ mô tả cao 2 dòng để đều layout */
-  line-height: 1.4;
-  overflow: hidden;
-}
-
-
-
-.combo-items ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.combo-items li {
-  font-size: 12px;
-  color: #444;
-  margin-bottom: 3px;
-}
-
-/* Nút */
-.add-to-cart-button {
-  width: 100%;
-  background-color: #ff9800;
-  color: white;
-  font-weight: bold;
-  border: none;
+  color: #666;
+  margin-bottom: 16px !important;
   font-size: 14px;
-  padding: 8px;
-  margin-top: 10px;
-  border-radius: 6px;
+}
+
+.combo-divider {
+  margin: 12px 0 !important;
+  color: #8c8c8c;
+  font-size: 14px;
+}
+
+/* Products list styles */
+.combo-items {
+  margin-top: 8px;
+  flex-grow: 1;
+}
+
+.combo-products-list {
+  padding-left: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+.product-item {
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed #f0f0f0;
+}
+
+.product-item:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.product-name-quantity {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.product-name {
+  font-weight: 500;
+  color: #262626;
+}
+
+.quantity-badge {
+  background-color: #1890ff !important;
+}
+
+.quantity-badge .ant-badge-count {
+  font-size: 12px !important;
+  height: auto !important;
+  line-height: 1.5 !important;
+  padding: 2px 6px !important;
+}
+
+.product-ingredients {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.product-ingredients .ant-tag {
+  margin-right: 0;
+  font-size: 11px;
+  padding: 0 6px;
+  border-radius: 10px;
+}
+
+/* Footer styles */
+.combo-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.detail-button {
+  transition: all 0.3s;
+}
+
+.detail-button:hover {
+  color: #1890ff;
+  background-color: #e6f7ff;
+  border-color: #1890ff;
+}
+
+.add-to-cart-button {
+  border-radius: 20px;
+  height: 36px;
+  padding: 0 16px;
+  font-weight: 500;
+  background: linear-gradient(45deg, #ff4d4f, #ff7a45);
+  border: none;
+  box-shadow: 0 2px 6px rgba(255, 77, 79, 0.4);
+  transition: all 0.3s;
 }
 
 .add-to-cart-button:hover {
-  background-color: #e68900;
+  background: linear-gradient(45deg, #ff7a45, #ff4d4f);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(255, 77, 79, 0.5);
+}
+
+/* Loading and error styles */
+.loading-container,
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+  width: 100%;
+}
+
+.loading-spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #1890ff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.error-icon {
+  font-size: 40px;
+  color: #ff4d4f;
+  margin-bottom: 16px;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin: 30px 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .combo-container {
+    padding: 20px 12px;
+  }
+
+  .combo-header {
+    margin-bottom: 24px;
+  }
+
+  .combo-image-container {
+    height: 180px;
+  }
+}
+
+@media (max-width: 576px) {
+  .combo-title {
+    font-size: 24px !important;
+  }
+
+  .combo-subtitle {
+    font-size: 14px;
+  }
+
+  .combo-name {
+    font-size: 16px !important;
+  }
+
+  .combo-price {
+    font-size: 16px;
+  }
 }
