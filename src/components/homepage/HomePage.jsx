@@ -1,7 +1,8 @@
 import MainLayout from "../../layouts/MainLayout";
 import Banner from "../homepage/Banner";
 import FeaturedProducts from "./FeaturedProducts";
-import AboutSection from "../../pages/home/AboutSection"; 
+import AboutSection from "../../pages/home/AboutSection";
+import { Element } from "react-scroll";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
@@ -49,7 +50,9 @@ const HomePage = () => {
         <Banner />
       </motion.div>
 
+      <Element name="about-section">
         <AboutSection />
+      </Element>
       
       <motion.div
         ref={featuredProductsRef} // Gắn ref vào phần tử
