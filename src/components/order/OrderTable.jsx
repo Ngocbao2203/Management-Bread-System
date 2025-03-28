@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-import { DataGrid } from "@mui/x-data-grid";
-import { Button, MenuItem, Select, Box } from "@mui/material";
+import { Table, Button, Select, Space } from "antd";
 import { updateOrderStatus } from "../../services/orderService";
 
 const OrderTable = ({ orders, reloadOrders }) => {
@@ -26,40 +25,68 @@ const OrderTable = ({ orders, reloadOrders }) => {
   };
 
   const columns = [
-    { field: "id", headerName: "ID", width: 90 },
-    { field: "customer", headerName: "Khách hàng", width: 150 },
-    { field: "total", headerName: "Tổng tiền", width: 120 },
     {
-      field: "status",
-      headerName: "Trạng thái",
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
+      width: 90,
+    },
+    {
+      title: "Khách hàng",
+      dataIndex: "customer",
+      key: "customer",
+      width: 150,
+    },
+    {
+      title: "Tổng tiền",
+      dataIndex: "total",
+      key: "total",
+      width: 120,
+    },
+    {
+      title: "Trạng thái",
+      key: "status",
       width: 200,
-      renderCell: (params) => (
-        <Box display="flex" alignItems="center" gap={1}>
+      render: (_, record) => (
+        <Space>
           <Select
-            value={statusUpdates[params.row.id] || params.row.status}
-            onChange={(e) => handleStatusChange(params.row.id, e.target.value)}
+            value={statusUpdates[record.id] || record.status}
+            onChange={(value) => handleStatusChange(record.id, value)}
+            style={{ width: 120 }}
             size="small"
           >
-            <MenuItem value="Pending">Pending</MenuItem>
-            <MenuItem value="Processing">Processing</MenuItem>
-            <MenuItem value="Completed">Completed</MenuItem>
-            <MenuItem value="Cancelled">Cancelled</MenuItem>
+            <Select.Option value="Pending">Pending</Select.Option>
+            <Select.Option value="Processing">Processing</Select.Option>
+            <Select.Option value="Completed">Completed</Select.Option>
+            <Select.Option value="Cancelled">Cancelled</Select.Option>
           </Select>
           <Button
-            variant="contained"
-            color="primary"
+            type="primary"
             size="small"
-            onClick={() => handleUpdateStatus(params.row.id)}
-            disabled={!statusUpdates[params.row.id] || statusUpdates[params.row.id] === params.row.status}
+            onClick={() => handleUpdateStatus(record.id)}
+            disabled={
+              !statusUpdates[record.id] || 
+              statusUpdates[record.id] === record.status
+            }
           >
             Update Status
           </Button>
-        </Box>
+        </Space>
       ),
     },
   ];
 
-  return <DataGrid rows={orders} columns={columns} pageSize={5} autoHeight />;
+  return (
+    <Table
+      dataSource={orders}
+      columns={columns}
+      pagination={{ pageSize: 5 }}
+      scroll={{ y: "calc(100vh - 300px)" }}
+      rowKey="id"
+      bordered
+      size="small"
+    />
+  );
 };
 
 export default OrderTable;

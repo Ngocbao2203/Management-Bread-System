@@ -3,9 +3,38 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { createOrder } from "../../services/orderService";
 import Loading from "../../components/common/Loading";
-import {
-  Card, CardContent, Typography, Button, Stack, List, ListItem, ListItemText, Divider
-} from "@mui/material";
+import { Card, Button, List, Typography, Divider, Space } from "antd";
+import styled from "styled-components";
+
+const { Text, Title } = Typography;
+
+// Styled components để giữ giao diện giống MUI
+const MuiStyleCard = styled(Card)`
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  .ant-card-body {
+    padding: 24px;
+  }
+`;
+
+const MuiStyleButton = styled(Button)`
+  &.ant-btn {
+    border-radius: 4px;
+    font-weight: 500;
+    text-transform: none;
+    box-shadow: none;
+  }
+`;
+
+const PrimaryButton = styled(MuiStyleButton)`
+  &.ant-btn {
+    background-color: #1976d2;
+    color: white;
+    &:hover {
+      background-color: #1565c0;
+    }
+  }
+`;
 
 const formatCurrency = (amount) => {
   return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(amount);
@@ -44,14 +73,14 @@ const CheckoutPage = () => {
         customerName,
         paymentMethod: "cash",
         orderType: "online",
-        branchId: 1, // Nên lấy từ state hoặc context nếu có
+        branchId: 1,
         orderDetails
       };
   
       await createOrder(orderData);
       localStorage.removeItem("checkoutItems");
       toast.success("🎉 Đặt hàng thành công!", { position: "top-center", autoClose: 3000 });
-      navigate("/order-success"); // Chuyển đến trang xác nhận
+      navigate("/order-success");
     } catch (error) {
       toast.error(`😢 Đặt hàng thất bại: ${error?.message || "Lỗi không xác định"}`, { 
         position: "top-center", 
@@ -69,51 +98,49 @@ const CheckoutPage = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-5">
-      <Card sx={{ p: 3 }}>
-        <CardContent>
-          <Typography variant="h4" gutterBottom>Thanh toán</Typography>
-          {loading && <Loading />}
+    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '20px' }}>
+      <MuiStyleCard>
+        <Title level={2} style={{ marginBottom: 24 }}>Thanh toán</Title>
+        {loading && <Loading />}
 
-          <List sx={{ mb: 2 }}>
-            {checkoutItems.map((item, index) => (
-              <div key={index}>
-                <ListItem>
-                  <ListItemText
-                    primary={`${item.name} (${item.quantity} x ${formatCurrency(item.price)})`}
-                    secondary={`Tổng: ${formatCurrency(item.price * item.quantity)}`}
-                  />
-                </ListItem>
-                <Divider />
+        <List
+          dataSource={checkoutItems}
+          renderItem={(item, index) => (
+            <List.Item key={index}>
+              <div style={{ width: '100%' }}>
+                <Text strong>{`${item.name} (${item.quantity} x ${formatCurrency(item.price)})`}</Text>
+                <br />
+                <Text type="secondary">{`Tổng: ${formatCurrency(item.price * item.quantity)}`}</Text>
+                {index < checkoutItems.length - 1 && <Divider />}
               </div>
-            ))}
-          </List>
+            </List.Item>
+          )}
+          style={{ marginBottom: 24 }}
+        />
 
-          <Typography variant="h6" align="right" sx={{ mb: 2 }}>
-            Tổng cộng: {formatCurrency(totalAmount)}
-          </Typography>
+        <Title level={4} style={{ textAlign: 'right', marginBottom: 24 }}>
+          Tổng cộng: {formatCurrency(totalAmount)}
+        </Title>
 
-          <Stack direction="row" spacing={2} sx={{ mt: 3 }}>
-            <Button
-              onClick={handlePlaceOrder}
-              disabled={loading || checkoutItems.length === 0}
-              variant="contained"
-              color="primary"
-              fullWidth
-            >
-              {loading ? "Đang xử lý..." : "Đặt hàng"}
-            </Button>
-            <Button
-              onClick={handleCancelOrder}
-              variant="outlined"
-              color="error"
-              fullWidth
-            >
-              Hủy
-            </Button>
-          </Stack>
-        </CardContent>
-      </Card>
+        <Space size={16} style={{ width: '100%', marginTop: 24 }}>
+          <PrimaryButton
+            onClick={handlePlaceOrder}
+            disabled={loading || checkoutItems.length === 0}
+            block
+            size="large"
+          >
+            {loading ? "Đang xử lý..." : "Đặt hàng"}
+          </PrimaryButton>
+          <Button
+            onClick={handleCancelOrder}
+            block
+            size="large"
+            style={{ borderColor: '#dc3545', color: '#dc3545' }}
+          >
+            Hủy
+          </Button>
+        </Space>
+      </MuiStyleCard>
     </div>
   );
 };

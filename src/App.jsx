@@ -4,7 +4,7 @@ import { ThemeProvider } from './context/ThemeContext' // Import ThemeProvider
 import AOS from 'aos' // Import AOS
 import 'aos/dist/aos.css' // Import CSS của AOS
 import './styles/ThemeToggle.css' // Import CSS của bạn
-import { CartContext } from './context/CartContext'
+import { CartProvider } from './context/CartContext'
 
 function App() {
   // Khởi tạo AOS khi component được mount
@@ -17,9 +17,9 @@ function App() {
 
   return (
     <ThemeProvider>
-      <CartContext>
+      <CartProvider>
         <AppRouter />
-      </CartContext>
+      </CartProvider>
     </ThemeProvider>
   )
 }

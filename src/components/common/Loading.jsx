@@ -1,28 +1,38 @@
-import { CircularProgress, Box, Typography } from '@mui/material';
+import { Spin, Typography } from 'antd';
+import styled from 'styled-components';
+
+const { Text } = Typography;
+
+// Styled component để giữ giao diện giống MUI
+const LoadingContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.7);
+  z-index: 9999;
+`;
+
+const StyledSpin = styled(Spin)`
+  .ant-spin-dot-item {
+    background-color: #1976d2; /* Màu primary giống MUI */
+  }
+`;
 
 const Loading = () => {
   return (
-    <Box 
-      display="flex" 
-      flexDirection="column" 
-      alignItems="center" 
-      justifyContent="center" 
-      minHeight="100px"
-      sx={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: 'rgba(255, 255, 255, 0.7)',
-        zIndex: 9999
-      }}
-    >
-      <CircularProgress color="primary" size={60} thickness={4} />
-      <Typography variant="body1" mt={2} color="textSecondary">
+    <LoadingContainer>
+      <StyledSpin size="large" />
+      <Text type="secondary" style={{ marginTop: 16 }}>
         Đang tải...
-      </Typography>
-    </Box>
+      </Text>
+    </LoadingContainer>
   );
 };
 

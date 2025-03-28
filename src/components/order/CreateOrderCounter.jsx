@@ -1,35 +1,85 @@
-import React, { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { 
-  Box, 
   Grid, 
-  Typography, 
-  Button, 
-  TextField, 
-  Tabs, 
-  Tab, 
-  Card, 
-  CardContent, 
-  CardMedia, 
-  IconButton, 
-  List, 
-  ListItem, 
-  ListItemText, 
-  ListItemSecondaryAction,
-  Divider,
-  Paper,
-  Chip
-} from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import RemoveIcon from '@mui/icons-material/Remove';
-import DeleteIcon from '@mui/icons-material/Delete';
+  Button,
+  Card,
+  Typography,
+  Tabs,
+  Input,
+  List,
+  Tag
+} from 'antd';
+import { 
+  PlusOutlined, 
+  MinusOutlined, 
+  DeleteOutlined 
+} from '@ant-design/icons';
+import styled from 'styled-components';
 import { CartContext } from '../../context/CartContext';
-import { getProductList} from '../../services/productService';
-import { getComboList} from '../../services/conboService';
+import { getProductList } from '../../services/productService';
+import { getComboList } from '../../services/conboService';
 import { createOrder } from '../../services/orderService';
 import { toast } from 'react-toastify';
 
+const { TabPane } = Tabs;
+const { Text } = Typography;
+
+// Styled components
+const StyledContainer = styled.div`
+  padding: 16px;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+`;
+
+const StyledPaper = styled.div`
+  background: white;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  height: 100%;
+`;
+
+const StyledCard = styled(Card)`
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  
+  .ant-card-body {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+`;
+
+const ProductImage = styled.img`
+  height: 140px;
+  object-fit: cover;
+  width: 100%;
+`;
+
+const AddButton = styled(Button)`
+  background-color: #ff5722;
+  border-color: #ff5722;
+  color: white;
+  
+  &:hover {
+    background-color: #e64a19;
+    border-color: #e64a19;
+    color: white;
+  }
+`;
+
+const TotalBox = styled.div`
+  background-color: #f5f5f5;
+  padding: 16px;
+  border-radius: 4px;
+  margin-top: 16px;
+`;
+
 const CreateOrderCounter = () => {
-  const [activeTab, setActiveTab] = useState(0);
+  const [activeTab, setActiveTab] = useState('1');
   const [products, setProducts] = useState([]);
   const [combos, setCombos] = useState([]);
   const [customerName, setCustomerName] = useState('');
@@ -61,8 +111,8 @@ const CreateOrderCounter = () => {
     fetchCombos();
   }, []);
 
-  const handleTabChange = (event, newValue) => {
-    setActiveTab(newValue);
+  const handleTabChange = (key) => {
+    setActiveTab(key);
   };
 
   const handleAddItem = (item, type) => {
@@ -150,299 +200,247 @@ const CreateOrderCounter = () => {
   };
 
   return (
-    <Box sx={{ p: 2, backgroundColor: '#f5f5f5', minHeight: '100vh' }}>
-      <Typography variant="h4" gutterBottom sx={{ 
-        fontWeight: 'bold', 
-        color: 'primary.main',
-        textAlign: 'center',
-        mb: 3
-      }}>
+    <StyledContainer>
+      <Typography.Title 
+        level={2} 
+        style={{ 
+          fontWeight: 'bold', 
+          color: '#1890ff',
+          textAlign: 'center',
+          marginBottom: 24
+        }}
+      >
         ORDER COUNTER
-      </Typography>
+      </Typography.Title>
       
-      <Grid container spacing={2}>
+      <Grid container spacing={16}>
         {/* Left Side - Product/Combo Selection */}
-        <Grid item xs={12} md={8}>
-          <Paper elevation={3} sx={{ p: 2, height: '100%' }}>
-            <Tabs value={activeTab} onChange={handleTabChange} centered>
-              <Tab label="Sản phẩm" />
-              <Tab label="Combo" />
-            </Tabs>
-            
-            <Box sx={{ mt: 2, maxHeight: '75vh', overflow: 'auto' }}>
-              {activeTab === 0 ? (
-                <Grid container spacing={2}>
+        <Grid item xs={24} md={16}>
+          <StyledPaper>
+            <Tabs 
+              activeKey={activeTab} 
+              onChange={handleTabChange} 
+              centered
+            >
+              <TabPane tab="Sản phẩm" key="1">
+                <Grid container spacing={16} style={{ marginTop: 16, maxHeight: '75vh', overflow: 'auto' }}>
                   {products.map(product => (
-                    <Grid item xs={12} sm={6} md={4} key={`product-${product.id}`}>
-                      <Card sx={{ 
-                        height: '100%', 
-                        display: 'flex', 
-                        flexDirection: 'column',
-                        border: '1px solid #e0e0e0',
-                        borderRadius: '8px'
-                      }}>
-                        <CardMedia
-                          component="img"
-                          height="140"
-                          image={product.imageUrl || '/placeholder-product.jpg'}
-                          alt={product.name}
-                          sx={{ objectFit: 'cover' }}
-                        />
-                        <CardContent sx={{ flexGrow: 1 }}>
-                          <Typography 
-                            gutterBottom 
-                            variant="subtitle1" 
-                            component="div"
-                            sx={{ 
-                              fontWeight: 'bold',
-                              color: 'primary.dark'
-                            }}
-                          >
-                            {product.name}
-                          </Typography>
-                          <Typography 
-                            variant="h6" 
-                            color="primary" 
-                            sx={{ fontWeight: 'bold' }}
-                          >
-                            {formatCurrency(product.price)}
-                          </Typography>
-                        </CardContent>
-                        <Box sx={{ display: 'flex', justifyContent: 'center', pb: 2 }}>
-                          <Button 
-                            variant="contained" 
+                    <Grid item xs={24} sm={12} md={8} key={`product-${product.id}`}>
+                      <StyledCard
+                        cover={
+                          <ProductImage
+                            alt={product.name}
+                            src={product.imageUrl || '/placeholder-product.jpg'}
+                          />
+                        }
+                      >
+                        <Typography.Text 
+                          strong
+                          style={{ 
+                            color: '#1890ff',
+                            marginBottom: 8,
+                            display: 'block'
+                          }}
+                        >
+                          {product.name}
+                        </Typography.Text>
+                        <Typography.Text 
+                          strong
+                          style={{ 
+                            color: '#1890ff',
+                            fontSize: 16
+                          }}
+                        >
+                          {formatCurrency(product.price)}
+                        </Typography.Text>
+                        <div style={{ marginTop: 'auto', textAlign: 'center', paddingBottom: 16 }}>
+                          <AddButton 
                             size="small"
-                            startIcon={<AddIcon />}
+                            icon={<PlusOutlined />}
                             onClick={() => handleAddItem(product, 'product')}
-                            sx={{
-                              backgroundColor: '#ff5722',
-                              '&:hover': { backgroundColor: '#e64a19' }
-                            }}
                           >
                             Thêm
-                          </Button>
-                        </Box>
-                      </Card>
+                          </AddButton>
+                        </div>
+                      </StyledCard>
                     </Grid>
                   ))}
                 </Grid>
-              ) : (
-                <Grid container spacing={2}>
+              </TabPane>
+              <TabPane tab="Combo" key="2">
+                <Grid container spacing={16} style={{ marginTop: 16, maxHeight: '75vh', overflow: 'auto' }}>
                   {combos.map(combo => (
-                    <Grid item xs={12} sm={6} md={4} key={`combo-${combo.id}`}>
-                      <Card sx={{ 
-                        height: '100%', 
-                        display: 'flex', 
-                        flexDirection: 'column',
-                        border: '1px solid #e0e0e0',
-                        borderRadius: '8px'
-                      }}>
-                        <CardMedia
-                          component="img"
-                          height="140"
-                          image={combo.imageUrl || '/placeholder-combo.jpg'}
-                          alt={combo.name}
-                          sx={{ objectFit: 'cover' }}
-                        />
-                        <CardContent sx={{ flexGrow: 1 }}>
-                          <Typography 
-                            gutterBottom 
-                            variant="subtitle1" 
-                            component="div"
-                            sx={{ 
-                              fontWeight: 'bold',
-                              color: 'primary.dark'
-                            }}
-                          >
-                            {combo.name}
-                          </Typography>
-                          <Typography 
-                            variant="h6" 
-                            color="primary" 
-                            sx={{ fontWeight: 'bold' }}
-                          >
-                            {formatCurrency(combo.price)}
-                          </Typography>
-                        </CardContent>
-                        <Box sx={{ display: 'flex', justifyContent: 'center', pb: 2 }}>
-                          <Button 
-                            variant="contained" 
+                    <Grid item xs={24} sm={12} md={8} key={`combo-${combo.id}`}>
+                      <StyledCard
+                        cover={
+                          <ProductImage
+                            alt={combo.name}
+                            src={combo.imageUrl || '/placeholder-combo.jpg'}
+                          />
+                        }
+                      >
+                        <Typography.Text 
+                          strong
+                          style={{ 
+                            color: '#1890ff',
+                            marginBottom: 8,
+                            display: 'block'
+                          }}
+                        >
+                          {combo.name}
+                        </Typography.Text>
+                        <Typography.Text 
+                          strong
+                          style={{ 
+                            color: '#1890ff',
+                            fontSize: 16
+                          }}
+                        >
+                          {formatCurrency(combo.price)}
+                        </Typography.Text>
+                        <div style={{ marginTop: 'auto', textAlign: 'center', paddingBottom: 16 }}>
+                          <AddButton 
                             size="small"
-                            startIcon={<AddIcon />}
+                            icon={<PlusOutlined />}
                             onClick={() => handleAddItem(combo, 'combo')}
-                            sx={{
-                              backgroundColor: '#ff5722',
-                              '&:hover': { backgroundColor: '#e64a19' }
-                            }}
                           >
                             Thêm
-                          </Button>
-                        </Box>
-                      </Card>
+                          </AddButton>
+                        </div>
+                      </StyledCard>
                     </Grid>
                   ))}
                 </Grid>
-              )}
-            </Box>
-          </Paper>
+              </TabPane>
+            </Tabs>
+          </StyledPaper>
         </Grid>
         
         {/* Right Side - Order Summary */}
-        <Grid item xs={12} md={4}>
-          <Paper elevation={3} sx={{ p: 2, height: '100%' }}>
-            <Typography variant="h6" sx={{ mb: 2, fontWeight: 'bold' }}>
+        <Grid item xs={24} md={8}>
+          <StyledPaper>
+            <Typography.Title level={4} style={{ marginBottom: 16 }}>
               ORDER SUMMARY
-            </Typography>
+            </Typography.Title>
             
-            <TextField
-              fullWidth
-              label="Tên khách hàng"
-              variant="outlined"
+            <Input
+              placeholder="Tên khách hàng"
               value={customerName}
               onChange={(e) => setCustomerName(e.target.value)}
-              sx={{ mb: 2 }}
+              style={{ marginBottom: 16 }}
             />
             
             {cartItems.length === 0 ? (
-              <Typography 
-                variant="body1" 
-                color="text.secondary" 
-                sx={{ 
-                  py: 4,
+              <Text 
+                type="secondary"
+                style={{ 
+                  padding: '32px 0',
                   textAlign: 'center',
-                  fontStyle: 'italic'
+                  fontStyle: 'italic',
+                  display: 'block'
                 }}
               >
                 Chưa có món nào được chọn
-              </Typography>
+              </Text>
             ) : (
               <>
-                <List sx={{ maxHeight: '50vh', overflow: 'auto' }}>
-                  {cartItems.map((item, index) => (
-                    <React.Fragment key={`${item.type}-${item.id}-${index}`}>
-                      <ListItem sx={{ py: 1 }}>
-                        <ListItemText
-                          primary={
-                            <Typography sx={{ fontWeight: 'bold' }}>
-                              {item.name}
-                            </Typography>
-                          }
-                          secondary={
-                            <Typography variant="body2" color="text.secondary">
-                              {formatCurrency(item.price)} × {item.quantity}
-                            </Typography>
-                          }
-                        />
-                        <ListItemSecondaryAction>
-                          <Box sx={{ 
-                            display: 'flex', 
-                            alignItems: 'center',
-                            flexDirection: 'column'
-                          }}>
-                            <Typography 
-                              variant="body1" 
-                              sx={{ 
-                                fontWeight: 'bold',
-                                color: 'primary.main'
-                              }}
-                            >
-                              {formatCurrency(item.price * item.quantity)}
-                            </Typography>
-                            <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
-                              <IconButton 
-                                size="small" 
-                                onClick={() => handleDecreaseQuantity(item.id, item.type)}
-                                sx={{ color: 'error.main' }}
-                              >
-                                <RemoveIcon fontSize="small" />
-                              </IconButton>
-                              <Chip 
-                                label={item.quantity} 
-                                size="small"
-                                sx={{ mx: 0.5 }}
-                              />
-                              <IconButton 
-                                size="small" 
-                                onClick={() => handleIncreaseQuantity(item.id, item.type)}
-                                sx={{ color: 'success.main' }}
-                              >
-                                <AddIcon fontSize="small" />
-                              </IconButton>
-                              <IconButton 
-                                edge="end" 
-                                aria-label="delete"
-                                onClick={() => handleRemoveItem(item.id, item.type)}
-                                sx={{ ml: 1, color: 'error.main' }}
-                              >
-                                <DeleteIcon fontSize="small" />
-                              </IconButton>
-                            </Box>
-                          </Box>
-                        </ListItemSecondaryAction>
-                      </ListItem>
-                      <Divider />
-                    </React.Fragment>
-                  ))}
-                </List>
+                <List
+                  style={{ maxHeight: '50vh', overflow: 'auto' }}
+                  dataSource={cartItems}
+                  renderItem={(item, index) => (
+                    <List.Item
+                      key={`${item.type}-${item.id}-${index}`}
+                      style={{ padding: '8px 0' }}
+                    >
+                      <List.Item.Meta
+                        title={<Text strong>{item.name}</Text>}
+                        description={`${formatCurrency(item.price)} × ${item.quantity}`}
+                      />
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+                        <Text strong style={{ color: '#1890ff' }}>
+                          {formatCurrency(item.price * item.quantity)}
+                        </Text>
+                        <div style={{ display: 'flex', alignItems: 'center', marginTop: 8 }}>
+                          <Button 
+                            size="small" 
+                            icon={<MinusOutlined />} 
+                            onClick={() => handleDecreaseQuantity(item.id, item.type)}
+                            danger
+                          />
+                          <Tag style={{ margin: '0 4px' }}>{item.quantity}</Tag>
+                          <Button 
+                            size="small" 
+                            icon={<PlusOutlined />} 
+                            onClick={() => handleIncreaseQuantity(item.id, item.type)}
+                            type="primary"
+                          />
+                          <Button 
+                            size="small" 
+                            icon={<DeleteOutlined />} 
+                            onClick={() => handleRemoveItem(item.id, item.type)}
+                            danger
+                            style={{ marginLeft: 8 }}
+                          />
+                        </div>
+                      </div>
+                    </List.Item>
+                  )}
+                />
                 
-                <Box sx={{ 
-                  mt: 2, 
-                  p: 2,
-                  backgroundColor: '#f5f5f5',
-                  borderRadius: '4px'
-                }}>
-                  <Typography 
-                    variant="h6" 
-                    sx={{ 
+                <TotalBox>
+                  <Typography.Title 
+                    level={5} 
+                    style={{ 
                       display: 'flex',
                       justifyContent: 'space-between',
-                      fontWeight: 'bold'
+                      margin: 0
                     }}
                   >
                     <span>Thành tiền:</span>
                     <span>{formatCurrency(calculateTotal())}</span>
-                  </Typography>
-                </Box>
+                  </Typography.Title>
+                </TotalBox>
               </>
             )}
             
-            <Box sx={{ 
+            <div style={{ 
               display: 'flex', 
               justifyContent: 'space-between', 
-              mt: 3,
-              gap: 2
+              marginTop: 24,
+              gap: 16
             }}>
               <Button
-                variant="contained"
-                color="error"
+                type="primary"
+                danger
                 onClick={handleClearOrder}
                 disabled={cartItems.length === 0 || loading}
-                fullWidth
-                sx={{
-                  py: 1.5,
+                block
+                style={{
+                  height: 40,
                   fontWeight: 'bold'
                 }}
               >
                 Xóa đơn
               </Button>
               <Button
-                variant="contained"
-                color="success"
+                type="primary"
                 onClick={handleCheckout}
                 disabled={cartItems.length === 0 || loading}
-                fullWidth
-                sx={{
-                  py: 1.5,
-                  fontWeight: 'bold'
+                block
+                style={{
+                  height: 40,
+                  fontWeight: 'bold',
+                  background: '#52c41a',
+                  borderColor: '#52c41a'
                 }}
               >
                 {loading ? 'Đang xử lý...' : 'Thanh toán'}
               </Button>
-            </Box>
-          </Paper>
+            </div>
+          </StyledPaper>
         </Grid>
       </Grid>
-    </Box>
+    </StyledContainer>
   );
 };
 
