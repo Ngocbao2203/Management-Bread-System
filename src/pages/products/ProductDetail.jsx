@@ -16,7 +16,8 @@ import Header from '../../components/Header' // Import Header
 import { getProductById } from '../../services/productService'
 import { toast } from 'react-toastify'
 
-const { Title, Text, Paragraph } = Typography
+
+const { Title, Text } = Typography
 
 // Mock danh sách sản phẩm liên quan
 const relatedProducts = [
@@ -56,11 +57,11 @@ const ProductDetail = () => {
   const [product, setProduct] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
-  const [favorite, setFavorite] = useState(false)
+  
   // Add formatted price calculation
-  const formattedPrice = product ? 
-    (product.price * quantity).toLocaleString('vi-VN') + 'đ' : 
-    ''
+  const formattedPrice = product
+    ? (product.price * quantity).toLocaleString('vi-VN') + 'đ'
+    : ''
 
   const handleQuantityChange = (value) => {
     if (value && value > 0) {
@@ -69,20 +70,20 @@ const ProductDetail = () => {
   }
 
   useEffect(() => {
-    if (!id) return;
+    if (!id) return
 
     const fetchProduct = async () => {
-      setLoading(true);
+      setLoading(true)
       try {
-        const response = await getProductById(id);
-        setProduct(response);
-        console.log(response);
-        setError(null);
+        const response = await getProductById(id)
+        setProduct(response)
+        console.log(response)
+        setError(null)
       } catch (err) {
-        setError(err.message);
-        toast.error(err.message);
+        setError(err.message)
+        toast.error(err.message)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
     };
     fetchProduct();
@@ -164,93 +165,42 @@ const ProductDetail = () => {
                 </div>
               </Col>
 
-              <Col xs={24} md={14}>
-                <div className="product-text-section">
-                  <div className="product-title-section">
-                    <Title level={2} className="product-name">
-                      {product.name}
-                    </Title>
-                    <Button
-                        type="text"
-                        shape="circle"
-                        icon={
-                          favorite ? (
-                            <HeartFilled className="favorite-icon active" />
-                          ) : (
-                            <HeartOutlined className="favorite-icon" />
-                          )
-                        }
-                        onClick={toggleFavorite}
-                        className="favorite-button"
-                      />
-                  </div>
+            <Col xs={24} md={10}>
+              <div className="product-info">
+                <Title level={2}>{product.name}</Title>
+                <Text className="product-price">{formattedPrice}</Text>
+                <p>{product.description}</p>
 
-                  <div className="product-price-display">
-                    <Text className="product-price-label">Giá:</Text>
-                    <Text className="product-price-value">{product.price}</Text>
-                  </div>
+                {/* Chọn số lượng */}
+                <div className="quantity-selector">
+                  <InputNumber
+                    min={1}
+                    max={10}
+                    value={quantity}
+                    onChange={handleQuantityChange}
+                  />
+                  <Button
+                    style={{
+                      backgroundColor: '#ff9800',
+                      color: '#fff',
+                      borderColor: '#ff9800',
+                    }}
+                    icon={<ShoppingCartOutlined />}
+                    onClick={handleAddToCart}
+                  >
+                    Thêm vào giỏ hàng
+                  </Button>
+                </div>
 
-                  <Divider className="section-divider" />
+                {/* Danh mục */}
+                <div className="product-category">
+                  <Text strong>Danh mục:</Text>{' '}
 
-                  <Paragraph className="product-description">
-                    {product.description}
-                  </Paragraph>
-
-                  <Divider className="section-divider">
-                    <TagsOutlined /> Chi tiết sản phẩm
-                  </Divider>
-
-                  <div className="product-category">
-                    <Text strong>Danh mục: </Text>
-                    <Tag color="blue">{product.category}</Tag>
-                  </div>
-
-                  <Divider className="section-divider" />
-
-                  <div className="product-actions">
-                    <div className="product-quantity">
-                      <Text strong className="quantity-label">
-                        Số lượng:
-                      </Text>
-                      <div className="quantity-control">
-                        <Button
-                          onClick={() => handleQuantityChange(Math.max(1, quantity - 1))}
-                          disabled={quantity <= 1}
-                          className="quantity-button"
-                        >
-                          -
-                        </Button>
-                        <InputNumber
-                          min={1}
-                          value={quantity}
-                          onChange={handleQuantityChange}
-                          className="quantity-input"
-                        />
-                        <Button
-                          onClick={() => handleQuantityChange(quantity + 1)}
-                          className="quantity-button"
-                        >
-                          +
-                        </Button>
-                      </div>
-                    </div>
-
-                    <div className="product-price-wrapper">
-                      <div className="total-price">
-                        <Text className="total-label">Tổng tiền:</Text>
-                        <Text className="total-value">{formattedPrice}</Text>
-                      </div>
-                      <Button
-                        type="primary"
-                        size="large"
-                        className="add-cart-button"
-                        onClick={handleAddToCart}
-                        icon={<ShoppingCartOutlined />}
-                      >
-                        Thêm vào giỏ hàng
-                      </Button>
-                    </div>
-                  </div>
+                    <span key={product.category}>
+                      {/* Thêm dấu "|" để cách nhau */}
+                      <Text className="category">{product.category}</Text>
+                    </span>
+                </div>
 
                   <Divider className="section-divider" />
 
