@@ -5,6 +5,11 @@ import { toast } from 'react-toastify'
 import Header from '../../components/Header'
 import { Link } from 'react-router-dom'
 import Pagination from '../../components/Pagination'
+import { Card, Button, Row, Col, Typography, Tooltip, Empty } from 'antd'
+import { ShoppingCartOutlined, InfoCircleOutlined } from '@ant-design/icons'
+import { useNavigate } from 'react-router-dom'
+
+const { Title, Text, Paragraph } = Typography
 
 const ProductListCustomer = () => {
   const [products, setProducts] = useState([]);
@@ -13,7 +18,7 @@ const ProductListCustomer = () => {
   const [page, setPage] = useState(1);
   const [size] = useState(5);
   const [totalItems, setTotalItems] = useState(0);
-
+  const navigate = useNavigate();
   const fetchProducts = async () => {
     setLoading(true);
     try {
@@ -40,37 +45,122 @@ const ProductListCustomer = () => {
     fetchProducts();
   }, [page, size]);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+  const formatPrice = (price) => {
+    return price.toLocaleString('vi-VN') + 'đ'
+  }
+
+  const handleAddToCart = (e, product) => {
+    e.stopPropagation()
+    toast.success(`Đã thêm ${product.name} vào giỏ hàng`)
+  }
+
+  if (loading) return (
+    <div className="loading-container">
+      <div className="loading-spinner"></div>
+      <p>Đang tải dữ liệu...</p>
+    </div>
+  )
+
+  if (error) return (
+    <div className="error-container">
+      <InfoCircleOutlined className="error-icon" />
+      <p>Lỗi: {error}</p>
+      <Button type="primary" onClick={fetchProducts}>Thử lại</Button>
+    </div>
+  )
 
   return (
-    <>
+    <div className="page-container">
       <Header />
-      <div className="product-list-customer">
-        <h2 className="title">TẤT CẢ SẢN PHẨM</h2>
-        <div className="product-grid">
-          {products.map((product) => (
-            <div className="product-card" key={product.id}>
-              <Link to={`/products/${product.id}`}>
-                <img src={product.imageUrl} alt={product.name} className="product-image" />
-                <h3>{product.name}</h3>
-              </Link>
-              <p className="product-price">{product.price}</p>
-              <button className="add-to-cart-btn">Thêm vào giỏ hàng</button>
-            </div>
-          ))}
+      <div className="product-container">
+        <div className="product-header">
+          <div className="product-header-content-up">
+            <Title level={2} className="product-title">
+              Danh sách sản phẩm
+            </Title>
+          <Paragraph className="product-subtitle">
+              Khám phá các loại sản phẩm tuyệt hảo của chúng tôi
+            </Paragraph>
+          </div>
         </div>
-        {totalItems > 0 && (
-        <Pagination
-          page={page}
-          totalItems={totalItems}
-          size={size}
-          handlePageChange={handlePageChange}
-        />
-      )}
-      </div>
 
-    </>
+        {products.length === 0 ? (
+          <Empty
+            image={Empty.PRESENTED_IMAGE_SIMPLE}
+            description={<span>Không có sản phẩm nào</span>}
+          />
+        ) : (
+          <Row gutter={[24, 24]} justify="center">
+            {products.map((product) => (
+              <Col key={product.id} xs={24} sm={12} md={8} lg={6}>
+                <Card
+                  hoverable
+                  className="product-card"
+                  onClick={() => Link(`/products/${product.id}`)}
+                  cover={
+                    <div className="product-image-container">
+                      <img
+                        alt={product.name}
+                        src={product.imageUrl}
+                        className="product-image"
+                      />
+                    </div>
+                  }
+                >
+                  <div className="product-content">
+                    <div className="product-header-content">
+                      <Title level={4} className="product-name">
+                        {product.name}
+                      </Title>
+                      <Text className="product-price">
+                        {formatPrice(product.price)}
+                      </Text>
+                    </div>
+
+                    <Paragraph ellipsis={{ rows: 2 }} className="product-description">
+                      {product.description || 'Bánh mì thơm ngon, đậm đà hương vị Việt Nam'}
+                    </Paragraph>
+
+                    <div className="product-footer">
+                      <Tooltip title="Xem chi tiết">
+                        <Button
+                          type="default"
+                          shape="circle"
+                          icon={<InfoCircleOutlined />}
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            navigate(`/products/${product.id}`)
+                          }}
+                          className="detail-button"
+                        />
+                      </Tooltip>
+                      <Button
+                        type="primary"
+                        className="add-to-cart-button"
+                        icon={<ShoppingCartOutlined />}
+                        onClick={(e) => handleAddToCart(e, product)}
+                      >
+                        Thêm vào giỏ
+                      </Button>
+                    </div>
+                  </div>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        )}
+      </div>
+      {totalItems > size && (
+        <div className="pagination-container">
+          <Pagination
+            page={page}
+            totalItems={totalItems}
+            size={size}
+            handlePageChange={handlePageChange}
+          />
+        </div>
+      )}
+    </div>
   )
 }
 

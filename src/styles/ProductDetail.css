@@ -1,7 +1,90 @@
+.detail-page-container {
+  background-color: #f8f9fa;
+  min-height: 100vh;
+}
+
 .product-detail-container {
   max-width: 1200px;
-  margin: auto;
-  padding: 20px;
+  margin: 0 auto;
+  padding: 30px 20px;
+}
+
+/* Breadcrumb navigation */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #8c8c8c;
+}
+
+.breadcrumb span {
+  cursor: pointer;
+}
+
+.breadcrumb span:hover:not(.current) {
+  color: #1890ff;
+}
+
+.breadcrumb .separator {
+  margin: 0 8px;
+  color: #d9d9d9;
+}
+
+.breadcrumb .current {
+  color: #262626;
+  cursor: default;
+}
+.product-card-detail {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  border: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.product-card-detail:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+}
+/* Card styles */
+.product-card {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  border: none;
+}
+
+/* Image section */
+.image-container {
+  position: relative;
+  transition: transform 0.3s;
+}
+
+.image-container:hover {
+  transform: scale(1.02);
+}
+
+.product-image {
+  width: 100%;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.product-count-ribbon {
+  font-weight: bold;
+}
+
+.image-preview-mask {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.product-rating {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 /* Hình ảnh chính */
@@ -144,4 +227,70 @@
   color: #ff7b00; /* Đỏ */
   font-weight: bold;
   font-size: 16px;
+}
+.product-price-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.product-title-section {
+  display: flex;
+  justify-content: space-between;
+}
+.product-price-value {
+  font-size: 24px;
+    font-weight: bold;
+    color: #f5222d;
+}
+.product-price-display {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+/* Responsive styles */
+@media (max-width: 768px) {
+  .product-detail-container {
+    padding: 20px 12px;
+  }
+
+  .product-name {
+    font-size: 24px !important;
+  }
+
+  .product-price-wrapper {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .add-cart-button {
+    width: 100%;
+  }
+
+  .product-share {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 576px) {
+  .breadcrumb {
+    font-size: 12px;
+  }
+
+  .product-name {
+    font-size: 20px !important;
+  }
+
+  .product-price-value,
+  .total-value {
+    font-size: 20px;
+  }
+
+  .quantity-label,
+  .total-label {
+    font-size: 14px;
+  }
 }
