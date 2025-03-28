@@ -11,12 +11,17 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 // Import các component liên quan đến sản phẩm
-import DashboardHome from '../pages/dashboard/DashboardHome'
-import Products from '../pages/dashboard/Products'
-import Categories from '../pages/dashboard/Categories'
-import Ingredients from '../pages/dashboard/Ingredients'
-import Accounts from '../pages/dashboard/Accounts'
-import Branchs from '../pages/dashboard/Branchs'
+
+import DashboardHome from "../pages/dashboard/DashboardHome";
+import Products from "../pages/dashboard/Products";
+import Categories from "../pages/dashboard/Categories";
+import Ingredients from "../pages/dashboard/Ingredients";
+import Accounts from "../pages/dashboard/Accounts";
+import Branchs from "../pages/dashboard/Branchs";
+import ProductListCustomer from "../pages/products/ProductListCustomer";
+import ProductDetail from "../pages/products/ProductDetail";
+import ComboListCustomer from "../pages/combo/ComboListCustomer";
+import ComboDetail from "../pages/combo/ComboDetail";
 import ComboPage from '../pages/dashboard/Combos/ComboPage'
 const AppRouter = () => {
   return (
@@ -39,6 +44,12 @@ const AppRouter = () => {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
 
+        <Route path="/products_list" element={<ProductListCustomer />} />
+        <Route path="/products/:id" element={<ProductDetail />} />
+        <Route>
+          <Route path="/combo" element={<ComboListCustomer />} />
+          <Route path="/combo/:id" element={<ComboDetail />} />
+        </Route>
         <Route
           path="/dashboard/*"
           element={
