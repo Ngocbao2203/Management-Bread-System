@@ -79,8 +79,9 @@ const CheckoutPage = () => {
   
       await createOrder(orderData);
       localStorage.removeItem("checkoutItems");
+      localStorage.removeItem("cartItems");
       toast.success("🎉 Đặt hàng thành công!", { position: "top-center", autoClose: 3000 });
-      navigate("/order-success");
+      navigate("/");
     } catch (error) {
       toast.error(`😢 Đặt hàng thất bại: ${error?.message || "Lỗi không xác định"}`, { 
         position: "top-center", 

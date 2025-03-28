@@ -24,7 +24,8 @@ import ProductDetail from '../pages/products/ProductDetail'
 import ComboListCustomer from '../pages/combo/ComboListCustomer'
 import ComboDetail from '../pages/combo/ComboDetail'
 import ComboPage from '../pages/dashboard/Combos/ComboPage'
-
+import CartPage from '../pages/order/CartPage';
+import CheckoutPage from '../pages/order/CheckoutPage';
 // Import các component liên quan đến Owner
 import Profile from '../pages/owner/Profile'
 import StaffManagement from '../pages/owner/StaffManagement'
@@ -59,6 +60,8 @@ const AppRouter = () => {
           <Route path="/combo" element={<ComboListCustomer />} />
           <Route path="/combo/:id" element={<ComboDetail />} />
         </Route>
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
 
         {/* Admin Routes */}
         <Route
