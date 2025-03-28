@@ -44,6 +44,7 @@ const Header = () => {
           </li>
           <li>
             <ScrollLink
+
               to="product-section"
               smooth={true}
               duration={500}
