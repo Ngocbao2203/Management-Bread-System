@@ -1,27 +1,26 @@
-import PropTypes from 'prop-types';
-import { useCart } from '../../context/CartContext';
+/* eslint-disable react/prop-types */
+import { useContext } from "react";
+import { CartContext } from "../../context/CartContext";
+import { Button } from "@mui/material";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 
-const AddToCartButton = ({ productId }) => {
-  const { addToCart } = useCart();
+const AddToCartButton = ({ item, type = "product" }) => {
+  const { addToCart } = useContext(CartContext);
 
   const handleAddToCart = () => {
-    addToCart(productId);
-    alert('Đã thêm sản phẩm vào giỏ hàng!');
+    addToCart(item, type);
   };
 
   return (
-    <button 
+    <Button
+      variant="contained"
+      color="primary"
+      startIcon={<AddShoppingCartIcon />}
       onClick={handleAddToCart}
-      className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition"
     >
       Thêm vào giỏ hàng
-    </button>
+    </Button>
   );
-};
-
-// PropTypes cho AddToCartButton
-AddToCartButton.propTypes = {
-  productId: PropTypes.string.isRequired,
 };
 
 export default AddToCartButton;

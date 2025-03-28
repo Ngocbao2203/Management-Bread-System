@@ -1,106 +1,104 @@
-import PropTypes from 'prop-types';
-import { createContext, useContext, useEffect, useState } from 'react';
-import { getProductById } from '../services/productService';
+/* eslint-disable react/prop-types */
+import { createContext, useState, useEffect } from "react";
+import { getProductById } from "../services/productService";
+import { getComboById } from "../services/conboService";
 
-const CartContext = createContext();
+// eslint-disable-next-line react-refresh/only-export-components
+export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
-  const [shippingAddress, setShippingAddress] = useState(null);
-  const [paymentMethod, setPaymentMethod] = useState('COD');
 
-  // Load cart from localStorage khi component mount
   useEffect(() => {
-    const savedCart = localStorage.getItem('CartStorage');
-    if (savedCart) {
-      setCartItems(JSON.parse(savedCart));
+    const savedCart = localStorage.getItem("CartStorage");
+    try {
+      const parsedCart = savedCart ? JSON.parse(savedCart) : [];
+      setCartItems(Array.isArray(parsedCart) ? parsedCart : []);
+    } catch (error) {
+      console.error("Lỗi khi tải giỏ hàng từ localStorage:", error);
+      setCartItems([]);
     }
   }, []);
 
-  // Save cart to localStorage khi cartItems thay đổi
   useEffect(() => {
-    localStorage.setItem('CartStorage', JSON.stringify(cartItems));
+    localStorage.setItem("CartStorage", JSON.stringify(cartItems));
   }, [cartItems]);
 
-  const addToCart = async (productId) => {
+  const addToCart = async (item, type = "product") => {
     try {
-      const existingItem = cartItems.find(item => item.id === productId);
-      
+      const existingItem = cartItems.find((cartItem) => cartItem.id === item.id && cartItem.type === type);
       if (existingItem) {
-        updateQuantity(productId, existingItem.quantity + 1);
+        updateQuantity(item.id, existingItem.quantity + 1, type);
       } else {
-        const productDetails = await getProductById(productId);
-        setCartItems(prev => [
-          ...prev,
-          {
-            id: productId,
+        let newItem;
+        if (type === "product") {
+          const productDetails = await getProductById(item.id);
+          if (!productDetails) throw new Error("Sản phẩm không tồn tại");
+          newItem = {
+            id: item.id,
             name: productDetails.name,
             price: productDetails.price,
             imageUrl: productDetails.imageUrl,
-            quantity: 1
-          }
-        ]);
+            quantity: 1,
+            type,
+          };
+        } else if (type === "combo") {
+          const comboDetails = await getComboById(item.id);
+          if (!comboDetails) throw new Error("Combo không tồn tại");
+          newItem = {
+            id: item.id,
+            name: comboDetails.name,
+            price: comboDetails.price,
+            imageUrl: comboDetails.imageUrl,
+            quantity: 1,
+            type,
+            comboProducts: comboDetails.comboProducts,
+          };
+        } else {
+          newItem = { ...item, quantity: 1, type };
+        }
+        setCartItems((prev) => [...prev, newItem]);
       }
     } catch (error) {
-      console.error('Error adding to cart:', error);
+      console.error("Lỗi khi thêm vào giỏ:", error);
     }
   };
 
-  const removeFromCart = (productId) => {
-    setCartItems(prev => prev.filter(item => item.id !== productId));
-    setSelectedItems(prev => prev.filter(id => id !== productId));
+  const removeFromCart = (itemId, type) => {
+    if (!cartItems.some((item) => item.id === itemId && item.type === type)) {
+      console.warn("Mục không có trong giỏ:", itemId);
+      return;
+    }
+    setCartItems((prev) => prev.filter((item) => !(item.id === itemId && item.type === type)));
+    setSelectedItems((prev) => prev.filter((id) => id !== itemId));
   };
 
-  const updateQuantity = (productId, newQuantity) => {
-    if (newQuantity < 1) return;
-    
-    setCartItems(prev => 
-      prev.map(item => 
-        item.id === productId ? { ...item, quantity: newQuantity } : item
+  const updateQuantity = (itemId, newQuantity, type) => {
+    if (!Number.isInteger(newQuantity) || newQuantity < 1) {
+      console.warn("Số lượng không hợp lệ:", newQuantity);
+      return;
+    }
+    setCartItems((prev) =>
+      prev.map((item) =>
+        item.id === itemId && item.type === type ? { ...item, quantity: newQuantity } : item
       )
     );
   };
 
-  const toggleSelectItem = (productId) => {
-    setSelectedItems(prev => 
-      prev.includes(productId) 
-        ? prev.filter(id => id !== productId) 
-        : [...prev, productId]
-    );
+  const getTotalPrice = () => {
+    return selectedItems.reduce((total, itemId) => {
+      const item = cartItems.find((item) => item.id === itemId);
+      return item ? total + item.price * item.quantity : total;
+    }, 0);
   };
 
   const selectAllItems = () => {
     if (selectedItems.length === cartItems.length) {
       setSelectedItems([]);
     } else {
-      setSelectedItems(cartItems.map(item => item.id));
+      setSelectedItems(cartItems.map((item) => item.id));
     }
-  };
-
-  const removeSelectedItems = () => {
-    setCartItems(prev => prev.filter(item => !selectedItems.includes(item.id)));
-    setSelectedItems([]);
-  };
-
-  const clearCart = () => {
-    setCartItems([]);
-    setSelectedItems([]);
-  };
-
-  const getTotalPrice = () => {
-    return selectedItems.reduce((total, productId) => {
-      const item = cartItems.find(item => item.id === productId);
-      return total + (item ? item.price * item.quantity : 0);
-    }, 0);
-  };
-
-  const prepareCheckoutItems = () => {
-    return cartItems.filter(item => selectedItems.includes(item.id));
-  };
-
-  const clearSelectedItems = () => {
-    setSelectedItems([]);
   };
 
   return (
@@ -111,63 +109,12 @@ export const CartProvider = ({ children }) => {
         addToCart,
         removeFromCart,
         updateQuantity,
-        toggleSelectItem,
-        selectAllItems,
-        removeSelectedItems,
-        clearCart,
         getTotalPrice,
-        shippingAddress,
-        paymentMethod,
-        prepareCheckoutItems,
-        clearSelectedItems,
-        setShippingAddress,
-        setPaymentMethod
+        setSelectedItems,
+        selectAllItems,
       }}
     >
       {children}
     </CartContext.Provider>
   );
-};
-
-// PropTypes cho CartProvider
-CartProvider.propTypes = {
-  children: PropTypes.node.isRequired,
-};
-
-// Custom hook
-// eslint-disable-next-line react-refresh/only-export-components
-export const useCart = () => {
-  const context = useContext(CartContext);
-  if (!context) {
-    throw new Error('useCart must be used within a CartProvider');
-  }
-  return context;
-};
-
-// PropTypes cho giá trị context
-CartContext.propTypes = {
-  cartItems: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      price: PropTypes.number.isRequired,
-      imageUrl: PropTypes.string.isRequired,
-      quantity: PropTypes.number.isRequired,
-    })
-  ),
-  selectedItems: PropTypes.arrayOf(PropTypes.string),
-  addToCart: PropTypes.func.isRequired,
-  removeFromCart: PropTypes.func.isRequired,
-  updateQuantity: PropTypes.func.isRequired,
-  toggleSelectItem: PropTypes.func.isRequired,
-  selectAllItems: PropTypes.func.isRequired,
-  removeSelectedItems: PropTypes.func.isRequired,
-  clearCart: PropTypes.func.isRequired,
-  getTotalPrice: PropTypes.func.isRequired,
-  shippingAddress: PropTypes.object,
-  paymentMethod: PropTypes.string,
-  prepareCheckoutItems: PropTypes.func.isRequired,
-  clearSelectedItems: PropTypes.func.isRequired,
-  setShippingAddress: PropTypes.func.isRequired,
-  setPaymentMethod: PropTypes.func.isRequired,
 };
