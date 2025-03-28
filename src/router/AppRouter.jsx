@@ -19,17 +19,27 @@ import Ingredients from "../pages/dashboard/Ingredients";
 import Accounts from "../pages/dashboard/Accounts";
 import Branchs from "../pages/dashboard/Branchs";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import Order from "../pages/dashboard/Order";
 import CartPage from "../pages/order/CartPage";
 import CheckoutPage from "../pages/order/CheckoutPage";
 
 =======
+=======
+import Order from "../pages/dashboard/Order";
+import CartPage from "../pages/order/CartPage";
+import CheckoutPage from "../pages/order/CheckoutPage";
+>>>>>>> e017edb3cb5584c3679dc6170d3c67d43efc6972
 import ProductListCustomer from "../pages/products/ProductListCustomer";
 import ProductDetail from "../pages/products/ProductDetail";
 import ComboListCustomer from "../pages/combo/ComboListCustomer";
 import ComboDetail from "../pages/combo/ComboDetail";
 import ComboPage from '../pages/dashboard/Combos/ComboPage'
+<<<<<<< HEAD
 >>>>>>> main
+=======
+
+>>>>>>> e017edb3cb5584c3679dc6170d3c67d43efc6972
 const AppRouter = () => {
   return (
     <AnimatePresence mode="wait">
@@ -69,17 +79,21 @@ const AppRouter = () => {
         >
           <Route index element={<DashboardHome />} /> {/* /dashboard */}
           <Route path="products" element={<Products />} />
-          <Route path="categories" element={<Categories />} />{' '}
-          {/* /dashboard/categories */}
-          <Route path="ingredients" element={<Ingredients />} />{' '}
-          {/* /dashboard/ingredients */}
+          <Route path="categories" element={<Categories />} />
+          <Route path="ingredients" element={<Ingredients />} />
           <Route path="branchs" element={<Branchs />} />
           <Route path="accounts" element={<Accounts />} />
+<<<<<<< HEAD
 <<<<<<< HEAD
           <Route path="orders" element={<Order />} />
 =======
           <Route path="combos" element={<ComboPage />} />
 >>>>>>> main
+=======
+          <Route path="orders" element={<Order />} />
+          <Route path="combos" element={<ComboPage />} />
+
+>>>>>>> e017edb3cb5584c3679dc6170d3c67d43efc6972
         </Route>
       </Routes>
     </AnimatePresence>
