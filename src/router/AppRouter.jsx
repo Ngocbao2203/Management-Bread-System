@@ -1,14 +1,14 @@
-import { Routes, Route } from 'react-router-dom'
-import { AnimatePresence } from 'framer-motion'
-import Login from '../pages/authentication/Login'
-import Register from '../pages/authentication/Register'
-import ForgotPassword from '../pages/authentication/ForgotPassword'
-import ResetPassword from '../pages/authentication/ResetPassword'
-import HomePage from '../components/homepage/HomePage'
-import DashboardLayout from '../layouts/DashboardLayout'
-import ProtectedRoute from '../components/ProtectedRoute'
-import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import { Routes, Route } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
+import Login from '../pages/authentication/Login';
+import Register from '../pages/authentication/Register';
+import ForgotPassword from '../pages/authentication/ForgotPassword';
+import ResetPassword from '../pages/authentication/ResetPassword';
+import HomePage from '../components/homepage/HomePage';
+import DashboardLayout from '../layouts/DashboardLayout';
+import ProtectedRoute from '../components/ProtectedRoute';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Import các component liên quan đến sản phẩm
 
@@ -22,7 +22,13 @@ import ProductListCustomer from "../pages/products/ProductListCustomer";
 import ProductDetail from "../pages/products/ProductDetail";
 import ComboListCustomer from "../pages/combo/ComboListCustomer";
 import ComboDetail from "../pages/combo/ComboDetail";
-import ComboPage from '../pages/dashboard/Combos/ComboPage'
+import ComboPage from '../pages/dashboard/Combos/ComboPage';
+import Order from '../pages/dashboard/Order';
+import CreateOrderCounter from '../components/order/CreateOrderCounter';
+import CartPage from '../pages/order/CartPage';
+import CheckoutPage from '../pages/order/CheckoutPage';
+
+
 const AppRouter = () => {
   return (
     <AnimatePresence mode="wait">
@@ -50,6 +56,10 @@ const AppRouter = () => {
           <Route path="/combo" element={<ComboListCustomer />} />
           <Route path="/combo/:id" element={<ComboDetail />} />
         </Route>
+        
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
+
         <Route
           path="/dashboard/*"
           element={
@@ -67,6 +77,8 @@ const AppRouter = () => {
           <Route path="branchs" element={<Branchs />} />
           <Route path="accounts" element={<Accounts />} />
           <Route path="combos" element={<ComboPage />} />
+          <Route path="/orders" element={<Order />} />
+          <Route path="/create-order" element={<CreateOrderCounter />} />
         </Route>
       </Routes>
     </AnimatePresence>
