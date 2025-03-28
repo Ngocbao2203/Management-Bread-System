@@ -77,8 +77,8 @@ const AppRouter = () => {
           <Route path="branchs" element={<Branchs />} />
           <Route path="accounts" element={<Accounts />} />
           <Route path="combos" element={<ComboPage />} />
-          <Route path="/orders" element={<Order />} />
-          <Route path="/create-order" element={<CreateOrderCounter />} />
+          <Route path="orders" element={<Order />} />
+          <Route path="create-order" element={<CreateOrderCounter />} />
         </Route>
       </Routes>
     </AnimatePresence>
