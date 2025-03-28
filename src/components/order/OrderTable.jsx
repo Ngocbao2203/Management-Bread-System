@@ -78,7 +78,7 @@ const OrderTable = ({ orders, reloadOrders }) => {
 
   return (
     <Table
-      dataSource={orders}
+      dataSource={Array.isArray(orders) ? orders : []}
       columns={columns}
       pagination={{ pageSize: 5 }}
       scroll={{ y: "calc(100vh - 300px)" }}

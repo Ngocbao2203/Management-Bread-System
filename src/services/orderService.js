@@ -100,13 +100,21 @@ export const createOrder = async (orderData) => {
         throw new Error("Unexpected response structure from server or invalid status code");
     } catch (error) {
         console.error("Full error details:", error.response ? error.response.data : error.message);
+        
+        if (error.response) {
+            console.error("Server Response Data:", JSON.stringify(error.response.data, null, 2));
+            console.error("Status Code:", error.response.status);
+        }
+    
         const errorMessage =
-            error.response?.data?.title ||
-            Object.values(error.response?.data?.errors || {}).flat().join(", ") ||
+            error.response?.data?.message ||  // Nếu server trả về `message`
+            error.response?.data?.title ||    // Nếu có `title`
+            Object.values(error.response?.data?.errors || {}).flat().join(", ") || 
             error.message ||
             "Error creating order";
+    
         throw new Error(errorMessage);
-    }
+    }    
 };
 
 

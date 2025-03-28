@@ -5,7 +5,6 @@ import OrderTable from "../../components/order/OrderTable";
 import { getOrders } from "../../services/orderService";
 import styled from "styled-components";
 
-// Styled components để giữ giao diện giống MUI
 const MuiStyleContainer = styled.div`
   max-width: 1200px;
   margin: 0 auto;
@@ -36,7 +35,9 @@ const Order = () => {
 
   const loadOrders = async () => {
     const data = await getOrders();
-    setOrders(data);
+    console.log("Dữ liệu lấy được:", data); // Kiểm tra API trả về
+  
+    setOrders(Array.isArray(data.items) ? data.items : []); // ✅ Chỉ set danh sách đơn hàng
   };
 
   const handleCreateOrder = () => {
