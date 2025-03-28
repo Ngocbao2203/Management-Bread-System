@@ -4,46 +4,40 @@ import { useRef, useEffect, useState } from 'react'
 import '../../styles/FeaturedProducts.css'
 import { Element } from 'react-scroll'
 import { useNavigate } from 'react-router-dom'
+import { getProductList } from '../../services/productService'
 const FeaturedProducts = () => {
   const navigate = useNavigate()
-  const products = [
-    {
-      id: 1,
-      name: 'DONUT BALLS',
-      image: kebabImage,
-      discountedPrice: '30.000đ',
-    },
-    {
-      id: 2,
-      name: 'PANDAN CHIFFON',
-      image: kebabImage,
-      discountedPrice: '138.000đ',
-    },
-    {
-      id: 3,
-      name: 'TIRAMISU C',
-      image: kebabImage,
-      discountedPrice: '650.000đ',
-    },
-    {
-      id: 4,
-      name: 'TIRAMISU R',
-      image: kebabImage,
-      discountedPrice: '490.000đ',
-    },
-    {
-      id: 5,
-      name: 'Bánh mì Thịt Nướng',
-      image: kebabImage,
-      discountedPrice: '45.000đ',
-    },
-    {
-      id: 6,
-      name: 'Bánh mì Thịt Nướng',
-      image: kebabImage,
-      discountedPrice: '45.000đ',
-    },
-  ]
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [page, setPage] = useState(1);
+  const [size] = useState(5);
+  const [totalItems, setTotalItems] = useState(0);
+
+  const fetchProducts = async () => {
+    setLoading(true);
+    try {
+      const result = await getProductList(page, size);
+      console.log("Result from getProductList:", result);
+      setProducts(result.products || []);
+      setTotalItems(result.pagination.total || result.products.length);
+      setError(null);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= Math.ceil(totalItems / size)) {
+      setPage(newPage);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, [page, size]);
 
   const scrollRef = useRef(null)
   const cardWidth = 280 // Chiều rộng của ProductCard (theo CSS)

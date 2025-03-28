@@ -1,31 +1,33 @@
-import { Routes, Route, useLocation } from 'react-router-dom';
-import { AnimatePresence } from 'framer-motion';
-import Login from '../pages/authentication/Login';
-import Register from '../pages/authentication/Register';
-import ForgotPassword from '../pages/authentication/ForgotPassword';
-import ResetPassword from '../pages/authentication/ResetPassword';
-import HomePage from '../components/homepage/HomePage';
-import DashboardLayout from '../layouts/DashboardLayout';
-import ProtectedRoute from '../components/ProtectedRoute';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { Routes, Route } from 'react-router-dom'
+import { AnimatePresence } from 'framer-motion'
+import Login from '../pages/authentication/Login'
+import Register from '../pages/authentication/Register'
+import ForgotPassword from '../pages/authentication/ForgotPassword'
+import ResetPassword from '../pages/authentication/ResetPassword'
+import HomePage from '../components/homepage/HomePage'
+import DashboardLayout from '../layouts/DashboardLayout'
+import OwnerLayout from '../layouts/OwnerLayout'
+import ProtectedRoute from '../components/ProtectedRoute'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 // Import các component liên quan đến sản phẩm
-import DashboardHome from "../pages/dashboard/DashboardHome";
-import Products from "../pages/dashboard/Products";
-import Categories from "../pages/dashboard/Categories";
-import Ingredients from "../pages/dashboard/Ingredients";
-import Accounts from "../pages/dashboard/Accounts";
-import Branchs from "../pages/dashboard/Branchs";
-import ProductListCustomer from "../pages/products/ProductListCustomer";
-import ProductDetail from "../pages/products/ProductDetail";
-import ComboListCustomer from "../pages/combo/ComboListCustomer";
-import ComboDetail from "../pages/combo/ComboDetail";
-import ComboPage from '../pages/dashboard/Combos/ComboPage';
-import Order from '../pages/dashboard/Order';
-import CreateOrderCounter from '../components/order/CreateOrderCounter';
-import CartPage from '../pages/order/CartPage';
-import CheckoutPage from '../pages/order/CheckoutPage';
+import DashboardHome from '../pages/dashboard/DashboardHome'
+import Products from '../pages/dashboard/Products'
+import Categories from '../pages/dashboard/Categories'
+import Ingredients from '../pages/dashboard/Ingredients'
+import Accounts from '../pages/dashboard/Accounts'
+import Branchs from '../pages/dashboard/Branchs'
+import ProductListCustomer from '../pages/products/ProductListCustomer'
+import ProductDetail from '../pages/products/ProductDetail'
+import ComboListCustomer from '../pages/combo/ComboListCustomer'
+import ComboDetail from '../pages/combo/ComboDetail'
+import ComboPage from '../pages/dashboard/Combos/ComboPage'
+
+// Import các component liên quan đến Owner
+import Profile from '../pages/owner/Profile'
+import StaffManagement from '../pages/owner/StaffManagement'
+import OwnerDashboard from '../pages/owner/OwnerDashboard'
 
 const AppRouter = () => {
   const location = useLocation(); // Lấy thông tin location
@@ -52,12 +54,12 @@ const AppRouter = () => {
 
         <Route path="/products_list" element={<ProductListCustomer />} />
         <Route path="/products/:id" element={<ProductDetail />} />
-        <Route path="/combo" element={<ComboListCustomer />} />
-        <Route path="/combo/:id" element={<ComboDetail />} />
-        
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route>
+          <Route path="/combo" element={<ComboListCustomer />} />
+          <Route path="/combo/:id" element={<ComboDetail />} />
+        </Route>
 
+        {/* Admin Routes */}
         <Route
           path="/dashboard/*"
           element={
@@ -73,8 +75,22 @@ const AppRouter = () => {
           <Route path="branchs" element={<Branchs />} />
           <Route path="accounts" element={<Accounts />} />
           <Route path="combos" element={<ComboPage />} />
-          <Route path="orders" element={<Order />} />
-          <Route path="order-counter" element={<CreateOrderCounter />} />
+        </Route>
+
+        {/* Owner Routes */}
+        <Route
+          path="/owner/*"
+          element={
+            <ProtectedRoute allowedRoles={['Owner']}>
+              <OwnerLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="dashboard" element={<OwnerDashboard />} />{' '}
+          {/* /owner/profile */}
+          <Route path="profile" element={<Profile />} /> {/* /owner/profile */}
+          <Route path="staff" element={<StaffManagement />} />{' '}
+          {/* /owner/staff */}
         </Route>
       </Routes>
     </AnimatePresence>
