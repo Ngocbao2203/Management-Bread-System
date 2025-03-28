@@ -1,3 +1,4 @@
+import { useLocation } from 'react-router-dom'
 import { Routes, Route } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
 import Login from '../pages/authentication/Login'
@@ -86,7 +87,7 @@ const AppRouter = () => {
             </ProtectedRoute>
           }
         >
-          <Route path="dashboard" element={<OwnerDashboard />} />{' '}
+          <Route index element={<OwnerDashboard />} />{' '}
           {/* /owner/profile */}
           <Route path="profile" element={<Profile />} /> {/* /owner/profile */}
           <Route path="staff" element={<StaffManagement />} />{' '}
