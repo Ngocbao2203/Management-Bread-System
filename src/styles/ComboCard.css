@@ -1,0 +1,171 @@
+.product-card {
+    width: 100%; /* Thay đổi thành 100% để card mở rộng theo container, nhưng giữ tỷ lệ với flex */
+    max-width: 300px; /* Giới hạn tối đa để không quá rộng trên desktop */
+    background-color: transparent; /* Loại bỏ nền trắng để không có khung */
+    border: none; /* Loại bỏ border */
+    box-shadow: none; /* Loại bỏ shadow để không có khung */
+    text-align: left; /* Căn trái toàn bộ nội dung */
+    transition: transform 0.3s ease; /* Giữ hiệu ứng hover */
+    position: relative;
+    flex-shrink: 0; /* Đảm bảo thẻ không co lại khi cuộn */
+    padding: 0; /* Loại bỏ padding để hình ảnh trông to hơn */
+}
+
+.light-mode .product-card {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.dark-mode .product-card {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.product-card .product-image {
+    width: 100%;
+    height: 280px; /* Giữ chiều cao hình ảnh lớn, khớp với nút */
+    object-fit: cover; /* Đảm bảo hình ảnh không bị méo */
+    border-radius: 0; /* Loại bỏ bo góc để không có khung */
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-image {
+    transform: scale(1.05); /* Hiệu ứng zoom khi hover */
+}
+
+.product-content {
+    padding: 0; /* Loại bỏ padding */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Căn trái nội dung */
+    gap: 5px; /* Giữ khoảng cách giữa các phần tử */
+    margin-top: 10px; /* Khoảng cách trên giữa hình ảnh và nội dung */
+}
+
+.product-name {
+    font-size: 1.5rem; /* Giữ kích thước font lớn */
+    font-weight: 600;
+    color: #2d2d2d;
+    margin: 0;
+    text-transform: uppercase; /* Chuyển thành chữ in hoa giống trong hình */
+    transition: color 0.3s ease;
+}
+
+.light-mode .product-name {
+    color: #2d2d2d;
+}
+
+.dark-mode .product-name {
+    color: #ffffff;
+}
+
+.combo-price {
+    width: fit-content;
+    margin-bottom: 15px;
+}
+
+.discounted-price {
+    font-size: 1.8rem; /* Giữ kích thước font giá lớn */
+    font-weight: 700;
+    color: #ff6b00; /* Màu cam giống trong hình */
+    transition: color 0.3s ease;
+}
+
+.light-mode .discounted-price {
+    color: #ff6b00;
+}
+
+.dark-mode .discounted-price {
+    color: #ff6b00;
+}
+
+.add-to-cart-btn {
+    display: block; /* Đảm bảo nút rộng ngang với card */
+    width: 100%; /* Nút rộng ngang với card (280px hoặc mở rộng theo container) */
+    padding: 12px 0; /* Chỉ padding dọc để giữ chiều cao hợp lý */
+    background-color: #ffffff; /* Nền trắng giống trong hình */
+    border: 2px solid #ff6b00; /* Viền cam giống trong hình */
+    color: #ff6b00; /* Chữ màu cam giống trong hình */
+    text-decoration: none;
+    border-radius: 0; /* Loại bỏ bo góc để không có khung */
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center; /* Căn giữa chữ trong nút */
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 6px rgba(255, 107, 0, 0.2); /* Shadow nhẹ giống trong hình */
+    cursor: pointer; /* Đảm bảo con trỏ tay chỉ khi hover vào nút */
+    border: none; /* Xóa border nếu dùng button */
+}
+.combo-card .combo-image {
+    height: 280px;
+    width: 100%;
+    object-fit: cover;
+}
+.dis-price {
+    font-size: 1.8rem; /* Giữ kích thước font giá lớn */
+    font-weight: 700;
+    color: #ff6b00; /* Màu cam giống trong hình */
+    transition: color 0.3s ease;
+}
+.add-to-cart-btn:hover {
+    background-color: #ff6b00; /* Nền cam khi hover */
+    color: #ffffff; /* Chữ trắng khi hover */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 107, 0, 0.3);
+}
+
+.add-to-cart-btn:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 4px rgba(255, 107, 0, 0.2);
+}
+
+.light-mode .add-to-cart-btn {
+    background-color: #ffffff;
+    border-color: #ff6b00;
+    color: #ff6b00;
+    box-shadow: 0 2px 6px rgba(255, 107, 0, 0.2);
+}
+
+.dark-mode .add-to-cart-btn {
+    background-color: #2d2d2d;
+    border-color: #ff6b00;
+    color: #ff6b00;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.dark-mode .add-to-cart-btn:hover {
+    background-color: #ff6b00;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Mobile Responsive Adjustments (max-width: 768px) */
+@media screen and (max-width: 768px) {
+    .product-card {
+        width: 100%; /* Mở rộng toàn bộ chiều rộng mobile */
+        max-width: 240px; /* Giới hạn tối đa để không quá rộng trên mobile */
+        padding: 0; /* Giữ nguyên không padding cho mobile */
+    }
+
+    .product-image {
+        height: 240px; /* Giảm chiều cao hình ảnh cho mobile, khớp với nút */
+    }
+
+    .product-content {
+        margin-top: 8px; /* Giảm khoảng cách trên cho mobile */
+        gap: 4px; /* Giảm khoảng cách giữa các phần tử cho mobile */
+    }
+
+    .product-name {
+        font-size: 1.2rem; /* Giảm kích thước font cho mobile */
+    }
+
+    .discounted-price {
+        font-size: 1.5rem; /* Giảm kích thước font giá cho mobile */
+    }
+
+    .add-to-cart-btn {
+        width: 100%; /* Giữ nút rộng ngang với card */
+        padding: 10px 0; /* Giảm padding dọc cho mobile */
+        font-size: 0.9rem;
+    }
+}
