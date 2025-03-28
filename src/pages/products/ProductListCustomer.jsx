@@ -96,7 +96,7 @@ const ProductListCustomer = () => {
                 <Card
                   hoverable
                   className="product-card"
-                  onClick={() => Link(`/products/${product.id}`)}
+                  onClick={() => navigate(`/products/${product.id}`)}
                   cover={
                     <div className="product-image-container">
                       <img

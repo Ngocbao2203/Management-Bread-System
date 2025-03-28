@@ -1,7 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../../styles/ProductCard.css";
 
 const ProductCard = ({ product }) => {
+  const navigate = useNavigate();
+
   const handleDragStart = (e) => {
     e.preventDefault(); // Ngăn chặn hành vi kéo mặc định của trình duyệt
   };
@@ -10,6 +12,7 @@ const ProductCard = ({ product }) => {
     <div className="product-card">
       <img
         src={product.imageUrl}
+        onClick={() => navigate(`/products/${product.id}`)}
         alt={product.name}
         className="product-image"
         draggable="false" // Ngăn hình ảnh có thể kéo

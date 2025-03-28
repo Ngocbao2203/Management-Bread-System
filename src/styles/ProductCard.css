@@ -21,7 +21,7 @@
     box-shadow: none;
 }
 
-.product-image {
+.product-card .product-image {
     width: 100%;
     height: 280px; /* Giữ chiều cao hình ảnh lớn, khớp với nút */
     object-fit: cover; /* Đảm bảo hình ảnh không bị méo */
