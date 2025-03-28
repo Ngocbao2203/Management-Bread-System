@@ -1,185 +1,181 @@
-import ProductCard from './ProductCard'
-import kebabImage from '../../assets/images/kebab.jpg'
-import { useRef, useEffect, useState } from 'react'
-import '../../styles/FeaturedProducts.css'
-import { Element } from 'react-scroll'
-import { useNavigate } from 'react-router-dom'
+import ProductCard from "./ProductCard";
+import kebabImage from "../../assets/images/kebab.jpg";
+import { useRef, useEffect, useState } from "react";
+import "../../styles/FeaturedProducts.css";
+import { Element } from "react-scroll";
+
 const FeaturedProducts = () => {
-  const navigate = useNavigate()
   const products = [
     {
       id: 1,
-      name: 'DONUT BALLS',
+      name: "DONUT BALLS",
       image: kebabImage,
-      discountedPrice: '30.000đ',
+      discountedPrice: "30.000đ",
     },
     {
       id: 2,
-      name: 'PANDAN CHIFFON',
+      name: "PANDAN CHIFFON",
       image: kebabImage,
-      discountedPrice: '138.000đ',
+      discountedPrice: "138.000đ",
     },
     {
       id: 3,
-      name: 'TIRAMISU C',
+      name: "TIRAMISU C",
       image: kebabImage,
-      discountedPrice: '650.000đ',
+      discountedPrice: "650.000đ",
     },
     {
       id: 4,
-      name: 'TIRAMISU R',
+      name: "TIRAMISU R",
       image: kebabImage,
-      discountedPrice: '490.000đ',
+      discountedPrice: "490.000đ",
     },
     {
       id: 5,
-      name: 'Bánh mì Thịt Nướng',
+      name: "Bánh mì Thịt Nướng",
       image: kebabImage,
-      discountedPrice: '45.000đ',
+      discountedPrice: "45.000đ",
     },
     {
       id: 6,
-      name: 'Bánh mì Thịt Nướng',
+      name: "Bánh mì Thịt Nướng",
       image: kebabImage,
-      discountedPrice: '45.000đ',
+      discountedPrice: "45.000đ",
     },
-  ]
+  ];
 
-  const scrollRef = useRef(null)
-  const cardWidth = 280 // Chiều rộng của ProductCard (theo CSS)
-  const gap = 20 // Khoảng cách giữa các ProductCard
-  const [currentIndex, setCurrentIndex] = useState(0) // Theo dõi index của sản phẩm hiện tại
+  const scrollRef = useRef(null);
+  const cardWidth = 280; // Chiều rộng của ProductCard (theo CSS)
+  const gap = 20; // Khoảng cách giữa các ProductCard
+  const [currentIndex, setCurrentIndex] = useState(0); // Theo dõi index của sản phẩm hiện tại
 
   // Cuộn đến sản phẩm tương ứng với hiệu ứng mượt, hỗ trợ infinite scroll
   const scrollToProduct = (index) => {
     if (scrollRef.current) {
       // Áp dụng infinite scroll: nếu index vượt quá giới hạn, quay lại đầu/cuối
-      const normalizedIndex = index % products.length
+      const normalizedIndex = index % products.length;
       if (normalizedIndex < 0) {
-        setCurrentIndex(products.length - 1) // Quay về sản phẩm cuối nếu index âm
-        const scrollAmount = (cardWidth + gap) * (products.length - 1)
+        setCurrentIndex(products.length - 1); // Quay về sản phẩm cuối nếu index âm
+        const scrollAmount = (cardWidth + gap) * (products.length - 1);
         scrollRef.current.scrollTo({
           left: scrollAmount,
-          behavior: 'smooth',
-        })
+          behavior: "smooth",
+        });
       } else {
-        setCurrentIndex(normalizedIndex)
-        const scrollAmount = (cardWidth + gap) * normalizedIndex
+        setCurrentIndex(normalizedIndex);
+        const scrollAmount = (cardWidth + gap) * normalizedIndex;
         scrollRef.current.scrollTo({
           left: scrollAmount,
-          behavior: 'smooth', // Sử dụng hiệu ứng mượt
-        })
+          behavior: "smooth", // Sử dụng hiệu ứng mượt
+        });
       }
     }
-  }
+  };
 
   // Tính vị trí snap đến sản phẩm gần nhất với infinite scroll
   const snapToNearestProduct = (scrollPosition) => {
-    const productStep = cardWidth + gap
-    let nearestProduct = Math.round(scrollPosition / productStep)
+    const productStep = cardWidth + gap;
+    let nearestProduct = Math.round(scrollPosition / productStep);
 
     // Áp dụng infinite scroll: chuẩn hóa index
-    nearestProduct =
-      ((nearestProduct % products.length) + products.length) % products.length
-    const snapPosition = nearestProduct * productStep
-    return snapPosition
-  }
+    nearestProduct = ((nearestProduct % products.length) + products.length) % products.length;
+    const snapPosition = nearestProduct * productStep;
+    return snapPosition;
+  };
 
   // Xử lý nút prev/next với infinite scroll
   const handlePrev = () => {
-    scrollToProduct(currentIndex - 1)
-  }
+    scrollToProduct(currentIndex - 1);
+  };
 
   const handleNext = () => {
-    scrollToProduct(currentIndex + 1)
-  }
+    scrollToProduct(currentIndex + 1);
+  };
 
   // Thêm chức năng kéo ngang với snap và infinite scroll
   useEffect(() => {
-    const scrollContainer = scrollRef.current
-    let isDown = false
-    let startX
-    let scrollLeft
-    let animationFrameId
+    const scrollContainer = scrollRef.current;
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+    let animationFrameId;
 
     const handleMouseDown = (e) => {
-      isDown = true
-      startX = e.pageX - scrollContainer.offsetLeft
-      scrollLeft = scrollContainer.scrollLeft
-      scrollContainer.style.scrollBehavior = 'auto' // Tắt scrollBehavior smooth khi kéo
-    }
+      isDown = true;
+      startX = e.pageX - scrollContainer.offsetLeft;
+      scrollLeft = scrollContainer.scrollLeft;
+      scrollContainer.style.scrollBehavior = "auto"; // Tắt scrollBehavior smooth khi kéo
+    };
 
     const handleMouseLeave = () => {
-      isDown = false
-      cancelAnimationFrame(animationFrameId)
-    }
+      isDown = false;
+      cancelAnimationFrame(animationFrameId);
+    };
 
     const handleMouseUp = () => {
-      isDown = false
-      scrollContainer.style.scrollBehavior = 'smooth' // Bật lại scrollBehavior smooth sau khi thả
+      isDown = false;
+      scrollContainer.style.scrollBehavior = "smooth"; // Bật lại scrollBehavior smooth sau khi thả
 
       // Tính vị trí snap gần nhất với infinite scroll
-      const scrollPosition = scrollContainer.scrollLeft
-      const snapPosition = snapToNearestProduct(scrollPosition)
+      const scrollPosition = scrollContainer.scrollLeft;
+      const snapPosition = snapToNearestProduct(scrollPosition);
 
       scrollContainer.scrollTo({
         left: snapPosition,
-        behavior: 'smooth', // Hiệu ứng mượt khi snap
-      })
+        behavior: "smooth", // Hiệu ứng mượt khi snap
+      });
 
       // Cập nhật currentIndex dựa trên vị trí snap với infinite scroll
-      const newIndex = Math.round(snapPosition / (cardWidth + gap))
-      setCurrentIndex(
-        ((newIndex % products.length) + products.length) % products.length
-      )
+      const newIndex = Math.round(snapPosition / (cardWidth + gap));
+      setCurrentIndex(((newIndex % products.length) + products.length) % products.length);
 
-      cancelAnimationFrame(animationFrameId)
-    }
+      cancelAnimationFrame(animationFrameId);
+    };
 
     const handleMouseMove = (e) => {
-      if (!isDown) return
+      if (!isDown) return;
 
-      e.preventDefault()
-      const x = e.pageX - scrollContainer.offsetLeft
-      const walk = (x - startX) * 1.5 // Tăng tốc độ kéo nhẹ để mượt hơn
+      e.preventDefault();
+      const x = e.pageX - scrollContainer.offsetLeft;
+      const walk = (x - startX) * 1.5; // Tăng tốc độ kéo nhẹ để mượt hơn
 
       // Sử dụng requestAnimationFrame để làm mượt chuyển động
-      cancelAnimationFrame(animationFrameId)
+      cancelAnimationFrame(animationFrameId);
       animationFrameId = requestAnimationFrame(() => {
         // Kiểm tra nếu kéo qua cuối hoặc đầu danh sách để áp dụng infinite scroll
-        const maxScroll = (products.length - 1) * (cardWidth + gap)
-        let newScrollLeft = scrollLeft - walk
+        const maxScroll = (products.length - 1) * (cardWidth + gap);
+        let newScrollLeft = scrollLeft - walk;
 
         if (newScrollLeft < 0) {
-          newScrollLeft = maxScroll // Quay về cuối nếu kéo qua đầu
+          newScrollLeft = maxScroll; // Quay về cuối nếu kéo qua đầu
         } else if (newScrollLeft > maxScroll) {
-          newScrollLeft = 0 // Quay về đầu nếu kéo qua cuối
+          newScrollLeft = 0; // Quay về đầu nếu kéo qua cuối
         }
 
-        scrollContainer.scrollLeft = newScrollLeft
-      })
-    }
+        scrollContainer.scrollLeft = newScrollLeft;
+      });
+    };
 
     // Thêm event listeners
-    scrollContainer.addEventListener('mousedown', handleMouseDown)
-    scrollContainer.addEventListener('mouseleave', handleMouseLeave)
-    scrollContainer.addEventListener('mouseup', handleMouseUp)
-    scrollContainer.addEventListener('mousemove', handleMouseMove)
+    scrollContainer.addEventListener("mousedown", handleMouseDown);
+    scrollContainer.addEventListener("mouseleave", handleMouseLeave);
+    scrollContainer.addEventListener("mouseup", handleMouseUp);
+    scrollContainer.addEventListener("mousemove", handleMouseMove);
 
     // Xóa event listeners khi component unmount
     return () => {
-      scrollContainer.removeEventListener('mousedown', handleMouseDown)
-      scrollContainer.removeEventListener('mouseleave', handleMouseLeave)
-      scrollContainer.removeEventListener('mouseup', handleMouseUp)
-      scrollContainer.removeEventListener('mousemove', handleMouseMove)
-      cancelAnimationFrame(animationFrameId)
-    }
-  })
+      scrollContainer.removeEventListener("mousedown", handleMouseDown);
+      scrollContainer.removeEventListener("mouseleave", handleMouseLeave);
+      scrollContainer.removeEventListener("mouseup", handleMouseUp);
+      scrollContainer.removeEventListener("mousemove", handleMouseMove);
+      cancelAnimationFrame(animationFrameId);
+    };
+  },);
 
   // Đảm bảo vị trí cuộn chính xác khi tải trang
   useEffect(() => {
-    scrollToProduct(0)
-  })
+    scrollToProduct(0);
+  },);
 
   return (
     <Element name="product-section">
@@ -192,7 +188,8 @@ const FeaturedProducts = () => {
             className="nav-btn prev-btn"
             onClick={handlePrev}
             disabled={false} // Vô hiệu hóa disabled vì infinite scroll
-          ></button>
+          >
+          </button>
           <div className="product-list" ref={scrollRef}>
             {products.map((product) => (
               <ProductCard key={product.id} product={product} />
@@ -202,26 +199,22 @@ const FeaturedProducts = () => {
             className="nav-btn next-btn"
             onClick={handleNext}
             disabled={false} // Vô hiệu hóa disabled vì infinite scroll
-          ></button>
+          >
+          </button>
           <div className="pagination-dots">
             {products.map((_, index) => (
               <button
                 key={index}
-                className={`dot ${currentIndex === index ? 'active' : ''}`}
+                className={`dot ${currentIndex === index ? "active" : ""}`}
                 onClick={() => scrollToProduct(index)}
               ></button>
             ))}
           </div>
         </div>
-        <button
-          onClick={() => navigate('/products_list')}
-          className="see-all-btn"
-        >
-          Xem tất cả
-        </button>
+        <button className="see-all-btn">Xem tất cả</button>
       </section>
     </Element>
-  )
-}
+  );
+};
 
-export default FeaturedProducts
+export default FeaturedProducts;
