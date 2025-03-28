@@ -13,7 +13,6 @@ import Header from '../../components/Header' // Import Header
 import { getProductById } from '../../services/productService'
 import { toast } from 'react-toastify'
 
-
 const { Title, Text } = Typography
 
 // Mock danh sách sản phẩm liên quan
@@ -54,11 +53,11 @@ const ProductDetail = () => {
   const [product, setProduct] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
-  
+
   // Add formatted price calculation
-  const formattedPrice = product ? 
-    (product.price * quantity).toLocaleString('vi-VN') + 'đ' : 
-    ''
+  const formattedPrice = product
+    ? (product.price * quantity).toLocaleString('vi-VN') + 'đ'
+    : ''
 
   const handleQuantityChange = (value) => {
     if (value && value > 0) {
@@ -70,24 +69,24 @@ const ProductDetail = () => {
     console.log(`Thêm ${quantity} sản phẩm ${product.name} vào giỏ hàng`)
   }
   useEffect(() => {
-    if (!id) return;
+    if (!id) return
 
     const fetchProduct = async () => {
-      setLoading(true);
+      setLoading(true)
       try {
-        const response = await getProductById(id);
-        setProduct(response);
-        console.log(response);
-        setError(null);
+        const response = await getProductById(id)
+        setProduct(response)
+        console.log(response)
+        setError(null)
       } catch (err) {
-        setError(err.message);
-        toast.error(err.message);
+        setError(err.message)
+        toast.error(err.message)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
-    fetchProduct();
-  }, [id]);
+    }
+    fetchProduct()
+  }, [id])
   return (
     <>
       <Header />
@@ -140,11 +139,10 @@ const ProductDetail = () => {
                 {/* Danh mục */}
                 <div className="product-category">
                   <Text strong>Danh mục:</Text>{' '}
-
-                    <span key={product.category}>
-                      {/* Thêm dấu "|" để cách nhau */}
-                      <Text className="category">{product.category}</Text>
-                    </span>
+                  <span key={product.category}>
+                    {/* Thêm dấu "|" để cách nhau */}
+                    <Text className="category">{product.category}</Text>
+                  </span>
                 </div>
 
                 {/* Chia sẻ */}
