@@ -1,4 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
+import AddToCartButton from "../../pages/order/AddToCartButton";
 import "../../styles/ProductCard.css";
 
 const ProductCard = ({ product }) => {
@@ -23,9 +24,9 @@ const ProductCard = ({ product }) => {
         <div className="product-price">
           <span className="discounted-price">{product.price}</span>
         </div>
-        <Link to={`/products/${product.id}`} className="add-to-cart-btn">
+        <AddToCartButton item={product} className="add-to-cart-btn">
           Thêm vào giỏ hàng
-        </Link>
+        </AddToCartButton>
       </div>
     </div>
   );

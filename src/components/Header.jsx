@@ -33,25 +33,7 @@ const Header = () => {
             <Link to="/">Trang Chủ</Link>
           </li>
           <li>
-            <ScrollLink
-              to="about-section"
-              smooth={true}
-              duration={500}
-              style={{ cursor: 'pointer' }}
-            >
-              Giới thiệu
-            </ScrollLink>
-          </li>
-          <li>
-            <ScrollLink
-
-              to="product-section"
-              smooth={true}
-              duration={500}
-              style={{ cursor: 'pointer' }}
-            >
-              Sản phẩm
-            </ScrollLink>
+            <Link to="/products_list">Sản Phẩm</Link>
           </li>
           <li>
             <Link to="/combo">Combo</Link>

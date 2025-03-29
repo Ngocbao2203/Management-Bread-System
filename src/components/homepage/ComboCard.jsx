@@ -1,4 +1,5 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import AddToCartButton from "../../pages/order/AddToCartButton";
 import "../../styles/ComboCard.css";
 
 const ComboCard = ({ combo }) => {
@@ -23,9 +24,7 @@ const ComboCard = ({ combo }) => {
         <div className="combo-price">
           <span className="dis-price">{combo.price}</span>
         </div>
-        <Link to={`/combo/${combo.id}`} className="add-to-cart-btn">
-          Thêm vào giỏ hàng
-        </Link>
+        <AddToCartButton item={combo}/>
       </div>
     </div>
   );

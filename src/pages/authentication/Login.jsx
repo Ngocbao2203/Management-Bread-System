@@ -58,9 +58,8 @@ const Login = () => {
       toast.success('Đăng nhập thành công!')
       if (role === 'Admin') {
         navigate('/dashboard')
-      }
-      if (role === 'Owner') {
-        navigate('/owner/')
+      } else if (role === 'Owner') {
+        navigate('/owner')
       } else {
         navigate('/')
       }

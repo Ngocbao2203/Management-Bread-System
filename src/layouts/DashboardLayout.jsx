@@ -6,6 +6,7 @@ import '../styles/DashboardLayout.css'
 const pathToMenuMap = {
   '/dashboard': 'Dashboard',
   '/dashboard/products': 'Products',
+  '/dashboard/orders': 'Orders',
   '/dashboard/combos': 'Combos',
   '/dashboard/categories': 'Categories',
   '/dashboard/ingredients': 'Ingredients',

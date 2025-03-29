@@ -19,6 +19,7 @@ const iconMap = {
   Products: faBox,
   Categories: faList,
   Combos: faReceipt,
+  Orders: faReceipt,
   Ingredients: faUtensils,
   Branchs: faProjectDiagram,
   Accounts: faUser,
@@ -29,6 +30,7 @@ const routeMap = {
   Dashboard: '/dashboard',
   Products: '/dashboard/products',
   Combos: '/dashboard/combos',
+  Orders: '/dashboard/orders',
   Categories: '/dashboard/categories',
   Ingredients: '/dashboard/ingredients',
   Branchs: '/dashboard/branchs',
@@ -51,6 +53,7 @@ const Sidebar = ({ setSelectedMenu, selectedMenu }) => {
       { title: 'Categories', items: [] },
       { title: 'Ingredients', items: [] },
       { title: 'Products', items: [] },
+      { title: 'Orders', items: [] },
       { title: 'Combos', items: [] },
       { title: 'Branchs', items: [] },
       { title: 'Accounts', items: [] },
@@ -112,6 +115,7 @@ const Sidebar = ({ setSelectedMenu, selectedMenu }) => {
                 if (
                   section.title === 'Dashboard' ||
                   section.title === 'Products' ||
+                  section.title === 'Orders' ||
                   section.title === 'Categories' ||
                   section.title === 'Ingredients' ||
                   section.title === 'Combos' ||

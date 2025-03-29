@@ -1,3 +1,4 @@
+import { useLocation } from 'react-router-dom'
 import { Routes, Route } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
 import Login from '../pages/authentication/Login'
@@ -23,15 +24,18 @@ import ProductDetail from '../pages/products/ProductDetail'
 import ComboListCustomer from '../pages/combo/ComboListCustomer'
 import ComboDetail from '../pages/combo/ComboDetail'
 import ComboPage from '../pages/dashboard/Combos/ComboPage'
-
+import CartPage from '../pages/order/CartPage';
+import CheckoutPage from '../pages/order/CheckoutPage';
 // Import các component liên quan đến Owner
 import Profile from '../pages/owner/Profile'
 import StaffManagement from '../pages/owner/StaffManagement'
 import OwnerDashboard from '../pages/owner/OwnerDashboard'
 
 const AppRouter = () => {
+  const location = useLocation(); // Lấy thông tin location
+
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence>
       <ToastContainer
         position="top-right"
         autoClose={3000}
@@ -43,7 +47,7 @@ const AppRouter = () => {
         draggable
         pauseOnHover
       />
-      <Routes>
+      <Routes key={location.pathname} location={location}>  {/* Thêm key vào Routes */}
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
@@ -56,6 +60,8 @@ const AppRouter = () => {
           <Route path="/combo" element={<ComboListCustomer />} />
           <Route path="/combo/:id" element={<ComboDetail />} />
         </Route>
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
 
         {/* Admin Routes */}
         <Route
@@ -68,10 +74,8 @@ const AppRouter = () => {
         >
           <Route index element={<DashboardHome />} /> {/* /dashboard */}
           <Route path="products" element={<Products />} />
-          <Route path="categories" element={<Categories />} />{' '}
-          {/* /dashboard/categories */}
-          <Route path="ingredients" element={<Ingredients />} />{' '}
-          {/* /dashboard/ingredients */}
+          <Route path="categories" element={<Categories />} />
+          <Route path="ingredients" element={<Ingredients />} />
           <Route path="branchs" element={<Branchs />} />
           <Route path="accounts" element={<Accounts />} />
           <Route path="combos" element={<ComboPage />} />
@@ -86,7 +90,7 @@ const AppRouter = () => {
             </ProtectedRoute>
           }
         >
-          <Route path="dashboard" element={<OwnerDashboard />} />{' '}
+          <Route index element={<OwnerDashboard />} />{' '}
           {/* /owner/profile */}
           <Route path="profile" element={<Profile />} /> {/* /owner/profile */}
           <Route path="staff" element={<StaffManagement />} />{' '}
@@ -97,4 +101,4 @@ const AppRouter = () => {
   )
 }
 
-export default AppRouter
+export default AppRouter;
