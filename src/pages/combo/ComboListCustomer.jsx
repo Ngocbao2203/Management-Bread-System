@@ -1,4 +1,4 @@
-import React from 'react'
+// import React from 'react'
 import {
   Card,
   Button,
@@ -19,12 +19,13 @@ import { useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
 import Pagination from '../../components/Pagination'
 import {
-  ShoppingCartOutlined,
+  // ShoppingCartOutlined,
   InfoCircleOutlined,
-  FireOutlined,
+  // FireOutlined,
   TagOutlined,
-  ExclamationCircleOutlined,
+  // ExclamationCircleOutlined,
 } from '@ant-design/icons'
+import AddToCartButton from '../order/AddToCartButton'
 
 const { Title, Text, Paragraph } = Typography
 
@@ -71,10 +72,10 @@ const ComboListCustomer = () => {
     }
   }
 
-  const handleAddToCart = (e, combo) => {
-    e.stopPropagation() // Prevent navigating to detail page
-    toast.success(`Đã thêm ${combo.name} vào giỏ hàng`)
-  }
+  // const handleAddToCart = (e, combo) => {
+  //   e.stopPropagation() // Prevent navigating to detail page
+  //   toast.success(`Đã thêm ${combo.name} vào giỏ hàng`)
+  // }
 
   // Calculate total products in each combo
   const getTotalProductsCount = (combo) => {
@@ -224,14 +225,11 @@ const ComboListCustomer = () => {
                           className="detail-button"
                         />
                       </Tooltip>
-                      <Button
-                        type="primary"
+                      <AddToCartButton
+                        item={combo}
+                        type="combo"
                         className="add-to-cart-button"
-                        icon={<ShoppingCartOutlined />}
-                        onClick={(e) => handleAddToCart(e, combo)}
-                      >
-                        Thêm vào giỏ
-                      </Button>
+                      />
                     </div>
                   </div>
                 </Card>

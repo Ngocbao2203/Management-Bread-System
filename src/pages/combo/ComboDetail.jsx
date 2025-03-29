@@ -12,7 +12,7 @@ import {
   Badge,
   Collapse,
   Divider,
-  Tag,
+  // Tag,
   Skeleton,
   Rate,
   Tooltip,
@@ -21,7 +21,7 @@ import {
   Checkbox,
 } from 'antd'
 import {
-  ShoppingCartOutlined,
+  // ShoppingCartOutlined,
   DownOutlined,
   TagsOutlined,
   ShoppingOutlined,
@@ -35,6 +35,7 @@ import Header from '../../components/Header'
 import '../../styles/ComboDetail.css'
 import { toast } from 'react-toastify'
 import { getComboById } from '../../services/conboService'
+import AddToCartButton from '../order/AddToCartButton'
 
 const { Title, Paragraph, Text } = Typography
 const { Panel } = Collapse
@@ -124,29 +125,29 @@ const ComboDetail = () => {
     }
   }
 
-  const handleAddToCart = () => {
-    if (!combo) return
+  // const handleAddToCart = () => {
+  //   if (!combo) return
 
-    const selectedToppingNames = selectedToppings
-      .map((id) => availableIngredients.find((t) => t.id === id)?.name)
-      .filter(Boolean)
+  //   const selectedToppingNames = selectedToppings
+  //     .map((id) => availableIngredients.find((t) => t.id === id)?.name)
+  //     .filter(Boolean)
 
-    toast.success(
-      `Đã thêm ${quantity} ${combo.name} vào giỏ hàng${
-        selectedToppingNames.length > 0
-          ? ` với topping: ${selectedToppingNames.join(', ')}`
-          : ''
-      }`,
-      {
-        position: 'top-right',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      }
-    )
-  }
+  //   toast.success(
+  //     `Đã thêm ${quantity} ${combo.name} vào giỏ hàng${
+  //       selectedToppingNames.length > 0
+  //         ? ` với topping: ${selectedToppingNames.join(', ')}`
+  //         : ''
+  //     }`,
+  //     {
+  //       position: 'top-right',
+  //       autoClose: 3000,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //     }
+  //   )
+  // }
 
   const toggleFavorite = () => {
     setFavorite(!favorite)
@@ -444,15 +445,7 @@ const ComboDetail = () => {
                           <Text className="total-label">Tổng tiền:</Text>
                           <Text className="total-value">{formattedPrice}</Text>
                         </div>
-                        <Button
-                          type="primary"
-                          size="large"
-                          className="add-cart-button"
-                          onClick={handleAddToCart}
-                          icon={<ShoppingCartOutlined />}
-                        >
-                          Thêm vào giỏ hàng
-                        </Button>
+                        <AddToCartButton item={combo} type='combo' className="add-cart-button" />
                       </div>
                     </div>
 

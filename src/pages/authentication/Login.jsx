@@ -40,6 +40,7 @@ const Login = () => {
       const decodedToken = jwtDecode(token)
       console.log('Decoded token:', decodedToken) // Debug để kiểm tra cấu trúc token
 
+
       // Lấy role, userName, và email từ decodedToken với key thực tế
       const role =
         decodedToken[

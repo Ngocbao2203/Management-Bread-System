@@ -1,8 +1,21 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { Row, Col, Card, Button, InputNumber, Typography, Skeleton, Alert, Badge, Image, Divider, Tag } from 'antd'
 import {
-  ShoppingCartOutlined,
+  Row,
+  Col,
+  Card,
+  Button,
+  InputNumber,
+  Typography,
+  Skeleton,
+  Alert,
+  Badge,
+  Image,
+  Divider,
+  Tag,
+} from 'antd'
+import {
+  // ShoppingCartOutlined,
   FacebookOutlined,
   TwitterOutlined,
   MailOutlined,
@@ -15,9 +28,9 @@ import '../../styles/ProductDetail.css'
 import Header from '../../components/Header' // Import Header
 import { getProductById } from '../../services/productService'
 import { toast } from 'react-toastify'
+import AddToCartButton from '../order/AddToCartButton'
 
 const { Title, Text, Paragraph } = Typography
-
 
 const ProductDetail = () => {
   const { id } = useParams()
@@ -53,22 +66,22 @@ const ProductDetail = () => {
       } finally {
         setLoading(false)
       }
-    };
-    fetchProduct();
-  }, [id]);
+    }
+    fetchProduct()
+  }, [id])
 
-  const handleAddToCart = () => {
-    if (!product) return
+  // const handleAddToCart = () => {
+  //   if (!product) return
 
-    toast.success(`Đã thêm ${quantity} ${product.name} vào giỏ hàng`, {
-      position: 'top-right',
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-    })
-  }
+  //   toast.success(`Đã thêm ${quantity} ${product.name} vào giỏ hàng`, {
+  //     position: 'top-right',
+  //     autoClose: 3000,
+  //     hideProgressBar: false,
+  //     closeOnClick: true,
+  //     pauseOnHover: true,
+  //     draggable: true,
+  //   })
+  // }
   const toggleFavorite = () => {
     setFavorite(!favorite)
     toast.info(
@@ -83,7 +96,9 @@ const ProductDetail = () => {
         <div className="breadcrumb">
           <span onClick={() => (window.location.href = '/')}>Trang chủ</span>
           <span className="separator">/</span>
-          <span onClick={() => (window.location.href = '/products')}>Sản phẩm</span>
+          <span onClick={() => (window.location.href = '/products')}>
+            Sản phẩm
+          </span>
           <span className="separator">/</span>
           <span className="current">{product?.name}</span>
         </div>
@@ -106,7 +121,11 @@ const ProductDetail = () => {
             type="error"
             showIcon
             action={
-              <Button size="small" type="primary" onClick={() => window.location.reload()}>
+              <Button
+                size="small"
+                type="primary"
+                onClick={() => window.location.reload()}
+              >
                 Thử lại
               </Button>
             }
@@ -116,13 +135,19 @@ const ProductDetail = () => {
             <Row gutter={[32, 32]} align="top">
               <Col xs={24} md={10}>
                 <div className="image-container">
-                  <Badge.Ribbon text="Mới" color="green" className="product-count-ribbon">
+                  <Badge.Ribbon
+                    text="Mới"
+                    color="green"
+                    className="product-count-ribbon"
+                  >
                     <Image
                       src={product.imageUrl}
                       alt={product.name}
                       className="product-image"
                       preview={{
-                        mask: <div className="image-preview-mask">Xem ảnh lớn</div>,
+                        mask: (
+                          <div className="image-preview-mask">Xem ảnh lớn</div>
+                        ),
                       }}
                     />
                   </Badge.Ribbon>
@@ -140,18 +165,18 @@ const ProductDetail = () => {
                       {product.name}
                     </Title>
                     <Button
-                        type="text"
-                        shape="circle"
-                        icon={
-                          favorite ? (
-                            <HeartFilled className="favorite-icon active" />
-                          ) : (
-                            <HeartOutlined className="favorite-icon" />
-                          )
-                        }
-                        onClick={toggleFavorite}
-                        className="favorite-button"
-                      />
+                      type="text"
+                      shape="circle"
+                      icon={
+                        favorite ? (
+                          <HeartFilled className="favorite-icon active" />
+                        ) : (
+                          <HeartOutlined className="favorite-icon" />
+                        )
+                      }
+                      onClick={toggleFavorite}
+                      className="favorite-button"
+                    />
                   </div>
 
                   <div className="product-price-display">
@@ -183,7 +208,9 @@ const ProductDetail = () => {
                       </Text>
                       <div className="quantity-control">
                         <Button
-                          onClick={() => handleQuantityChange(Math.max(1, quantity - 1))}
+                          onClick={() =>
+                            handleQuantityChange(Math.max(1, quantity - 1))
+                          }
                           disabled={quantity <= 1}
                           className="quantity-button"
                         >
@@ -209,22 +236,19 @@ const ProductDetail = () => {
                         <Text className="total-label">Tổng tiền:</Text>
                         <Text className="total-value">{formattedPrice}</Text>
                       </div>
-                      <Button
-                        type="primary"
-                        size="large"
+                      <AddToCartButton
+                        item={product}
                         className="add-cart-button"
-                        onClick={handleAddToCart}
-                        icon={<ShoppingCartOutlined />}
-                      >
-                        Thêm vào giỏ hàng
-                      </Button>
+                      />
                     </div>
                   </div>
 
                   <Divider className="section-divider" />
 
                   <div className="product-share">
-                    <Text strong className="share-label">Chia sẻ:</Text>
+                    <Text strong className="share-label">
+                      Chia sẻ:
+                    </Text>
                     <div className="share-buttons">
                       <FacebookOutlined className="share-icon facebook" />
                       <TwitterOutlined className="share-icon twitter" />
@@ -237,7 +261,6 @@ const ProductDetail = () => {
             </Row>
           </Card>
         ) : null}
-
       </div>
     </div>
   )

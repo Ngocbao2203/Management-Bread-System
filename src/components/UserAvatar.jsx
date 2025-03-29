@@ -1,13 +1,15 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom"; // Thêm useNavigate
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import "../styles/UserAvatar.css";
+import { CartContext } from "../context/CartContext";
 
 const UserAvatar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
   const navigate = useNavigate(); // Dùng để điều hướng
+  const { resetCart } = useContext(CartContext);
 
   // Lấy thông tin từ localStorage
   const token = localStorage.getItem("token");
@@ -30,6 +32,8 @@ const UserAvatar = () => {
     localStorage.removeItem("userName");
     localStorage.removeItem("role");
     localStorage.removeItem("userData"); // Nếu có
+    localStorage.removeItem('CartStorage');
+    resetCart();
 
     // Điều hướng về login
     navigate("/login", { replace: true });

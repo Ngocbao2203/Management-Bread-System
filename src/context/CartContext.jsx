@@ -101,6 +101,12 @@ export const CartProvider = ({ children }) => {
     }
   };
 
+  // Hàm reset giỏ hàng
+  const resetCart = () => {
+    setCartItems([]); // Cập nhật state ngay lập tức
+    localStorage.removeItem("CartStorage"); // Xóa localStorage
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -112,6 +118,7 @@ export const CartProvider = ({ children }) => {
         getTotalPrice,
         setSelectedItems,
         selectAllItems,
+        resetCart
       }}
     >
       {children}

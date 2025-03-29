@@ -1,68 +1,106 @@
-import { useContext } from "react";
-import { CartContext } from "../../context/CartContext";
-import { useNavigate } from "react-router-dom";
-import { Button, Card, Checkbox, Typography, Space } from "antd";
-import { PlusOutlined, MinusOutlined, DeleteOutlined } from "@ant-design/icons";
-import styled from "styled-components";
+import { useContext } from 'react'
+import { CartContext } from '../../context/CartContext'
+import { useNavigate } from 'react-router-dom'
+import {
+  Button,
+  /*Card,*/ Checkbox,
+  Typography,
+  Space,
+  Table,
+  InputNumber,
+  Image,
+} from 'antd'
+import {
+  /* PlusOutlined, MinusOutlined, */ DeleteOutlined,
+} from '@ant-design/icons'
+import styled from 'styled-components'
+import Header from '../../components/Header'
 
-const { Text, Title } = Typography;
+const { Text, Title } = Typography
 
-// Styled components để giữ giao diện giống MUI
-const MuiStyleCard = styled(Card)`
-  margin-bottom: 16px;
-  border-radius: 4px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-  
-  .ant-card-body {
-    padding: 16px;
-    display: flex;
-    align-items: center;
-  }
-`;
+// Styled components
+const PageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+`
 
-const MuiStyleButton = styled(Button)`
+const ContentContainer = styled.div`
+  flex: 1;
+  padding: 24px;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+`
+
+// const CartHeader = styled.div`
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   margin-bottom: 16px;
+//   padding-bottom: 16px;
+//   border-bottom: 1px solid #e8e8e8;
+// `;
+
+const CartFooter = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #e8e8e8;
+`
+
+// const ProductName = styled.div`
+//   font-weight: 500;
+//   margin-bottom: 4px;
+// `;
+
+// const ProductVariant = styled.div`
+//   color: #666;
+//   font-size: 12px;
+// `;
+
+const ActionButton = styled(Button)`
   &.ant-btn {
-    border-radius: 4px;
-    font-weight: 500;
-    text-transform: none;
-    box-shadow: none;
-  }
-`;
-
-const PrimaryButton = styled(MuiStyleButton)`
-  &.ant-btn {
-    background-color: #1976d2;
-    color: white;
-    &:hover {
-      background-color: #1565c0;
-    }
-  }
-`;
-
-const SecondaryButton = styled(MuiStyleButton)`
-  &.ant-btn {
-    background-color: #dc3545;
-    color: white;
-    &:hover {
-      background-color: #c82333;
-    }
-  }
-`;
-
-const IconButton = styled(Button)`
-  &.ant-btn {
-    padding: 0;
-    min-width: 32px;
+    padding: 0 8px;
     height: 32px;
-    border: none;
-    box-shadow: none;
+    font-weight: 500;
   }
-`;
+`
 
-// Hàm định dạng tiền sang VND
+const DeleteButton = styled(Button)`
+  &.ant-btn {
+    color: #ff4d4f;
+    border-color: #ff4d4f;
+    &:hover {
+      color: #ff7875;
+      border-color: #ff7875;
+    }
+  }
+`
+
+const ProductImage = styled(Image)`
+  width: 10px;
+  height: 10px;
+  object-fit: cover;
+  border-radius: 2px;
+  margin-right: 8px;
+`
+
+const ProductInfo = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+`
+
 const formatCurrency = (amount) => {
-  return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(amount);
-};
+  return new Intl.NumberFormat('vi-VN', {
+    style: 'currency',
+    currency: 'VND',
+  }).format(amount)
+}
 
 const CartPage = () => {
   const {
@@ -72,114 +110,177 @@ const CartPage = () => {
     updateQuantity,
     setSelectedItems,
     selectAllItems,
-  } = useContext(CartContext);
+  } = useContext(CartContext)
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
-  // Tính tổng giá của các sản phẩm đã chọn
   const totalSelectedPrice = cartItems
     .filter((item) => selectedItems.includes(item.id))
-    .reduce((total, item) => total + item.price * item.quantity, 0);
+    .reduce((total, item) => total + item.price * item.quantity, 0)
 
-  // Xử lý khi nhấn nút "Mua hàng"
   const handlePurchase = () => {
     if (selectedItems.length === 0) {
-      alert("Vui lòng chọn ít nhất một sản phẩm để mua.");
-      return;
+      alert('Vui lòng chọn ít nhất một sản phẩm để mua.')
+      return
     }
 
-    // Lọc ra các sản phẩm đã chọn và lưu vào Local Storage
     const selectedCheckoutItems = cartItems
       .filter((item) => selectedItems.includes(item.id))
       .map((item) => ({
-        id: item.id, 
-        type: item.type, 
+        id: item.id,
+        type: item.type,
         name: item.name,
+        imageUrl: item.imageUrl,
         price: item.price,
         quantity: item.quantity,
-      }));
+      }))
 
-    localStorage.setItem("checkoutItems", JSON.stringify(selectedCheckoutItems));
-    navigate("/checkout");
-  };
+    localStorage.setItem('checkoutItems', JSON.stringify(selectedCheckoutItems))
+    navigate('/checkout')
+  }
+
+  const columns = [
+    {
+      title: 'Sản phẩm',
+      dataIndex: 'name',
+      key: 'name',
+      render: (_, record) => (
+        <ProductInfo>
+          <ProductImage
+            src={record.imageUrl || 'https://via.placeholder.com/80'}
+            alt={record.name}
+            preview={false}
+            style={{
+              width: '80px',
+              height: '80px',
+              objectFit: 'cover',
+              borderRadius: '2px',
+              marginRight: '8px',
+            }}
+          />
+          <div>
+            <Text strong>{record.name}</Text>
+            {record.type && (
+              <div style={{ color: '#666', fontSize: 12 }}>
+                Phân loại: {record.type}
+              </div>
+            )}
+          </div>
+        </ProductInfo>
+      ),
+    },
+    {
+      title: 'Đơn giá',
+      dataIndex: 'price',
+      key: 'price',
+      render: (price) => formatCurrency(price),
+      align: 'right',
+    },
+    {
+      title: 'Số lượng',
+      dataIndex: 'quantity',
+      key: 'quantity',
+      render: (quantity, record) => (
+        <InputNumber
+          min={1}
+          value={quantity}
+          onChange={(value) => updateQuantity(record.id, value, record.type)}
+        />
+      ),
+      align: 'center',
+    },
+    {
+      title: 'Số tiền',
+      key: 'total',
+      render: (_, record) => formatCurrency(record.price * record.quantity),
+      align: 'right',
+    },
+    {
+      title: 'Thao tác',
+      key: 'action',
+      render: (_, record) => (
+        <DeleteButton
+          icon={<DeleteOutlined />}
+          onClick={() => removeFromCart(record.id, record.type)}
+        >
+          Xóa
+        </DeleteButton>
+      ),
+      align: 'center',
+    },
+  ]
+
+  const rowSelection = {
+    selectedRowKeys: selectedItems,
+    onChange: (selectedRowKeys) => {
+      setSelectedItems(selectedRowKeys)
+    },
+    getCheckboxProps: (record) => ({
+      id: record.id,
+    }),
+  }
 
   return (
-    <div style={{ padding: 24 }}>
-      <Title level={2} style={{ marginBottom: 16 }}>
-        Giỏ hàng
-      </Title>
+    <PageContainer>
+      <Header />
+      <ContentContainer>
+        <Title level={2} style={{ marginBottom: 24 }}>
+          Giỏ hàng
+        </Title>
 
-      {cartItems.length === 0 ? (
-        <Text>Giỏ hàng của bạn đang trống.</Text>
-      ) : (
-        <>
-          <Space align="center" style={{ marginBottom: 16 }}>
-            <Checkbox
-              checked={selectedItems.length === cartItems.length}
-              onChange={selectAllItems}
+        {cartItems.length === 0 ? (
+          <div style={{ textAlign: 'center', padding: '40px 0' }}>
+            <Text>Giỏ hàng của bạn đang trống.</Text>
+          </div>
+        ) : (
+          <>
+            <Table
+              rowKey="id"
+              columns={columns}
+              dataSource={cartItems}
+              rowSelection={{
+                type: 'checkbox',
+                ...rowSelection,
+              }}
+              pagination={false}
+              style={{ marginBottom: 24 }}
             />
-            <Text>Chọn tất cả</Text>
-          </Space>
 
-          {cartItems.map((item) => (
-            <MuiStyleCard key={`${item.id}-${item.type}`}>
-              <Checkbox
-                checked={selectedItems.includes(item.id)}
-                onChange={() =>
-                  setSelectedItems((prev) =>
-                    prev.includes(item.id)
-                      ? prev.filter((id) => id !== item.id)
-                      : [...prev, item.id]
-                  )
-                }
-              />
-              <div style={{ flex: 1, marginLeft: 16 }}>
-                <Text strong style={{ fontSize: 16, display: 'block' }}>{item.name}</Text>
-                <Text>Giá: {formatCurrency(item.price)}</Text>
-                <Text>Số lượng: {item.quantity}</Text>
-                <Text strong>Tổng: {formatCurrency(item.price * item.quantity)}</Text>
-              </div>
+            <CartFooter>
               <Space>
-                <IconButton 
-                  icon={<PlusOutlined />} 
-                  onClick={() => updateQuantity(item.id, item.quantity + 1, item.type)}
-                />
-                <IconButton 
-                  icon={<MinusOutlined />} 
-                  onClick={() => item.quantity > 1 && updateQuantity(item.id, item.quantity - 1, item.type)}
-                />
-                <IconButton 
-                  icon={<DeleteOutlined />} 
-                  onClick={() => removeFromCart(item.id, item.type)}
-                />
+                <Checkbox
+                  checked={selectedItems.length === cartItems.length}
+                  onChange={selectAllItems}
+                >
+                  Chọn tất cả ({selectedItems.length})
+                </Checkbox>
+                <ActionButton onClick={() => setSelectedItems([])}>
+                  Bỏ chọn tất cả
+                </ActionButton>
               </Space>
-            </MuiStyleCard>
-          ))}
 
-          {/* Hiển thị tổng giá nếu có sản phẩm được chọn */}
-          {selectedItems.length > 0 && (
-            <Title level={4} style={{ marginTop: 16, fontWeight: 'bold' }}>
-              Tổng tiền: {formatCurrency(totalSelectedPrice)}
-            </Title>
-          )}
-
-          <Space style={{ marginTop: 16 }}>
-            <SecondaryButton
-              onClick={() => setSelectedItems([])}
-            >
-              Bỏ chọn tất cả
-            </SecondaryButton>
-
-            <PrimaryButton
-              onClick={handlePurchase}
-            >
-              Mua hàng
-            </PrimaryButton>
-          </Space>
-        </>
-      )}
-    </div>
-  );
-};
+              <Space align="end" style={{ gap: '24px' }}>
+                <div style={{ textAlign: 'right' }}>
+                  <Text>Tổng tiền hàng:</Text>
+                  <Title level={4} style={{ margin: 0 }}>
+                    {formatCurrency(totalSelectedPrice)}
+                  </Title>
+                </div>
+                <Button
+                  type="primary"
+                  size="large"
+                  onClick={handlePurchase}
+                  disabled={selectedItems.length === 0}
+                >
+                  Mua hàng
+                </Button>
+              </Space>
+            </CartFooter>
+          </>
+        )}
+      </ContentContainer>
+    </PageContainer>
+  )
+}
 
 export default CartPage;

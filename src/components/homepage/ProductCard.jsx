@@ -1,4 +1,5 @@
-import { Link, useNavigate } from "react-router-dom";
+/* eslint-disable react/prop-types */
+import { useNavigate } from "react-router-dom";
 import AddToCartButton from "../../pages/order/AddToCartButton";
 import "../../styles/ProductCard.css";
 
@@ -24,9 +25,7 @@ const ProductCard = ({ product }) => {
         <div className="product-price">
           <span className="discounted-price">{product.price}</span>
         </div>
-        <AddToCartButton item={product} className="add-to-cart-btn">
-          Thêm vào giỏ hàng
-        </AddToCartButton>
+        <AddToCartButton item={product} className="add-to-cart-button" />
       </div>
     </div>
   );

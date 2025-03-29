@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -12,6 +12,8 @@ import {
   faReceipt,
 } from '@fortawesome/free-solid-svg-icons'
 import '../styles/Sidebar.css'
+import { CartContext } from '../context/CartContext'
+
 
 // Ánh xạ các icon với section title
 const iconMap = {
@@ -43,6 +45,7 @@ const Sidebar = ({ setSelectedMenu, selectedMenu }) => {
   const [loading, setLoading] = useState(true)
   const [userName, setUserName] = useState('Quản trị viên')
   const navigate = useNavigate()
+  const { resetCart } = useContext(CartContext);
 
   console.log('Sidebar rendered, props:', { setSelectedMenu, selectedMenu })
 
@@ -90,6 +93,8 @@ const Sidebar = ({ setSelectedMenu, selectedMenu }) => {
     localStorage.removeItem('role')
     localStorage.removeItem('userName')
     localStorage.removeItem('email')
+    localStorage.removeItem('CartStorage');
+    resetCart();
     navigate('/login')
   }
 

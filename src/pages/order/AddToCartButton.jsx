@@ -4,6 +4,7 @@ import { CartContext } from "../../context/CartContext";
 import { Button } from "antd";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import styled from "styled-components";
+import { toast } from "react-toastify";
 
 // Styled component để giữ giao diện giống MUI
 const MuiStyleButton = styled(Button)`
@@ -25,17 +26,20 @@ const MuiStyleButton = styled(Button)`
   }
 `;
 
-const AddToCartButton = ({ item, type = "product" }) => {
+const AddToCartButton = ({ item, type = "product", className }) => {
   const { addToCart } = useContext(CartContext);
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (e) => {
+    e.stopPropagation();
     addToCart(item, type);
+    toast.success(`Đã thêm ${item.name} vào giỏ hàng`);
   };
 
   return (
     <MuiStyleButton 
       type="primary"
       icon={<ShoppingCartOutlined />}
+      className={className}
       onClick={handleAddToCart}
     >
       Thêm vào giỏ hàng

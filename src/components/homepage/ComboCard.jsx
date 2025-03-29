@@ -24,7 +24,7 @@ const ComboCard = ({ combo }) => {
         <div className="combo-price">
           <span className="dis-price">{combo.price}</span>
         </div>
-        <AddToCartButton item={combo}/>
+        <AddToCartButton item={combo} type='combo' className="add-cart-button" />
       </div>
     </div>
   );

@@ -1,73 +1,81 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import '../../styles/ProductListCustomer.css'
 import { getProductList } from '../../services/productService'
 import { useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
 import Header from '../../components/Header'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import Pagination from '../../components/Pagination'
 import { Card, Button, Row, Col, Typography, Tooltip, Empty } from 'antd'
-import { ShoppingCartOutlined, InfoCircleOutlined } from '@ant-design/icons'
+import {
+  /* ShoppingCartOutlined,*/ InfoCircleOutlined,
+} from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
+import AddToCartButton from '../order/AddToCartButton'
 
 const { Title, Text, Paragraph } = Typography
 
 const ProductListCustomer = () => {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [page, setPage] = useState(1);
-  const [size] = useState(5);
-  const [totalItems, setTotalItems] = useState(0);
-  const navigate = useNavigate();
+  const [products, setProducts] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const [page, setPage] = useState(1)
+  const [size] = useState(5)
+  const [totalItems, setTotalItems] = useState(0)
+  const navigate = useNavigate()
   const fetchProducts = async () => {
-    setLoading(true);
+    setLoading(true)
     try {
-      const result = await getProductList(page, size);
-      console.log("Result from getProductList:", result);
-      setProducts(result.products || []);
-      setTotalItems(result.pagination.total || result.products.length);
-      setError(null);
+      const result = await getProductList(page, size)
+      console.log('Result from getProductList:', result)
+      setProducts(result.products || [])
+      setTotalItems(result.pagination.total || result.products.length)
+      setError(null)
     } catch (err) {
-      setError(err.message);
-      toast.error(err.message);
+      setError(err.message)
+      toast.error(err.message)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= Math.ceil(totalItems / size)) {
-      setPage(newPage);
+      setPage(newPage)
     }
-  };
+  }
 
   useEffect(() => {
-    fetchProducts();
-  }, [page, size]);
+    fetchProducts()
+  }, [page, size])
 
   const formatPrice = (price) => {
     return price.toLocaleString('vi-VN') + 'đ'
   }
 
-  const handleAddToCart = (e, product) => {
-    e.stopPropagation()
-    toast.success(`Đã thêm ${product.name} vào giỏ hàng`)
-  }
+  // const handleAddToCart = (e, product) => {
+  //   e.stopPropagation()
+  //   toast.success(`Đã thêm ${product.name} vào giỏ hàng`)
+  // }
 
-  if (loading) return (
-    <div className="loading-container">
-      <div className="loading-spinner"></div>
-      <p>Đang tải dữ liệu...</p>
-    </div>
-  )
+  if (loading)
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+        <p>Đang tải dữ liệu...</p>
+      </div>
+    )
 
-  if (error) return (
-    <div className="error-container">
-      <InfoCircleOutlined className="error-icon" />
-      <p>Lỗi: {error}</p>
-      <Button type="primary" onClick={fetchProducts}>Thử lại</Button>
-    </div>
-  )
+  if (error)
+    return (
+      <div className="error-container">
+        <InfoCircleOutlined className="error-icon" />
+        <p>Lỗi: {error}</p>
+        <Button type="primary" onClick={fetchProducts}>
+          Thử lại
+        </Button>
+      </div>
+    )
 
   return (
     <div className="page-container">
@@ -78,7 +86,7 @@ const ProductListCustomer = () => {
             <Title level={2} className="product-title">
               Danh sách sản phẩm
             </Title>
-          <Paragraph className="product-subtitle">
+            <Paragraph className="product-subtitle">
               Khám phá các loại sản phẩm tuyệt hảo của chúng tôi
             </Paragraph>
           </div>
@@ -117,8 +125,12 @@ const ProductListCustomer = () => {
                       </Text>
                     </div>
 
-                    <Paragraph ellipsis={{ rows: 2 }} className="product-description">
-                      {product.description || 'Bánh mì thơm ngon, đậm đà hương vị Việt Nam'}
+                    <Paragraph
+                      ellipsis={{ rows: 2 }}
+                      className="product-description"
+                    >
+                      {product.description ||
+                        'Bánh mì thơm ngon, đậm đà hương vị Việt Nam'}
                     </Paragraph>
 
                     <div className="product-footer">
@@ -134,14 +146,10 @@ const ProductListCustomer = () => {
                           className="detail-button"
                         />
                       </Tooltip>
-                      <Button
-                        type="primary"
+                      <AddToCartButton
+                        item={product}
                         className="add-to-cart-button"
-                        icon={<ShoppingCartOutlined />}
-                        onClick={(e) => handleAddToCart(e, product)}
-                      >
-                        Thêm vào giỏ
-                      </Button>
+                      />
                     </div>
                   </div>
                 </Card>
